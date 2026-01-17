@@ -1,13 +1,12 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
+import "./globals.css";
+import { Inter } from "next/font/google";
 import Menu from "./components/Menu";
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-inter',
-})
-
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-inter",
+});
 
 export default function RootLayout({
   children,
@@ -16,8 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-          <Menu />
-      <body>{children}</body>
+      <body>
+        {children}
+        <Menu />
+      </body>
     </html>
-  )
+  );
 }
