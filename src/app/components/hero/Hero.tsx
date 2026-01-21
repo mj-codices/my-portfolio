@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HeroHeading from "./HeroHeading";
 import FadeInWrapper from "../FadeInWrapper";
+import FadeLeftWrapper from "../FadeLeftWrapper";
 
 export default function Hero() {
   return (
@@ -29,29 +30,34 @@ export default function Hero() {
 
       {/* Right Side - Image */}
       {/* Decorative Hero Image (out of document flow) */}
+
       <div
         className="absolute right-0 top-1/2 -translate-y-75 pointer-events-none
       translate-x-68
 "
       >
-        <Image
-          src="/image_fake.svg"
-          alt="Michael White"
-          width={1250}
-          height={1200}
-          className="opacity-90"
-        />
+        <FadeLeftWrapper delay={2100} duration={675}>
+          <Image
+            src="/image_fake.svg"
+            alt="Michael White"
+            width={1250}
+            height={1200}
+            className="opacity-90"
+          />
+        </FadeLeftWrapper>
       </div>
 
       <div className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 opacity-50 chevron-bounce">
-        <Image
-          src="/chevron.svg"
-          alt="Scroll down"
-          width={200}
-          height={10}
-          className="block" // Removes inline whitespace gaps
-          priority // Ensures it loads immediately for bottom-of-screen UX
-        />
+        <FadeInWrapper delay={2300} duration={500}>
+          <Image
+            src="/chevron.svg"
+            alt="Scroll down"
+            width={200}
+            height={10}
+            className="block" // Removes inline whitespace gaps
+            priority // Ensures it loads immediately for bottom-of-screen UX
+          />
+        </FadeInWrapper>
       </div>
     </section>
   );
