@@ -176,7 +176,7 @@ transition: transform 0.30s ease-in-out;
 
 .menu path {
   fill: none;
-  stroke: white;
+  stroke: #545454;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -229,4 +229,41 @@ transition: transform 0.30s ease-in-out;
 
 .text-anim.animate span {
   opacity: 1;
+}
+
+@media (max-width: 1223px) {
+  .shrink-heading {
+    font-size: 60px;
+    margin-top: 0px;
+  }
+
+  .shrink-para {
+    font-size: 15px;
+    max-width: 448px;
+  }
+
+  .shrink-con {
+    padding-left: 100px;
+  }
+
+  .shrink-image {
+    width: 1200px;
+  }
+
+  .shrink-frame {
+    transform: translateX(40px);
+  }
+
+}
+
+@media (max-width: 1060px) {
+  .remove-padding {
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 548px) {
+  .shrink-para {
+    max-width: 348px;
+  }
 }
