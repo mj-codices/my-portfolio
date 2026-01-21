@@ -1,7 +1,7 @@
 import Image from "next/image";
 import HeroHeading from "./HeroHeading";
-import FadeInWrapper from "../FadeInWrapper";
-import FadeLeftWrapper from "../FadeLeftWrapper";
+import FadeInWrapper from "../wrappers/FadeInWrapper";
+import FadeLeftWrapper from "../wrappers/FadeLeftWrapper";
 
 export default function Hero() {
   return (

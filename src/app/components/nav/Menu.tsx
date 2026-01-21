@@ -9,6 +9,8 @@ export default function Menu() {
         menu menu--1 cross
        
         pointer-events-auto
+        right-0
+        sm:right-4
     
       "
         aria-label="Open menu"

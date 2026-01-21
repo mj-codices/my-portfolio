@@ -161,7 +161,6 @@ transition: transform 0.30s ease-in-out;
 .menu {
   position: fixed;
   top: 1rem;
-  right:1rem;
   z-index: 100;
 }
 
