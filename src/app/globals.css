@@ -18,8 +18,6 @@
 
 }
 
-
-
 body {
   height: 100%;
   font-family: var(--font-inter);
@@ -29,9 +27,8 @@ body {
   color: var(--color-text-primary);
 }
 
-
-
 .gradient-text {
+  display: inline-flex;
   background: linear-gradient(90deg, #ff5757, #9e005d);
   -webkit-background-clip: text;
   background-clip: text;
@@ -48,7 +45,6 @@ body {
   animation: chevron-bounce 2.8s infinite;
   animation-timing-function: ease-in-out;
 }
-
 
 .button--calypso {
 	overflow: hidden;
@@ -82,7 +78,6 @@ body {
   animation: MoveScaleUpEnd 0.3s forwards 0.3s;
 }
 
-
 .button--calypso:hover span {
 	animation: MoveScaleUpInitial 0.3s forwards, MoveScaleUpEnd 0.3s forwards 0.3s;
 }
@@ -105,10 +100,6 @@ body {
   }
 }
 
-
-
-
- 
 .button {
 	pointer-events: auto;
 	cursor: pointer;
@@ -170,10 +161,8 @@ transition: transform 0.30s ease-in-out;
 .menu {
   position: fixed;
   top: 1rem;
-  right:1rem;
   z-index: 100;
 }
-
 
 .menu input {
   display: none;
@@ -186,7 +175,7 @@ transition: transform 0.30s ease-in-out;
 
 .menu path {
   fill: none;
-  stroke: white;
+  stroke: #545454;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -227,4 +216,53 @@ transition: transform 0.30s ease-in-out;
 
 .menu--1.cross input:checked + svg .line--2 {
   --length: 0; /* middle line disappears */
+}
+
+.text-anim span {
+  color: inherit;
+  background: none;
+  opacity: 0;
+ 
+  transition: opacity 0.55s ease, filter 0.55s ease;
+}
+
+.text-anim.animate span {
+  opacity: 1;
+}
+
+@media (max-width: 1223px) {
+  .shrink-heading {
+    font-size: 60px;
+    margin-top: 0px;
+  }
+
+  .shrink-para {
+    font-size: 15px;
+    max-width: 448px;
+  }
+
+  .shrink-con {
+    padding-left: 100px;
+  }
+
+  .shrink-image {
+    width: 1200px;
+  }
+
+  .shrink-frame {
+    transform: translateX(40px);
+  }
+
+}
+
+@media (max-width: 1060px) {
+  .remove-padding {
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 548px) {
+  .shrink-para {
+    max-width: 348px;
+  }
 }
