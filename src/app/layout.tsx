@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Menu from "./components/nav/Menu";
+import NavShell from "./components/nav/NavShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,12 +12,15 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>)
+
+ {
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <NavShell>
         {children}
-        <Menu />
+        </NavShell>
       </body>
     </html>
   );

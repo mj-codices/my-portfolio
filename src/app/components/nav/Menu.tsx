@@ -1,8 +1,13 @@
-export default function Menu() {
+interface MenuProps {
+  open: boolean;
+  onToggle: () => void;
+}
+
+export default function Menu({ open, onToggle }: MenuProps) {
   return (
     <div
       className=" fixed
-        z-50"
+        z-60"
     >
       <label
         className="
@@ -10,12 +15,17 @@ export default function Menu() {
        
         pointer-events-auto
         right-0
-        sm:right-4
+        sm:right-2
+        -translate-y-3
     
       "
         aria-label="Open menu"
       >
-        <input type="checkbox" />
+        <input 
+          type="checkbox"
+          checked={open}
+          onChange={onToggle}
+        />
 
         <svg
           className="cursor-pointer"
