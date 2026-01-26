@@ -1,4 +1,6 @@
-import { div } from "framer-motion/client";
+"use client";
+
+import { motion } from "framer-motion";
 
 type DrawerProps = {
   open: boolean;
@@ -8,29 +10,49 @@ type DrawerProps = {
 export function NavDrawer({ open, onClose }: DrawerProps) {
   return (
     <div>
-      {/* overlay */}
-      <div
-        className={`fixed h-full w-screen inset-0 bg-black transition-opacity duration-300 z-40 ${
-          open
-            ? "opacity-70 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
+      {/* Overlay */}
+      <motion.div
+        className="fixed inset-0 bg-black z-40"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: open ? 0.9 : 0 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        style={{ pointerEvents: open ? "auto" : "none" }}
         onClick={onClose}
       />
 
-      {/* drawer */}
-      <aside
-        className={`
-        fixed top-0 right-0 h-full w-1/3
-        bg-[#111111] z-50
-        transform transition-transform duration-500 ease-out
-        ${open ? "translate-x-0" : "translate-x-full"}
-      `}
+      {/* Drawer */}
+      <motion.aside
+        className="fixed top-0 right-0 h-full w-1/3 bg-transparent z-50 overflow-hidden"
+        initial={{ x: "100%" }}
+        animate={{ x: open ? "0%" : "100%" }}
+        transition={{
+          duration: open ? 0.4 : 0.4, // slower open, faster close
+          ease: "easeOut",
+        }}
       >
-        <nav>
-          <ul></ul>
+        {/* Circle inside drawer */}
+        <motion.div
+          className="absolute bg-[#111111] top-[-33rem] left-2 rounded-full"
+          style={{ width: 2000, height: 2000 }}
+          initial={{ scale: 1 }}
+          animate={{ scale: open ? 1.15 : 1 }}
+          transition={{
+            duration: open ? 0.55 : 0.30,
+            delay: open ? 0.35 : 0,
+            ease: "easeOut",
+          }}
+        />
+
+        {/* Drawer content */}
+        <nav className="relative z-10 p-6 text-white top-1/3 left-1/3">
+          <ul className="space-y-2">
+            <li>Home</li>
+            <li>About</li>
+            <li>Work</li>
+            <li>Contact</li>
+          </ul>
         </nav>
-      </aside>
+      </motion.aside>
     </div>
   );
 }
