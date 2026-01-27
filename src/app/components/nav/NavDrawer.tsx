@@ -2,6 +2,39 @@
 
 import { motion } from "framer-motion";
 
+const listVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.25,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    x: 160,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      x: {
+        type: "spring",
+        stiffness: 420,
+        damping: 26,
+        mass: 0.8,
+      },
+      opacity: {
+        duration: 0.18,
+      },
+    },
+  },
+};
+
+
 type DrawerProps = {
   open: boolean;
   onClose: () => void;
@@ -37,21 +70,33 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           initial={{ scale: 1 }}
           animate={{ scale: open ? 1.15 : 1 }}
           transition={{
-            duration: open ? 0.55 : 0.30,
+            duration: open ? 0.55 : 0.3,
             delay: open ? 0.35 : 0,
             ease: "easeOut",
           }}
         />
 
         {/* Drawer content */}
-        <nav className="relative z-10 p-6 text-white top-1/3 left-1/3">
-          <ul className="space-y-2">
-            <li>Home</li>
-            <li>About</li>
-            <li>Work</li>
-            <li>Contact</li>
+        <motion.nav
+          className="relative z-10 p-6 text-white top-1/3 left-1/3"
+          initial="hidden"
+          animate={open ? "visible" : "hidden"}
+          variants={listVariants}
+        >
+          <ul className="space-y-6">
+            {["Home", "About", "Work", "Contact"].map((label) => (
+              <motion.li
+                key={label}
+                variants={itemVariants}
+                className="text-[#b4b4b4] text-4xl cursor-pointer font-bold ease-in-out"
+             whileHover={{ x: -6, color: "#fff" }}
+                transition={{ type: "tween", duration: 0.2 }}
+              >
+                {label}
+              </motion.li>
+            ))}
           </ul>
-        </nav>
+        </motion.nav>
       </motion.aside>
     </div>
   );
