@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const listVariants = {
   hidden: {},
@@ -33,7 +34,6 @@ const itemVariants = {
     },
   },
 };
-
 
 type DrawerProps = {
   open: boolean;
@@ -89,7 +89,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 key={label}
                 variants={itemVariants}
                 className="text-[#b4b4b4] text-4xl cursor-pointer font-bold ease-in-out"
-             whileHover={{ x: -6, color: "#fff" }}
+                whileHover={{ x: -6, color: "#fff" }}
                 transition={{ type: "tween", duration: 0.2 }}
               >
                 {label}
@@ -97,6 +97,22 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
             ))}
           </ul>
         </motion.nav>
+        <motion.div
+          className="absolute bottom-8 right-10"
+          whileHover={{
+            scale: 1.15,
+            opacity: 1,
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Image
+            src="/giticon.svg"
+            width={40}
+            height={40}
+            alt="Github logo"
+            className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
+          ></Image>
+        </motion.div>
       </motion.aside>
     </div>
   );
