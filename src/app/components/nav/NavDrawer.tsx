@@ -79,7 +79,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
         {/* Drawer content */}
         <motion.nav
-          className="relative z-10 p-6 text-white top-1/3 left-1/3"
+          className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3"
           initial="hidden"
           animate={open ? "visible" : "hidden"}
           variants={listVariants}
