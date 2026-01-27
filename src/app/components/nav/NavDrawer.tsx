@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -41,13 +41,14 @@ type DrawerProps = {
 };
 
 export function NavDrawer({ open, onClose }: DrawerProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <div>
       {/* Overlay */}
       <motion.div
         className="fixed inset-0 bg-black z-40"
         initial={{ opacity: 0 }}
-        animate={{ opacity: open ? 0.9 : 0 }}
+        animate={{ opacity: open ? 0.65 : 0 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
         style={{ pointerEvents: open ? "auto" : "none" }}
         onClick={onClose}
@@ -84,14 +85,57 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           variants={listVariants}
         >
           <ul className="space-y-6">
-            {["Home", "About", "Work", "Contact"].map((label) => (
+            {["Home", "About", "Work", "Contact"].map((label, i) => (
               <motion.li
                 key={label}
                 variants={itemVariants}
-                className="text-[#b4b4b4] text-4xl cursor-pointer font-bold ease-in-out"
-                whileHover={{ x: -6, color: "#fff" }}
+                className="flex text-[#b4b4b4] text-4xl cursor-pointer font-bold ease-in-out gap-5"
+                whileHover={{ x: -9, color: "#fff" }}
                 transition={{ type: "tween", duration: 0.2 }}
+                onHoverStart={() => setHoveredIndex(i)}
+                onHoverEnd={() => setHoveredIndex(null)}
               >
+                <motion.div
+                  className="flex items-center justify-center relative"
+                  animate={{
+                    scale: hoveredIndex === i ? 1.7 : 1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 620,
+                    damping: 26,
+                    mass: 0.7,
+                  }}
+                >
+                  <Image
+                    src={"/navCircle.svg"}
+                    width={20}
+                    height={20}
+                    alt="circle"
+                  ></Image>
+
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0, scale: 0.5 }} // start hidden and small
+                    animate={{
+                      opacity: hoveredIndex === i ? 1 : 0, // fade in on hover
+                      scale: hoveredIndex === i ? 1 : 0.5, // pop to full size
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 20,
+                    }}
+                  >
+                    <Image
+                      src="/arrow.svg"
+                      width={8}
+                      height={8}
+                      alt="arrow"
+                      className="absolute rotate-320"
+                    />
+                  </motion.div>
+                </motion.div>
                 {label}
               </motion.li>
             ))}
