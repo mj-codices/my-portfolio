@@ -11,7 +11,7 @@ export default function Hero() {
       {/* Left Side - Text */}
       <div className="flex-1 max-[1060px]:text-center text-left pl-35 remove-padding shrink-con max-[1060px]:flex-none">
         <HeroHeading />
-        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={.5}>
+        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={.7}>
           <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">
             Hello! I’m <span className="text-white">Michael White</span> (most
             people call me Julian). I build thoughtful, scalable, and
@@ -19,7 +19,7 @@ export default function Hero() {
           </p>
         </FadeInDirectionalWrapper>
 
-        <FadeInDirectionalWrapper direction="down" delay={2.15} duration={.5}>
+        <FadeInDirectionalWrapper direction="down" delay={2.1} duration={.7}>
           <button className="ml-1 px-5 py-5 bg-[var(--color-accent)] text-[var(--color-secondary)] rounded font-semibold text-xl tracking-wider cursor-pointer button button--calypso max-[1060px]:mx-auto max-[1060px]:block">
             <span>LET'S CONNECT</span>
             <span>SEND A MESSAGE</span>
@@ -35,7 +35,7 @@ export default function Hero() {
       translate-x-68 max-[1060px]:hidden
 "
       >
-         <FadeInDirectionalWrapper direction="right" delay={2.66} duration={.695}>
+         <FadeInDirectionalWrapper direction="right" delay={2.1} duration={.7}>
           <Image
             src="/image_fake.svg"
             alt="Michael White"
@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
 
       <div className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 opacity-50 chevron-bounce">
-        <FadeInDirectionalWrapper delay={3.1} duration={.7} direction="up">
+        <FadeInDirectionalWrapper delay={2.1} duration={.7} direction="down">
           <Image
             src="/chevron.svg"
             alt="Scroll down"
