@@ -56,7 +56,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
       {/* Drawer */}
       <motion.aside
-        className="fixed top-0 right-0 h-full w-1/3 bg-transparent z-50 overflow-hidden"
+        className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-50 overflow-hidden"
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{
@@ -79,7 +79,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
         {/* Drawer content */}
         <motion.nav
-          className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3"
+          className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3 nudge-menu-md "
           initial="hidden"
           animate={open ? "visible" : "hidden"}
           variants={listVariants}
@@ -89,7 +89,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
               <motion.li
                 key={label}
                 variants={itemVariants}
-                className="flex text-[#b4b4b4] text-4xl cursor-pointer font-bold ease-in-out gap-5"
+                className="flex text-[#b4b4b4] text-4xl shrink-text cursor-pointer font-bold ease-in-out gap-5"
                 whileHover={{ x: -9, color: "#fff" }}
                 transition={{ type: "tween", duration: 0.2 }}
                 onHoverStart={() => setHoveredIndex(i)}

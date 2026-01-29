@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HeroHeading from "./HeroHeading";
 import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
+import HeroBackground from "./HeroBackground";
 
 export default function Hero() {
   return (
@@ -8,8 +9,9 @@ export default function Hero() {
       className="relative w-full h-screen bg-[var(--color-secondary)] flex flex-row items-center justify-center
     overflow-x-hidden overflow-y-hidden"
     >
+      <HeroBackground></HeroBackground>
       {/* Left Side - Text */}
-      <div className="flex-1 max-[1060px]:text-center text-left pl-35 remove-padding shrink-con max-[1060px]:flex-none">
+      <div className="flex-1 max-[1060px]:text-center text-left pl-35 remove-padding shrink-con max-[1060px]:flex-none z-10">
         <HeroHeading />
         <FadeInDirectionalWrapper direction="up" delay={2.1} duration={.7}>
           <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">
