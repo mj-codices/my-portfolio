@@ -17,6 +17,12 @@
   /* Fonts */
   --font-inter: 'Inter', sans-serif;
 
+  overscroll-behavior: none;
+
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -25,7 +31,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--color-primary);
-  color: var(--color-text-primary);
+  color: var(--color-text-primary);  
 }
 
 /* Hero Background */
