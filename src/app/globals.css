@@ -45,7 +45,7 @@ body {
 .hero-bg {
   position: absolute;
   pointer-events:none;
-  background: radial-gradient(circle, rgba(25, 25, 25, 0) 0%, rgba(13, 13, 13, 1) 95%, rgba(0, 0, 0, 1) 100%);
+  background: radial-gradient(circle,rgba(25, 25, 25, 0.16) 0%, rgba(0, 0, 0, 0.92) 100%);
   overflow: hidden;
   z-index: 0;
   inset: 0;
