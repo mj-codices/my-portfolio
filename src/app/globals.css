@@ -301,7 +301,7 @@ transition: transform 0.30s ease-in-out;
 
 .menu path {
   fill: none;
-  stroke: #545454;
+  stroke: url(#hamburgerGradient);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
