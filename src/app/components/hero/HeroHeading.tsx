@@ -37,7 +37,7 @@ export default function HeroHeading() {
   );
 
   return (
-    <h1 className="text-7xl shrink-heading font-bold mt-10 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
+    <h1 className="text-7xl shrink-heading font-bold mt-15 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
         {renderLine(line1, 0, "gradient-text")}
         {renderLine(line2, 1300, "text-white max-[1060px]:pl-0 pl-4")}
     </h1>

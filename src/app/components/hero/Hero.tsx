@@ -2,18 +2,20 @@ import Image from "next/image";
 import HeroHeading from "./HeroHeading";
 import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
 import HeroBackground from "./HeroBackground";
+import HeroCluster from "./HeroCluster";
+import ScrollIndicator from "./ScrollIndicator";
 
 export default function Hero() {
   return (
     <section
-      className="relative w-full h-screen bg-[var(--color-secondary)] flex flex-row items-center justify-center
+      className="relative w-full h-screen bg-[var(--color-secondary)] flex flex-row items-center justify-start
     overflow-x-hidden overflow-y-hidden"
     >
       <HeroBackground></HeroBackground>
       {/* Left Side - Text */}
-      <div className="flex-1 max-[1060px]:text-center text-left pl-35 remove-padding shrink-con max-[1060px]:flex-none z-10">
+      <div className="mt-[-5rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-55 remove-padding shrink-con max-[1060px]:flex-none z-10">
         <HeroHeading />
-        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={.7}>
+        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={0.7}>
           <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">
             Hello! I’m <span className="text-white">Michael White</span> (most
             people call me Julian). I build thoughtful, scalable, and
@@ -21,7 +23,7 @@ export default function Hero() {
           </p>
         </FadeInDirectionalWrapper>
 
-        <FadeInDirectionalWrapper direction="down" delay={2.1} duration={.7}>
+        <FadeInDirectionalWrapper direction="down" delay={2.1} duration={0.7}>
           <button className="ml-1 px-5 py-5 bg-[var(--color-accent)] text-[var(--color-secondary)] rounded font-semibold text-xl tracking-wider cursor-pointer button button--calypso max-[1060px]:mx-auto max-[1060px]:block">
             <span>LET'S CONNECT</span>
             <span>SEND A MESSAGE</span>
@@ -33,31 +35,17 @@ export default function Hero() {
       {/* Decorative Hero Image (out of document flow) */}
 
       <div
-        className="absolute right-0 top-1/2 -translate-y-75 shrink-frame pointer-events-none
-      translate-x-68 max-[1060px]:hidden
+        className="absolute left-1/2 top-1/2 max-[1060px]:hidden
 "
       >
-         <FadeInDirectionalWrapper direction="right" delay={2.1} duration={.7}>
-          <Image
-            src="/image_fake.svg"
-            alt="Michael White"
-            width={1250}
-            height={1200}
-            className="opacity-90 h-auto max-w-none shrink-image"
-          />
+        <FadeInDirectionalWrapper direction="right" delay={2.1} duration={0.7}>
+          <HeroCluster />
         </FadeInDirectionalWrapper>
       </div>
 
-      <div className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 opacity-50 chevron-bounce">
-        <FadeInDirectionalWrapper delay={2.1} duration={.7} direction="down">
-          <Image
-            src="/chevron.svg"
-            alt="Scroll down"
-            width={200}
-            height={10}
-            className="block" // Removes inline whitespace gaps
-            priority // Ensures it loads immediately for bottom-of-screen UX
-          />
+      <div className="absolute bottom-35 left-1/2 -translate-x-1/2 z-20 opacity-40">
+        <FadeInDirectionalWrapper delay={2.1} duration={0.7} direction="down">
+          <ScrollIndicator></ScrollIndicator>
         </FadeInDirectionalWrapper>
       </div>
     </section>
