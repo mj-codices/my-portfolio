@@ -9,7 +9,7 @@ export default function Menu({ open, onToggle }: MenuProps) {
   return (
     <div
       className=" fixed
-        z-60"
+        z-70"
     >
       <div className="logo-container w-[80px] h-[80px] relative">
       {/* <Image

@@ -56,7 +56,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
       {/* Drawer */}
       <motion.aside
-        className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-50 overflow-hidden"
+        className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-60 overflow-hidden"
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{

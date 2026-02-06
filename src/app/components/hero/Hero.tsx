@@ -13,7 +13,7 @@ export default function Hero() {
     >
       <HeroBackground></HeroBackground>
       {/* Left Side - Text */}
-      <div className="mt-[-5rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-55 remove-padding shrink-con max-[1060px]:flex-none z-10">
+      <div className="mt-[-3rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-40 remove-padding shrink-con max-[1060px]:flex-none z-10">
         <HeroHeading />
         <FadeInDirectionalWrapper direction="up" delay={2.1} duration={0.7}>
           <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">
@@ -24,7 +24,7 @@ export default function Hero() {
         </FadeInDirectionalWrapper>
 
         <FadeInDirectionalWrapper direction="down" delay={2.1} duration={0.7}>
-          <button className="ml-1 px-5 py-5 bg-[var(--color-accent)] text-[var(--color-secondary)] rounded font-semibold text-xl tracking-wider cursor-pointer button button--calypso max-[1060px]:mx-auto max-[1060px]:block">
+          <button className="ml-1 px-4 py-5 bg-[var(--color-accent)] text-[var(--color-secondary)] rounded font-semibold text-lg tracking-wide cursor-pointer button button--calypso max-[1060px]:mx-auto max-[1060px]:block">
             <span>LET'S CONNECT</span>
             <span>SEND A MESSAGE</span>
           </button>

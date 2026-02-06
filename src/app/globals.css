@@ -23,6 +23,7 @@
 
 html {
   scroll-behavior: smooth;
+  ::-webkit-scrollbar { display: none; }
 }
 
 body {
@@ -33,6 +34,8 @@ body {
   background-color: var(--color-primary);
   color: var(--color-text-primary);  
 }
+
+
 
 /* Hero Background */
 
@@ -1022,35 +1025,73 @@ body {
 @keyframes fgBreathe6 { 0% { --ps: 1; } 50% { --ps: 1.012; } 100% { --ps: 1; } }
 
 /* Apply Animations to Each Square */
+/* Foreground Squares – Unique Float Animations */
+
+/* Base properties */
+#square-3, #square-4, #square-5, #square-6 {
+  --px: 0px;
+  --py: 0px;
+  --pr: 0deg;
+  --ps: 1;
+
+  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
+  will-change: transform;
+}
+
+/* Vertical Float */
+@keyframes fgFloat3 { 0% { --py: 0px; } 50% { --py: -4px; } 100% { --py: 0px; } }
+@keyframes fgFloat4 { 0% { --py: 0px; } 50% { --py: -5px; } 100% { --py: 0px; } }
+@keyframes fgFloat5 { 0% { --py: 0px; } 50% { --py: -3px; } 100% { --py: 0px; } }
+@keyframes fgFloat6 { 0% { --py: 0px; } 50% { --py: -6px; } 100% { --py: 0px; } }
+
+/* Horizontal Float */
+@keyframes fgFloatX3 { 0% { --px: 0px; } 50% { --px: 2px; } 100% { --px: 0px; } }
+@keyframes fgFloatX4 { 0% { --px: 0px; } 50% { --px: -1.5px; } 100% { --px: 0px; } }
+@keyframes fgFloatX5 { 0% { --px: 0px; } 50% { --px: 1px; } 100% { --px: 0px; } }
+@keyframes fgFloatX6 { 0% { --px: 0px; } 50% { --px: -2px; } 100% { --px: 0px; } }
+
+/* Sway Rotation */
+@keyframes fgSway3 { 0% { --pr: -0.25deg; } 50% { --pr: 0.25deg; } 100% { --pr: -0.25deg; } }
+@keyframes fgSway4 { 0% { --pr: -0.4deg; } 50% { --pr: 0.4deg; } 100% { --pr: -0.4deg; } }
+@keyframes fgSway5 { 0% { --pr: -0.2deg; } 50% { --pr: 0.2deg; } 100% { --pr: -0.2deg; } }
+@keyframes fgSway6 { 0% { --pr: -0.35deg; } 50% { --pr: 0.35deg; } 100% { --pr: -0.35deg; } }
+
+/* Subtle Breathe Scale */
+@keyframes fgBreathe3 { 0% { --ps: 1; } 50% { --ps: 1.008; } 100% { --ps: 1; } }
+@keyframes fgBreathe4 { 0% { --ps: 1; } 50% { --ps: 1.012; } 100% { --ps: 1; } }
+@keyframes fgBreathe5 { 0% { --ps: 1; } 50% { --ps: 1.006; } 100% { --ps: 1; } }
+@keyframes fgBreathe6 { 0% { --ps: 1; } 50% { --ps: 1.01; } 100% { --ps: 1; } }
+
+/* Assign animations with unique durations and delays */
 #square-3 {
-  animation: fgFloat3 10s ease-in-out infinite,
-             fgFloatX3 7s ease-in-out infinite,
-             fgSway3 12s ease-in-out infinite,
-             fgBreathe3 5s ease-in-out infinite;
+  animation: fgFloat3 13s ease-in-out infinite,
+             fgFloatX3 11s ease-in-out infinite,
+             fgSway3 15s ease-in-out infinite,
+             fgBreathe3 9s ease-in-out infinite;
   animation-delay: -2s, -5s, -3s, -1s;
 }
 
 #square-4 {
-  animation: fgFloat4 8s ease-in-out infinite,
-             fgFloatX4 13s ease-in-out infinite,
+  animation: fgFloat4 14s ease-in-out infinite,
+             fgFloatX4 12s ease-in-out infinite,
              fgSway4 16s ease-in-out infinite,
-             fgBreathe4 9s ease-in-out infinite;
+             fgBreathe4 10s ease-in-out infinite;
   animation-delay: -8s, -3s, -6s, -2s;
 }
 
 #square-5 {
-  animation: fgFloat5 7s ease-in-out infinite,
-             fgFloatX5 11s ease-in-out infinite,
-             fgSway5 10s ease-in-out infinite,
-             fgBreathe5 6s ease-in-out infinite;
+  animation: fgFloat5 12s ease-in-out infinite,
+             fgFloatX5 10s ease-in-out infinite,
+             fgSway5 14s ease-in-out infinite,
+             fgBreathe5 8s ease-in-out infinite;
   animation-delay: -10s, -9s, -4s, -3s;
 }
 
 #square-6 {
-  animation: fgFloat6 14s ease-in-out infinite,
-             fgFloatX6 17s ease-in-out infinite,
-             fgSway6 13s ease-in-out infinite,
-             fgBreathe6 12s ease-in-out infinite;
+  animation: fgFloat6 15s ease-in-out infinite,
+             fgFloatX6 13s ease-in-out infinite,
+             fgSway6 17s ease-in-out infinite,
+             fgBreathe6 11s ease-in-out infinite;
   animation-delay: -4s, -10s, -9s, -5s;
 }
 #square-3 {
