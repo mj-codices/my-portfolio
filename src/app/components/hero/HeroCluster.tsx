@@ -23,7 +23,7 @@ export default function HeroCluster() {
       
       <div
         id="square-4"
-        className="z-15 absolute bottom-20 left-20 bg-[#54545411] backdrop-blur-md w-[80px] h-[80px] rounded-xl rotate-5 border-solid border-[.2px] border-white/7 p-3"
+        className="z-15 absolute bottom-20 left-20 bg-[#54545411] backdrop-blur-md w-[80px] h-[80px] rounded-xl rotate-5 border-solid border-[.2px] border-white/7 p-3 rotate-x-40 rotate-z-40"
       >
         <Image
         width={70}
@@ -84,10 +84,10 @@ export default function HeroCluster() {
   />
         
       </div>
-       <div className="blur-[2px]">
+       <div className="blur-[3px]">
       <div
         id="circle-2"
-        className="z-5 absolute top-5 left-110 bg-[#545454] opacity-20 backdrop-blur-sm rounded-full w-[30px] h-[30px]"
+        className="z-5 absolute top-5 left-110 bg-[#545454] opacity-20 backdrop-blur-md rounded-full w-[30px] h-[30px]"
       ></div>
       </div>
     </div>
