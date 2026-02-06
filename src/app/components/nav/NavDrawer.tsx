@@ -66,7 +66,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
       >
         {/* Circle inside drawer */}
         <motion.div
-          className="absolute bg-[#111111] top-[-33rem] left-2 rounded-full"
+          className="absolute bg-[#0d0c0c] top-[-33rem] left-2 rounded-full"
           style={{ width: 2000, height: 2000 }}
           initial={{ scale: 1 }}
           animate={{ scale: open ? 1.15 : 1 }}

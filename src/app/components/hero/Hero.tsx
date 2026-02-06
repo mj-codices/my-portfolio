@@ -1,19 +1,16 @@
-import Image from "next/image";
 import HeroHeading from "./HeroHeading";
 import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
-import HeroBackground from "./HeroBackground";
 import HeroCluster from "./HeroCluster";
 import ScrollIndicator from "./ScrollIndicator";
 
 export default function Hero() {
   return (
     <section
-      className="relative w-full h-screen bg-[var(--color-secondary)] flex flex-row items-center justify-start
+      className="relative w-full h-screen flex flex-row items-center justify-start
     overflow-x-hidden overflow-y-hidden"
     >
-      <HeroBackground></HeroBackground>
       {/* Left Side - Text */}
-      <div className="mt-[-3rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-40 remove-padding shrink-con max-[1060px]:flex-none z-10">
+      <div className="mt-[-3rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-45 remove-padding shrink-con max-[1060px]:flex-none z-10">
         <HeroHeading />
         <FadeInDirectionalWrapper direction="up" delay={2.1} duration={0.7}>
           <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">

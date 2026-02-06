@@ -15,9 +15,7 @@ export default function ProgBar() {
     (v) =>
       `linear-gradient(
         to bottom,
-        #FF6F61 0%,
-        #FF6F61 ${90 - v * 40}%,
-        #9e005d 100%
+        #FF6F61
       )`
   );
 

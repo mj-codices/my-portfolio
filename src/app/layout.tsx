@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import NavShell from "./components/nav/NavShell";
 import ProgBar from "./components/ProgBar";
+import AppShell from "./AppShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,10 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <AppShell>
         <NavShell>
         {children}
         </NavShell>
         <ProgBar></ProgBar>
+        </AppShell>
+
       </body>
     </html>
   );
