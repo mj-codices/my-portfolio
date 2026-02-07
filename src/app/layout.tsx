@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import NavShell from "./components/nav/NavShell";
 import ProgBar from "./components/ProgBar";
 import AppShell from "./AppShell";
+import LenisProvider from "./components/LenisProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,13 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <LenisProvider>
         <AppShell>
         <NavShell>
         {children}
         </NavShell>
         <ProgBar></ProgBar>
         </AppShell>
-
+        </LenisProvider>
       </body>
     </html>
   );

@@ -1064,7 +1064,7 @@ body {
 
 /* Assign animations with unique durations and delays */
 #square-3 {
-  animation: fgFloat3 13s ease-in-out infinite,
+  animation: fgFloat3 17s ease-in-out infinite,
              fgFloatX3 11s ease-in-out infinite,
              fgSway3 15s ease-in-out infinite,
              fgBreathe3 9s ease-in-out infinite;
@@ -1080,7 +1080,7 @@ body {
 }
 
 #square-5 {
-  animation: fgFloat5 12s ease-in-out infinite,
+  animation: fgFloat5 22s ease-in-out infinite,
              fgFloatX5 10s ease-in-out infinite,
              fgSway5 14s ease-in-out infinite,
              fgBreathe5 8s ease-in-out infinite;
@@ -1100,7 +1100,7 @@ body {
     rotate(var(--pr))
     scale(var(--ps))
     rotateX(10deg)
-    rotateY(-10deg)
+    rotateY(-30deg)
     rotateZ(0deg);
   transform-style: preserve-3d;
   perspective: 600px;
@@ -1124,7 +1124,7 @@ body {
     rotate(var(--pr))
     scale(var(--ps))
     rotateX(5deg)
-    rotateY(20deg)
+    rotateY(30deg)
     rotateZ(0deg);
   transform-style: preserve-3d;
   perspective: 600px;
@@ -1139,3 +1139,4 @@ body {
   transform-style: preserve-3d;
   perspective: 600px;
 }
+
