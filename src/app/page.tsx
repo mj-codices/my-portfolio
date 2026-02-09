@@ -1,18 +1,57 @@
 "use client";
-import { FadeSection } from "./components/wrappers/FadeSection";
+import { useRef, useState, useEffect } from "react";
+import ScrollIndicator from "./components/hero/ScrollIndicator";
 import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
+import FadeInDirectionalWrapper from "./components/wrappers/FadeInDirectionalWrapper";
+import { FadeSection } from "./components/wrappers/FadeSection";
 
 export default function Home() {
-  return (
-    <>
-      <FadeSection>
-        <Hero></Hero>
-      </FadeSection>
+  const missionRef = useRef<HTMLDivElement>(null);
+  const [showIndicator, setShowIndicator] = useState(true);
 
-      <FadeSection>
-        <Mission></Mission>
-      </FadeSection>
-    </>
+  // 2️⃣ Observer setup
+  useEffect(() => {
+    if (!missionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // entry.isIntersecting === true when Mission starts entering viewport
+        setShowIndicator(!entry.isIntersecting);
+      },
+      {
+        root: null, // viewport
+        threshold: 0.1, // 10% of Mission visible
+      },
+    );
+
+    observer.observe(missionRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="relative">
+      <div className="hero relative">
+        <FadeSection>
+        <Hero />
+        </FadeSection>
+
+        {/* 3️⃣ Mouse indicator */}
+        <div
+          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${
+            showIndicator ? "opacity-30" : "opacity-0"
+          }`}
+        >
+          <FadeInDirectionalWrapper delay={2.1} duration={0.7} direction="down">
+            <ScrollIndicator></ScrollIndicator>
+          </FadeInDirectionalWrapper>
+        </div>
+      </div>
+
+      <div ref={missionRef}>
+        <Mission />
+      </div>
+    </div>
   );
 }

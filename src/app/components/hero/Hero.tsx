@@ -1,7 +1,6 @@
 import HeroHeading from "./HeroHeading";
 import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
 import HeroCluster from "./HeroCluster";
-import ScrollIndicator from "./ScrollIndicator";
 
 export default function Hero() {
   return (
@@ -40,11 +39,6 @@ export default function Hero() {
         </FadeInDirectionalWrapper>
       </div>
 
-      <div className="absolute bottom-35 left-1/2 -translate-x-1/2 z-20 opacity-40">
-        <FadeInDirectionalWrapper delay={2.1} duration={0.7} direction="down">
-          <ScrollIndicator></ScrollIndicator>
-        </FadeInDirectionalWrapper>
-      </div>
     </section>
   );
 }
