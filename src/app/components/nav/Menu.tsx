@@ -42,7 +42,7 @@ export default function Menu({ open, onToggle }: MenuProps) {
         />
 
         <svg
-          className="cursor-pointer"
+          className="cursor-pointer opacity-70"
           viewBox="0 0 100 100"
           width="105"
           height="105"

@@ -11,8 +11,9 @@ export default function HeroCluster() {
       </div>
       <div
         id="square-3"
-        className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[.3px] border-white/4 p-2"
+        className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
       >
+        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-30"/>
         <Image
         width={70}
         height={70}
@@ -23,8 +24,9 @@ export default function HeroCluster() {
       
       <div
         id="square-4"
-        className="z-15 absolute bottom-20 left-20 bg-[#54545411] backdrop-blur-md w-[80px] h-[80px] rounded-xl rotate-5 border-solid border-[.2px] border-white/7 p-3 rotate-x-40 rotate-z-40"
+        className="z-15 absolute bottom-20 left-20 bg-[#54545411] backdrop-blur-md w-[80px] h-[80px] rounded-xl rotate-5 border-solid border-[.8px] border-white/7 p-3 rotate-x-40 rotate-z-40 overflow-hidden"
       >
+        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-20"/>
         <Image
         width={70}
         height={70}
@@ -44,8 +46,9 @@ export default function HeroCluster() {
       </div>
       <div
         id="square-6"
-        className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.5px] border-white/10 p-5"
+        className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
       >
+        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-33"/>
         <Image
         src={"/react.svg"}
         width={130}
@@ -69,7 +72,7 @@ export default function HeroCluster() {
       </div>
       <div
         id="square-5"
-        className="z-15 absolute bottom-5 left-80 w-[80px] h-[80px] bg-[#32322b44] backdrop-blur-md rounded-xl rotate-350 border-solid border-[.5px] border-white/4 p-3"
+        className="z-15 absolute bottom-5 left-80 w-[80px] h-[80px] bg-[#32322b44] backdrop-blur-md rounded-xl rotate-350 border-solid border-[1px] border-white/4 p-3 overflow-hidden"
       >
   <div
     className="
@@ -80,8 +83,10 @@ export default function HeroCluster() {
       [-webkit-mask-position:center]
       [-webkit-mask-repeat:no-repeat]
       [-webkit-mask-size:contain]
+      
     "
   />
+  <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40"/>
         
       </div>
        <div className="blur-[3px]">

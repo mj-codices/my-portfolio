@@ -35,6 +35,15 @@ body {
   color: var(--color-text-primary);  
 }
 
+.section:not(.fade-wrapper) {
+  padding-block: clamp(120px, 14vh, 200px);
+}
+
+.top-mask {
+background: linear-gradient(0deg, rgba(42, 123, 155, 0) 83%, rgba(255, 181, 97, 0.12) 100%);
+}
+
+
 
 
 /* Hero Background */
