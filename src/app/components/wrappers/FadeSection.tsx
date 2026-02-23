@@ -1,8 +1,10 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
 
 interface FadeSectionProps {
-  children: React.ReactNode;
+  children:
+    | React.ReactNode
+    | ((scrollYProgress: MotionValue<number>) => React.ReactNode);
 }
 
 export function FadeSection({ children }: FadeSectionProps) {
@@ -10,14 +12,22 @@ export function FadeSection({ children }: FadeSectionProps) {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
-  const heroOpacity = useTransform(scrollYProgress, [0.45, 1], [1, 0.2]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.18, 0.55, 0.75],
+    [0, 1, 1, 0.4]
+  );
 
   return (
     <motion.section ref={ref} className="fade-wrapper">
-      <motion.div style={{ opacity: heroOpacity }}>{children}</motion.div>
+      <motion.div style={{ opacity }}>
+        {typeof children === "function"
+          ? children(scrollYProgress)
+          : children}
+      </motion.div>
     </motion.section>
   );
 }

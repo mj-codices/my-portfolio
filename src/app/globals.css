@@ -54,6 +54,10 @@ background: linear-gradient(0deg, rgba(42, 123, 155, 0) 83%, rgba(255, 181, 97, 
   }
 }
 
+.mission-border {
+  border-width: .2px;
+}
+
 .hero-bg {
   position: absolute;
   pointer-events:none;

@@ -21,7 +21,7 @@ export default function Home() {
       },
       {
         root: null, // viewport
-        threshold: 0.1, // 10% of Mission visible
+        threshold: 0.2, // 10% of Mission visible
       },
     );
 
@@ -34,12 +34,12 @@ export default function Home() {
     <div className="relative">
       <div className="hero relative">
         <FadeSection>
-        <Hero />
+          {(scrollYProgress) => <Hero scrollYProgress={scrollYProgress} />}
         </FadeSection>
 
         {/* 3️⃣ Mouse indicator */}
         <div
-          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${
+          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 ${
             showIndicator ? "opacity-30" : "opacity-0"
           }`}
         >
@@ -50,7 +50,10 @@ export default function Home() {
       </div>
 
       <div ref={missionRef}>
-        <Mission />
+        <div className="pt-50"></div>
+        <FadeSection>
+          <Mission />
+        </FadeSection>
       </div>
     </div>
   );
