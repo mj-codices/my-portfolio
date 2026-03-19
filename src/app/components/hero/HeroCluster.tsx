@@ -30,7 +30,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         id="square-3"
         className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
       >
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-30" />
+     
         <Image width={70} height={70} src={"/git.svg"} alt="git icon"></Image>
       </div>
 
@@ -47,7 +47,6 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           delay: 0, // small delay in seconds
         }}
       >
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-20" />
         <Image
           width={70}
           height={70}
@@ -55,7 +54,10 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           src={"/vscode.svg"}
           className="opacity-85"
         ></Image>
+
       </motion.div>
+
+      
 
       <div className="blur-xs">
         <div
@@ -67,7 +69,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         id="square-6"
         className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
       >
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-33" />
+        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
         <Image
           src={"/react.svg"}
           width={130}

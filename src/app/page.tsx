@@ -51,9 +51,9 @@ export default function Home() {
 
       <div ref={missionRef}>
         <div className="pt-50"></div>
-        <FadeSection>
-          <Mission />
-        </FadeSection>
+      
+            <Mission />
+        
       </div>
     </div>
   );
