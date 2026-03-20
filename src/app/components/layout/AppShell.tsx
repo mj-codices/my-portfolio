@@ -1,4 +1,4 @@
-import AnimatedBackground from "./components/AnimatedBackground"
+import AnimatedBackground from "./AnimatedBackground"
 // components/AppShell.tsx
 export default function AppShell({
   children,

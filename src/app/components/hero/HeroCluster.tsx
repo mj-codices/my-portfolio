@@ -18,6 +18,11 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
     [0, 55],
   );
 
+  const pushSpaceShort = useTransform(scrollYProgress, [0, 1], [-30, 0]);
+  const pushSpaceBtmShort = useTransform(scrollYProgress, [0, 1], [-40, 0]);
+  
+
+
   return (
     <div className="flex relative mx-25">
       <div className="blur-xs">
@@ -30,8 +35,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         id="square-3"
         className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
       >
-     
-        <Image width={70} height={70} src={"/git.svg"} alt="git icon"></Image>
+        <Image width={70} height={70} src={"/decorations/git.svg"} alt="git icon"></Image>
       </div>
 
       <motion.div
@@ -51,13 +55,10 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           width={70}
           height={70}
           alt="vs code logo"
-          src={"/vscode.svg"}
+          src={"/decorations/vscode.svg"}
           className="opacity-85"
         ></Image>
-
       </motion.div>
-
-      
 
       <div className="blur-xs">
         <div
@@ -71,27 +72,30 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       >
         <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
         <Image
-          src={"/react.svg"}
+          src={"/decorations/react.svg"}
           width={130}
           height={130}
           alt="react logo"
         ></Image>
       </div>
+
       <motion.div
         id="square-2"
-        className="z-20 absolute left-68 top-40 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/7 p-2"
-              style={{
-                marginTop: pushSpace,
-                marginBottom: pushSpaceBtm,
-              }}
-              transition={{
-                duration: .5,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0, // small delay in seconds
-              }}
+        className="z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/7 p-2"
+        style={{
+          marginTop: pushSpaceShort,
+          marginBottom: pushSpaceBtmShort
+        
+         
+        }}
+        transition={{
+          duration: 0.5,
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0, // small delay in seconds
+        }}
       >
         <Image
-          src={"/play.svg"}
+          src={"/decorations/play.svg"}
           width={50}
           height={50}
           alt="play button"
@@ -115,8 +119,8 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           className="
       w-full h-full
       bg-gradient-to-tr from-[#ff5757] to-[#9e005d]
-      mask-[url('/code.svg')] mask-center mask-no-repeat mask-contain
-      [-webkit-mask-image:url('/code.svg')]
+      mask-[url('/decorations/code.svg')] mask-center mask-no-repeat mask-contain
+      [-webkit-mask-image:url('/decorations/code.svg')]
       [-webkit-mask-position:center]
       [-webkit-mask-repeat:no-repeat]
       [-webkit-mask-size:contain]

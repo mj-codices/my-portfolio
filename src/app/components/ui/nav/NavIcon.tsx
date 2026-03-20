@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface MenuProps {
   open: boolean;
   onToggle: () => void;
@@ -12,15 +10,7 @@ export default function Menu({ open, onToggle }: MenuProps) {
         z-70"
     >
       <div className="logo-container w-[80px] h-[80px] relative">
-      {/* <Image
-        src={"/logo.svg"}
         
-        width={70}
-        height={70}
-        alt="my logo"
-        className="ml-15 mt-10 z-20 top-0 left-0 absolute w-full h-full transition-opacity duration-500 hover:opacity-0"
-        >
-      </Image> */}
       </div>
       
       <label

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Menu from "./Menu";
+import Menu from "./NavIcon";
 import { NavDrawer } from "./NavDrawer";
 
 export default function NavShell({ children }: { children: React.ReactNode }) {

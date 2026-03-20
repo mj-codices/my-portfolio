@@ -23,7 +23,7 @@ const itemVariants = {
     x: 0,
     transition: {
       x: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 420,
         damping: 26,
         mass: 0.8,
@@ -108,7 +108,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                   }}
                 >
                   <Image
-                    src={"/navCircle.svg"}
+                    src={"/ui/nav/navCircle.svg"}
                     width={20}
                     height={20}
                     alt="circle"
@@ -128,7 +128,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                     }}
                   >
                     <Image
-                      src="/arrow.svg"
+                      src="/icons/arrow.svg"
                       width={8}
                       height={8}
                       alt="arrow"
@@ -150,7 +150,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           whileTap={{ scale: 0.98 }}
         >
           <Image
-            src="/giticon.svg"
+            src="/icons/giticon.svg"
             width={40}
             height={40}
             alt="Github logo"

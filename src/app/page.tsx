@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import ScrollIndicator from "./components/hero/ScrollIndicator";
+import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
-import Mission from "./components/mission/Mission";
+import Mission from "./components/about/Mission";
 import FadeInDirectionalWrapper from "./components/wrappers/FadeInDirectionalWrapper";
 import { FadeSection } from "./components/wrappers/FadeSection";
 
@@ -37,7 +37,7 @@ export default function Home() {
           {(scrollYProgress) => <Hero scrollYProgress={scrollYProgress} />}
         </FadeSection>
 
-        {/* 3️⃣ Mouse indicator */}
+        {/* Mouse indicator */}
         <div
           className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 ${
             showIndicator ? "opacity-30" : "opacity-0"
