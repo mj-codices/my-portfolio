@@ -2,7 +2,8 @@ import { useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
 import MissionStatement from "./MissionStatement";
-import AboutSection from "./AboutSection";
+import AboutText from "./AboutText";
+import ProcessDiagram from "./ProcessDiagram";
 
 export default function Mission() {
   const ref = useRef(null);
@@ -34,17 +35,16 @@ export default function Mission() {
   return (
     <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-50">
       <FadeSection>
-        <MissionStatement pushUp={pushUp.get()} />
+        <MissionStatement pushUp={pushUp} />
       </FadeSection>
-
-      <AboutSection
-        p1Y={p1Y}
-        p2Y={p2Y}
-        p2Ref={p2Ref}
-        headingY={headingY}
-        circleY1={circleY1}
-        circleY2={circleY2}
-      />
+      <div className="flex row">
+        <AboutText p1Y={p1Y} p2Y={p2Y} p2Ref={p2Ref} headingY={headingY} />
+        <ProcessDiagram
+          headingY={headingY}
+          circleY1={circleY1}
+          circleY2={circleY2}
+        />
+      </div>
     </section>
   );
 }

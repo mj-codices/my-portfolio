@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, MotionValue } from "framer-motion";
 
 type MissionStatementProps = {
-  pushUp: number | string; // depending on what you pass
+  pushUp: MotionValue<number>;// depending on what you pass
 };
 
 export default function MissionStatement({ pushUp }: MissionStatementProps){
