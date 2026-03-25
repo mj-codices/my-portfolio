@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
 import Mission from "./components/about/Mission";
+import SkillStack from "./components/stack/SkillStack";
 import FadeInDirectionalWrapper from "./components/wrappers/FadeInDirectionalWrapper";
 import { FadeSection } from "./components/wrappers/FadeSection";
 
@@ -51,9 +52,11 @@ export default function Home() {
 
       <div ref={missionRef}>
         <div className="pt-50"></div>
-      
-            <Mission />
-        
+
+        <Mission />
+      </div>
+      <div>
+        <SkillStack />
       </div>
     </div>
   );

@@ -2,8 +2,7 @@ import { useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
 import MissionStatement from "./MissionStatement";
-import AboutText from "./AboutText";
-import ProcessDiagram from "./ProcessDiagram";
+import AboutText from "./AboutText";import ProcessDiagram from "./ProcessDiagram";
 
 export default function Mission() {
   const ref = useRef(null);
@@ -33,7 +32,7 @@ export default function Mission() {
   const circleY2 = useTransform(scrollYProgress, [0.1, 1], [-60, 0]);
 
   return (
-    <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-50">
+    <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-60">
       <FadeSection>
         <MissionStatement pushUp={pushUp} />
       </FadeSection>

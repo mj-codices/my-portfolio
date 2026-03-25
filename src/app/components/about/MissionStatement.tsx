@@ -1,4 +1,5 @@
 import { motion, MotionValue } from "framer-motion";
+import "./MissionStatement.css"
 
 type MissionStatementProps = {
   pushUp: MotionValue<number>;// depending on what you pass

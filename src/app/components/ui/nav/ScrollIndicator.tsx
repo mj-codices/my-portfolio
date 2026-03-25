@@ -1,3 +1,5 @@
+import "./ScrollIndicator.css"
+
 export default function ScrollIndicator() {
   return (
     <div className="mouse-wrap">

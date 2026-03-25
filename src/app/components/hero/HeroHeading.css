@@ -1,0 +1,21 @@
+.gradient-text {
+  display: inline-flex;
+  background: linear-gradient(90deg, #ff5757, #9e005d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-anim span {
+  color: inherit;
+  background: none;
+  opacity: 0;
+
+  transition:
+    opacity 0.55s ease,
+    filter 0.55s ease;
+}
+
+.text-anim.animate span {
+  opacity: 1;
+}

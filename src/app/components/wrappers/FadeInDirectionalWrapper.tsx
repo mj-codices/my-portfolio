@@ -38,13 +38,7 @@ export default function FadeInDirectionalWrapper({
   className,
 }: FadeInDirectionalProps) {
   const variants = getVariants(direction);
-  console.log(
-    "FadeInDirectionalWrapper render",
-    duration,
-    delay,
-    direction,
-    variants,
-  );
+
   return (
     <motion.div
       className={clsx(className)}

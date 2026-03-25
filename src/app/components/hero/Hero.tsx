@@ -3,7 +3,8 @@ import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
 import { FadeSection } from "../wrappers/FadeSection";
 import HeroCluster from "./HeroCluster";
 import HeroText from "./HeroText";
-import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
+import { MotionValue, useTransform } from "framer-motion";
+import "../../styles/components/button.css"
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
+import "./HeroCluster.css";
 
 interface HeroClusterProps {
   scrollYProgress: MotionValue<number>;

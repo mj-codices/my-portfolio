@@ -39,7 +39,7 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
             <p className="text-lg w-150 leading-9 ml-7">
               When I’m not pushing pixels, you can find me jamming to Aphex
               Twin, cheering for my hometown Lakers, or camping along the
-              Pacific Coast with my wife and dog in our old VW wagon.
+              Pacific Coast with my wife, our dog, and our old VW wagon.
             </p>
           </motion.div>
         </div>

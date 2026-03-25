@@ -1,4 +1,4 @@
-import "./globals.css";
+import "./styles/globals.css";
 import { Inter } from "next/font/google";
 import NavShell from "./components/ui/nav/NavShell";
 import ProgBar from "./components/ui/status/ProgBar";
