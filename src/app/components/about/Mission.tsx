@@ -25,7 +25,7 @@ export default function Mission() {
 
   const p1Y = useTransform(scrollYProgress, [0.55, 1], [80, 0]);
 
-  const p2Y = useTransform(p2Progress, [0.05, 1], [7, 0]);
+  const p2Y = useTransform(p2Progress, [0.25, 1], [6, 0]);
 
   const circleY1 = useTransform(scrollYProgress, [0, 1], [-40, 0]);
 

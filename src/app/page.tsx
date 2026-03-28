@@ -1,4 +1,5 @@
 "use client";
+import { useScroll } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
@@ -8,6 +9,7 @@ import FadeInDirectionalWrapper from "./components/wrappers/FadeInDirectionalWra
 import { FadeSection } from "./components/wrappers/FadeSection";
 
 export default function Home() {
+  const { scrollYProgress } = useScroll();
   const missionRef = useRef<HTMLDivElement>(null);
   const [showIndicator, setShowIndicator] = useState(true);
 
