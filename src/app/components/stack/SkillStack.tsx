@@ -21,15 +21,12 @@ export default function SkillStack({}) {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
 
-  const subOpacity = useTransform(scrollYProgress, [0.6, 1], [0, 1]);
-  const subY = useTransform(scrollYProgress, [0.6, 1], [30, 0]);
-
   // Global page scroll for tiles
   const { scrollYProgress: globalScroll } = useScroll(); // entire page scroll
 
-  const tileStartBase = 0.58; // start slightly earlier
-  const tileDuration = 0.027; // faster animation
-  const staggerStep = 0.019; // tighter stagger
+  const tileStartBase = 0.52; // start slightly earlier
+  const tileDuration = 0.026; // faster animation
+  const staggerStep = 0.018; // tighter stagger
 
   const sections = [
     { title: "front-end", data: skillStack.frontend, offset: "pl-0" },
@@ -50,54 +47,96 @@ export default function SkillStack({}) {
         </h2>
       </motion.div>
       <div className="flex flex-col gap-25">
-        {sections.map((section, sectionIndex) => (
-          <div key={section.title} className="flex">
-            {/* Subheading */}
-            <motion.div style={{ opacity: subOpacity, y: subY }}>
-              <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
-                {section.title}
-              </h3>
-            </motion.div>
+        {sections.map((section, sectionIndex) => {
+          // ✅ SECTION-LEVEL LOGIC (belongs here)
 
-            {/* Tiles */}
-            <div className="pl-30 -translate-y-1">
-              <div
-                className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
-              >
-                {section.data.map((skill, index) => {
-                  // 👇 KEY: offset each section
-                  const sectionOffset = sectionIndex * 0;
+          const sectionGap = 0.04; // 👈 NEW: breathing room between sections
 
-                  const start =
-                    tileStartBase + sectionOffset + index * staggerStep;
-                  const end = start + tileDuration;
+          const tilesBefore = sections
+            .slice(0, sectionIndex)
+            .reduce((acc, s) => acc + s.data.length, 0);
 
-                  const raw = useTransform(globalScroll, [start, end], [0, 1]);
+          const sectionStart =
+            tileStartBase +
+            tilesBefore * staggerStep +
+            sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
 
-                  const eased = useTransform(
-                    raw,
-                    (v) => 1 - Math.pow(1 - v, 7),
-                  );
+          const titleDelay = 0.04 + sectionIndex * 0.005;
 
-                  const tileY = useTransform(eased, [0, 1], [30, 0]);
+          // Title animation
+          const titleStart = sectionStart + titleDelay;
+          const titleEnd = titleStart + 0.04;
 
-                  return (
-                    <motion.div
-                      key={skill.id}
-                      className={skill.offset ?? ""}
-                      style={{
-                        opacity: eased,
-                        y: tileY,
-                      }}
-                    >
-                      <SkillTile {...skill} />
-                    </motion.div>
-                  );
-                })}
+          const titleRaw = useTransform(
+            globalScroll,
+            [titleStart, titleEnd],
+            [0, 1],
+          );
+
+          const titleEased = useTransform(
+            titleRaw,
+            (v) => 1 - Math.pow(1 - v, 5),
+          );
+
+          const titleY = useTransform(titleEased, [0, 1], [30, 0]);
+
+          return (
+            <div key={section.title} className="flex">
+              {/* ✅ TITLE NOW WORKS */}
+              <motion.div style={{ opacity: titleEased, y: titleY }}>
+                <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
+                  {section.title}
+                </h3>
+              </motion.div>
+
+              {/* Tiles */}
+              <div className="pl-30 -translate-y-1">
+                <div
+                  className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
+                >
+                  {section.data.map((skill, index) => {
+                    // ✅ TILE-LEVEL LOGIC
+                    const tileDelay = 0.05; // 👈 THIS is your spacing knob
+
+                    const start =
+                      sectionStart +
+                      titleDelay + // wait for title to begin
+                      tileDelay + // 👈 WAIT AFTER TITLE
+                      index * staggerStep;
+
+                    const end = start + tileDuration;
+
+                    const raw = useTransform(
+                      globalScroll,
+                      [start, end],
+                      [0, 1],
+                    );
+
+                    const eased = useTransform(
+                      raw,
+                      (v) => 1 - Math.pow(1 - v, 7),
+                    );
+
+                    const tileY = useTransform(eased, [0, 1], [30, 0]);
+
+                    return (
+                      <motion.div
+                        key={skill.id}
+                        className={skill.offset ?? ""}
+                        style={{
+                          opacity: eased,
+                          y: tileY,
+                        }}
+                      >
+                        <SkillTile {...skill} />
+                      </motion.div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="h-[500px] w-full"></div>
