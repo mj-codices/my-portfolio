@@ -1,17 +1,17 @@
-import JsIcon from "../icons/JsIcon.svg";
-import TsIcon from "../icons/TsIcon.svg";
-import ReactIcon from "../icons/ReactIcon.svg";
-import NextIcon from "../icons/NextIcon.svg";
-import FramerIcon from "../icons/FramerIcon.svg";
-import TailwindIcon from "../icons/TailwindIcon.svg";
-import BootstrapIcon from "../icons/BootstrapIcon.svg";
-import HtmlIcon from "../icons/HtmlIcon.svg";
-import CssIcon from "../icons/CssIcon.svg";
-import NodeIcon from "../icons/NodeIcon.svg";
-import ExpressIcon from "../icons/ExpressIcon.svg";
-import GitIcon from "../icons/GitIcon.svg";
-import VercelIcon from "../icons/VercelIcon.svg";
-import MongoDBIcon from "../icons/MongoDBIcon.svg";
+import JsIcon from "../assets/icons/JsIcon.svg";
+import TsIcon from "../assets/icons/TsIcon.svg";
+import ReactIcon from "../assets/icons/ReactIcon.svg";
+import NextIcon from "../assets/icons/NextIcon.svg";
+import FramerIcon from "../assets/icons/FramerIcon.svg";
+import TailwindIcon from "../assets/icons/TailwindIcon.svg";
+import BootstrapIcon from "../assets/icons/BootstrapIcon.svg";
+import HtmlIcon from "../assets/icons/HtmlIcon.svg";
+import CssIcon from "../assets/icons/CssIcon.svg";
+import NodeIcon from "../assets/icons/NodeIcon.svg";
+import ExpressIcon from "../assets/icons/ExpressIcon.svg";
+import GitIcon from "../assets/icons/GitIcon.svg";
+import VercelIcon from "../assets/icons/VercelIcon.svg";
+import MongoDBIcon from "../assets/icons/MongoDBIcon.svg";
 
 // ---------------------------
 // SkillStack Data

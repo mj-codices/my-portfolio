@@ -8,7 +8,7 @@ import {
 import { useMotionValue } from "framer-motion";
 import { useRef } from "react";
 import SkillTile from "./SkillTile";
-import { skillStack } from "./data/skillStack";
+import { skillStack } from "../../data/skillStack";
 
 export default function SkillStack({}) {
   const ref = useRef(null);

@@ -1,6 +1,6 @@
-import HeroHeading from "./HeroHeading";
+import HeroHeading from "./heroHeading/HeroHeading";
 import HeroText from "./HeroText";
-import HeroCluster from "./HeroCluster";
+import HeroCluster from "./heroCluster/HeroCluster";
 
 import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
 import { FadeSection } from "../wrappers/FadeSection";

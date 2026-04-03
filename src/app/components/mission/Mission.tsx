@@ -1,9 +1,9 @@
 import { useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
-import MissionStatement from "./MissionStatement";
+import MissionStatement from "./missionStatement/MissionStatement";
 import AboutText from "./AboutText";
-import ProcessDiagram from "./ProcessDiagram";
+import ProcessDiagram from "./processDiagram/ProcessDiagram";
 
 export default function Mission() {
   /* ---------------------------------------------

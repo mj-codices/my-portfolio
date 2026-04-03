@@ -1,5 +1,5 @@
 import { motion, MotionValue } from "framer-motion";
-import { FadeSection } from "../wrappers/FadeSection";
+import { FadeSection } from "../../wrappers/FadeSection";
 import "./ProcessDiagram.css";
 
 type ProcessDiagramProps = {
