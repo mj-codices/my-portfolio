@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ============================= */
+/*      CSS Variables / Theme     */
+/* ============================= */
 :root {
   /* Primary colors */
   --color-primary: #21272b;
@@ -17,9 +20,13 @@
   /* Fonts */
   --font-inter: "Inter", sans-serif;
 
+  /* Prevent scroll “bounce” on iOS / overscroll */
   overscroll-behavior: none;
 }
 
+/* ============================= */
+/*      Global Element Styles     */
+/* ============================= */
 html {
   scroll-behavior: smooth;
   ::-webkit-scrollbar {
@@ -36,8 +43,11 @@ body {
   color: var(--color-text-primary);
 }
 
-/* Animated Background */
+/* ============================= */
+/*        Animated Background     */
+/* ============================= */
 
+/* Rotate animation used for floating background balls */
 @keyframes move {
   100% {
     transform: translate3d(0, 0, 1px) rotate(360deg);
@@ -46,7 +56,7 @@ body {
 
 .animated-bg {
   position: absolute;
-  pointer-events: none;
+  pointer-events: none; /* Background should not block clicks */
   background: radial-gradient(circle, #191919 0%, #090a0f 100%);
   overflow: hidden;
   z-index: 0;
@@ -62,6 +72,7 @@ body {
   animation: move linear infinite;
 }
 
+/* Alternate ball colors for variety */
 .ball:nth-child(odd) {
   color: #000000;
 }
@@ -70,7 +81,7 @@ body {
   color: #ff6f61;
 }
 
-/* Using a custom attribute for variability */
+/* Individual ball positioning and animation settings */
 .ball:nth-child(1) {
   top: 77%;
   left: 88%;
@@ -136,9 +147,9 @@ body {
   box-shadow: 40vmin 0 5.196265905749415vmin currentColor;
 }
 
-/* Layout Wrapper */
-
+/* ============================= */
+/*      Layout / Section Spacing  */
+/* ============================= */
 .section:not(.fade-wrapper) {
   padding-block: clamp(120px, 14vh, 200px);
 }
-

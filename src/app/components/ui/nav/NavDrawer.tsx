@@ -1,15 +1,19 @@
 "use client";
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import "./NavIcon.css"
+import "./NavIcon.css";
 
+// ------------------------------
+// Motion variants for drawer menu items
+// ------------------------------
 const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.25,
+      staggerChildren: 0.1, // stagger each menu item
+      delayChildren: 0.25, // delay first item
     },
   },
 };
@@ -17,11 +21,11 @@ const listVariants = {
 const itemVariants = {
   hidden: {
     opacity: 0,
-    x: 160,
+    x: 160, // start off-screen right
   },
   visible: {
     opacity: 1,
-    x: 0,
+    x: 0, // slide into place
     transition: {
       x: {
         type: "spring" as const,
@@ -36,6 +40,9 @@ const itemVariants = {
   },
 };
 
+// ------------------------------
+// Props for NavDrawer
+// ------------------------------
 type DrawerProps = {
   open: boolean;
   onClose: () => void;
@@ -45,7 +52,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <div>
-      {/* Overlay */}
+      
+      {/* --------------------------
+          Overlay behind drawer
+          -------------------------- */}
       <motion.div
         className="fixed inset-0 bg-black z-40"
         initial={{ opacity: 0 }}
@@ -55,7 +65,9 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         onClick={onClose}
       />
 
-      {/* Drawer */}
+      {/* --------------------------
+          Drawer container
+          -------------------------- */}
       <motion.aside
         className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-60 overflow-hidden"
         initial={{ x: "100%" }}
@@ -65,7 +77,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           ease: "easeOut",
         }}
       >
-        {/* Circle inside drawer */}
+
+        {/* --------------------------
+            Large background circle
+            -------------------------- */}
         <motion.div
           className="absolute bg-[#0d0c0c] top-[-33rem] left-2 rounded-full"
           style={{ width: 2000, height: 2000 }}
@@ -78,7 +93,9 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           }}
         />
 
-        {/* Drawer content */}
+        {/* --------------------------
+            Drawer menu items
+            -------------------------- */}
         <motion.nav
           className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3 nudge-menu-md "
           initial="hidden"
@@ -96,10 +113,12 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
               >
+
+                {/* Circle and hover arrow */}
                 <motion.div
                   className="flex items-center justify-center relative"
                   animate={{
-                    scale: hoveredIndex === i ? 1.7 : 1,
+                    scale: hoveredIndex === i ? 1.7 : 1, // pop circle on hover
                   }}
                   transition={{
                     type: "spring",
@@ -117,7 +136,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    initial={{ opacity: 0, scale: 0.5 }} // start hidden and small
+                    initial={{ opacity: 0, scale: 0.5 }} // hidden by default
                     animate={{
                       opacity: hoveredIndex === i ? 1 : 0, // fade in on hover
                       scale: hoveredIndex === i ? 1 : 0.5, // pop to full size
@@ -142,6 +161,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
             ))}
           </ul>
         </motion.nav>
+
+        {/* --------------------------
+            GitHub icon bottom-right
+            -------------------------- */}
         <motion.div
           className="absolute bottom-8 right-10"
           whileHover={{

@@ -1,25 +1,33 @@
-/* Hamburger Menu */
+/* ===============================
+   Hamburger Menu Styles
+   =============================== */
+
+/* Base menu container */
 .menu {
   position: fixed;
-  top: 1rem;
-  z-index: 100;
+  top: 1rem; /* space from top */
+  z-index: 100; /* sit above other elements */
 }
 
+/* Hide native checkbox */
 .menu input {
   display: none;
 }
 
+/* SVG container for menu lines */
 .menu svg {
   display: block;
 }
 
+/* Base styling for menu lines */
 .menu path {
   fill: none;
-  stroke: url(#hamburgerGradient);
+  stroke: url(#hamburgerGradient); /* gradient from defs in SVG */
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 
+  /* CSS vars for animation */
   --length: 24;
   --offset: -38;
 
@@ -29,35 +37,41 @@
   transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-/* MENU 1 SPECIFICS */
+/* -------------------------------
+   Menu 1 (Specific variant) line lengths
+   ------------------------------- */
 .menu--1 .line--1,
 .menu--1 .line--3 {
-  --total-length: 126.64183044433594;
+  --total-length: 126.64183044433594; /* top and bottom lines */
 }
 
 .menu--1 .line--2 {
-  --total-length: 70;
+  --total-length: 70; /* middle line */
 }
 
-/* Checked (open) state */
+/* -------------------------------
+   Checked (open) state adjustments
+   ------------------------------- */
 .menu--1 input:checked + svg .line--1,
 .menu--1 input:checked + svg .line--3 {
-  --offset: -94.1149185097;
+  --offset: -94.1149185097; /* rotate top/bottom lines */
 }
 
 .menu--1 input:checked + svg .line--2 {
-  --offset: -50;
+  --offset: -50; /* hide middle line */
 }
 
+/* Cross transformation (X) on open */
 .menu--1.cross input:checked + svg .line--1,
 .menu--1.cross input:checked + svg .line--3 {
-  --length: 22.627416998; /* top and bottom lines */
+  --length: 22.627416998; /* top/bottom lines transform to X */
 }
 
 .menu--1.cross input:checked + svg .line--2 {
   --length: 0; /* middle line disappears */
 }
 
+/* Optional width utility for nav (if used elsewhere) */
 .nav-width {
   width: 33%;
 }

@@ -13,12 +13,23 @@ import GitIcon from "../icons/GitIcon.svg";
 import VercelIcon from "../icons/VercelIcon.svg";
 import MongoDBIcon from "../icons/MongoDBIcon.svg";
 
+// ---------------------------
+// SkillStack Data
+// ---------------------------
+
+// Each skill tile has:
+// - id: unique string
+// - icon: path to imported SVG
+// - label: text to display
+// - size: Tailwind width/height
+// - offset (optional): for fine-grained positioning tweaks
+
 type Skill = {
   id: string;
   icon: string;
   label: string;
   size: string;
-  offset?: string; // optional
+  offset?: string; // optional position adjustment
 };
 
 type SkillStack = {
@@ -28,6 +39,11 @@ type SkillStack = {
   database: Skill[];
 };
 
+// ---------------------------
+// Skill tiles for each section
+// The 'offset' property allows staggered / shifted placement
+// useful for design aesthetics without changing grid layout.
+// ---------------------------
 export const skillStack: SkillStack = {
   frontend: [
     {
@@ -93,10 +109,10 @@ export const skillStack: SkillStack = {
       icon: ExpressIcon.src,
       label: "Express.Js",
       size: "w-10 h-10",
-       offset: "-translate-x-4",
+      offset: "-translate-x-4",
     },
   ],
-    database: [
+  database: [
     {
       id: "mongo",
       icon: MongoDBIcon.src,
