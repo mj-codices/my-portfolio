@@ -69,3 +69,7 @@ This portfolio is deployed on **Vercel**, providing **instant global hosting, au
 ## Screenshots / Demo
 
 <!-- Add images or links later -->
+
+## Usage
+
+This project is shared as a **portfolio piece and learning reference**. Feel free to draw inspiration, but please avoid direct copying or redistribution.
