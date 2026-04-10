@@ -1,0 +1,177 @@
+/* ---------------------------------------------
+   SLOW SPIN ANIMATION
+   Used for elements that need a gentle continuous rotation
+--------------------------------------------- */
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: slowSpin 12s linear infinite;
+}
+
+/* ---------------------------------------------
+   TOP MASK GRADIENT
+   Adds a subtle gradient overlay for visual separation/fade effect
+--------------------------------------------- */
+.top-mask {
+  background: linear-gradient(
+    0deg,
+    rgba(42, 123, 155, 0) 83%,
+    /* transparent toward top */ rgba(255, 181, 97, 0.12) 100%
+      /* slight color fade at bottom */
+  );
+}
+
+/* ---------------------------------------------
+   PANEL TEXT
+   Sets font size for process panel descriptions
+--------------------------------------------- */
+.panel-para {
+  font-size: 11px;
+}
+
+/* ---------------------------------------------
+   CHEVRON CONVEYOR ANIMATION
+   Makes the 3 chevrons move left → right in a loop with staggered delays
+--------------------------------------------- */
+.chev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0; /* start invisible */
+}
+
+/* Individual chevron animation delays */
+.chev-1 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+}
+.chev-2 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.chev-3 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Chevron movement and fade keyframes */
+@keyframes chevron-conveyor {
+  0% {
+    transform: translateX(-10px) translateY(-50%);
+    opacity: 0;
+  }
+  25% {
+    transform: translateX(0px) translateY(-50%);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(12px) translateY(-50%);
+    opacity: 1;
+  }
+  85% {
+    transform: translateX(24px) translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(24px) translateY(-50%);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------
+   FLOATING AND BREATHING ANIMATIONS FOR MISSION CIRCLES
+   Combines vertical/horizontal floating and subtle scaling
+--------------------------------------------- */
+@keyframes missionFloatY {
+  0% {
+    --y: 0px;
+  }
+  50% {
+    --y: -14px;
+  } /* float upward */
+  100% {
+    --y: 0px;
+  } /* return */
+}
+
+@keyframes missionFloatX {
+  0% {
+    --x: 0px;
+  }
+  50% {
+    --x: 8px;
+  } /* float right */
+  100% {
+    --x: 0px;
+  } /* return */
+}
+
+@keyframes missionBreathe {
+  0% {
+    --s: 1;
+  }
+  50% {
+    --s: 1.05;
+  } /* slight scale-up */
+  100% {
+    --s: 1;
+  } /* return to normal */
+}
+
+/* ---------------------------------------------
+   INDIVIDUAL CIRCLE ANIMATIONS
+   Each circle has independent delays for more natural motion
+--------------------------------------------- */
+#mission-circle-1 {
+  --x: 0px;
+  --y: 0px;
+  --s: 1;
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  animation:
+    missionFloatY 12s ease-in-out infinite,
+    missionFloatX 18s ease-in-out infinite,
+    missionBreathe 10s ease-in-out infinite;
+  animation-delay:
+    -4s,
+    -7s,
+    -2s; /* Y, X, scale offsets */
+  will-change: transform; /* optimize performance */
+}
+
+#mission-circle-2 {
+  --x: 0px;
+  --y: 0px;
+  --s: 1;
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  animation:
+    missionFloatY 12s ease-in-out infinite,
+    missionFloatX 18s ease-in-out infinite,
+    missionBreathe 10s ease-in-out infinite;
+  animation-delay:
+    -2s,
+    -6s,
+    -4s; /* Y, X, scale offsets */
+  will-change: transform;
+}
+
+#mission-circle-3 {
+  --x: 0px;
+  --y: 0px;
+  --s: 1;
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  animation:
+    missionFloatY 12s ease-in-out infinite,
+    missionFloatX 18s ease-in-out infinite,
+    missionBreathe 10s ease-in-out infinite;
+  animation-delay:
+    -8s,
+    -3s,
+    -5s; /* Y, X, scale offsets */
+  will-change: transform;
+}

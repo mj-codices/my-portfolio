@@ -1,0 +1,6 @@
+{
+  // Force VS Code to use the local Prettier in your project
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "prettier.prettierPath": "./node_modules/prettier"
+}

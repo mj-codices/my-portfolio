@@ -1,0 +1,132 @@
+/* ============================= */
+/*      Base Button Styles       */
+/* ============================= */
+.button {
+  pointer-events: auto; /* Enable click events */
+  cursor: pointer; /* Show pointer on hover */
+  background: #ff5757; /* Primary accent color */
+  border: none;
+  transition: transform 0.3s ease-in-out; /* Scale effect on active press */
+
+  font-family: inherit;
+
+  position: relative; /* Needed for pseudo-elements and internal spans */
+  display: inline-block;
+}
+
+/* ============================= */
+/*      Calypso Variant          */
+/* ============================= */
+.button--calypso {
+  overflow: hidden; /* Clip overflowing animation elements */
+  color: #191919; /* Text color */
+}
+
+/* Front text span stays above background animations */
+.button--calypso span:first-child {
+  display: block;
+  position: relative;
+  z-index: 10;
+}
+
+/* Back text span used for hover animation */
+.button--calypso span:last-child {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  transform: translateY(100%); /* Start off below the button */
+  opacity: 0;
+  z-index: 5;
+}
+
+/* ============================= */
+/*      Hover Animations          */
+/* ============================= */
+.button--calypso:hover span:first-child {
+  animation: MoveScaleUpInitial 0.3s forwards;
+}
+
+.button--calypso:hover span:last-child {
+  animation: MoveScaleUpEnd 0.3s forwards 0.3s; /* delay so it appears after first span moves */
+}
+
+.button--calypso:hover span {
+  /* Combine both animations for consistency */
+  animation:
+    MoveScaleUpInitial 0.3s forwards,
+    MoveScaleUpEnd 0.3s forwards 0.3s;
+}
+
+/* Active / click press scaling */
+.button:active {
+  transform: scale(0.96);
+}
+
+/* ============================= */
+/*      Pseudo-elements          */
+/* ============================= */
+.button::before,
+.button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Background “blob” effect on hover */
+.button--calypso::before {
+  content: "";
+  background: #ffff;
+  width: 120%;
+  height: 0;
+  padding-bottom: 120%;
+  top: -110%;
+  left: -10%;
+  border-radius: 70%;
+  transform: translate3d(0, 68%, 0) scale3d(0, 0, 0); /* start scaled down */
+}
+
+.button--calypso:hover::before {
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1); /* scale blob to cover button */
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+}
+
+/* Second pseudo-element for additional hover effect */
+.button--calypso::after {
+  content: "";
+  background: #ffff;
+  transform: translate3d(0, -100%, 0); /* start above button */
+  transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+}
+
+.button--calypso:hover::after {
+  transform: translate3d(0, 0, 0); /* move into view */
+  transition-duration: 0.05s; /* quick final movement */
+  transition-delay: 0.4s; /* wait for before pseudo-element to finish */
+  transition-timing-function: linear;
+}
+
+/* ============================= */
+/*      Keyframes                */
+/* ============================= */
+@keyframes MoveScaleUpInitial {
+  to {
+    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1); /* move up and stretch */
+    opacity: 0; /* fade out */
+  }
+}
+
+@keyframes MoveScaleUpEnd {
+  from {
+    transform: translateY(100%); /* start below button */
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-50%); /* move to vertical center */
+    opacity: 1; /* fade in */
+  }
+}

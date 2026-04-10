@@ -1,0 +1,151 @@
+/* ================================================
+   Scroll Indicator Styles
+   - Animated mouse icon with "SCROLL" label
+   - Uses SVG paths for left/right animation
+   - Keyframes handle mouse nudge, text nudge, and scroll ball
+================================================ */
+
+/* Container wrapping the whole scroll indicator */
+.mouse-wrap {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* "SCROLL" text label below the mouse */
+#mouseText {
+  letter-spacing: 12px;
+  font-size: 14px;
+  color: #ffffff;
+  animation: nudgeText 9s ease-out infinite; /* subtle vertical motion */
+  position: absolute;
+  left: 50%;
+  top: 90px;
+  transform: translateX(-50%) translateY(0);
+  margin-left: 6px;
+}
+
+/* Mouse container with nudge animation */
+.mouse {
+  top: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  animation: nudgeMouse 9s ease-out infinite; /* vertical nudge */
+}
+
+/* Fade for all SVG paths to make them subtle */
+.mouse .frame path,
+.mouse .mouse-left svg,
+.mouse .mouse-right svg {
+  opacity: 0.3;
+}
+
+/* Trackball inside mouse (animated circle) */
+.mouse:after {
+  content: "";
+  background-color: #ffffff;
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  animation: trackBallSlide 9s linear infinite; /* scrolling motion */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  transform: translateY(20px);
+  opacity: 1;
+}
+
+/* Mouse frame container */
+.mouse .frame {
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+/* SVG frame path stroke */
+.mouse .frame path {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  opacity: 0.5;
+}
+
+/* Left and right halves of mouse for animated paths */
+.mouse .mouse-left,
+.mouse .mouse-right {
+  width: 50%;
+  position: absolute;
+  z-index: 2;
+}
+
+.mouse .mouse-right {
+  right: 0;
+}
+
+/* Animate drawing effect for paths */
+.mouse .Animate-Draw {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  fill-opacity: 1;
+}
+
+.mouse .mouse-left .Animate-Draw {
+  animation: DrawLine 9s ease-out infinite; /* left path */
+}
+
+.mouse .mouse-right .Animate-Draw {
+  animation: DrawLineBack 9s ease-out infinite; /* right path */
+}
+
+/* =================================================
+   Keyframes
+================================================ */
+
+/* Draw left SVG path */
+@keyframes DrawLine {
+  /* stroke-dashoffset/opacity animate line drawing and fade */
+  0%, 22% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 1; }
+  38% { stroke-dashoffset: 125; stroke-dasharray: 120; stroke-opacity: 1; }
+  38.1% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 0; }
+  48%, 64% { stroke-dashoffset: 125; stroke-dasharray: 120; stroke-opacity: 1; }
+  64.1%, 90.1% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 0; }
+  74%, 90% { stroke-dashoffset: 125; stroke-dasharray: 120; stroke-opacity: 1; }
+}
+
+/* Draw right SVG path (reverse direction) */
+@keyframes DrawLineBack {
+  0%, 22% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 1; }
+  38% { stroke-dashoffset: -114; stroke-dasharray: 120; stroke-opacity: 1; }
+  38.1% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 0; }
+  48%, 64% { stroke-dashoffset: -114; stroke-dasharray: 120; stroke-opacity: 1; }
+  64.1%, 90.1% { stroke-dashoffset: 0; stroke-dasharray: 120; stroke-opacity: 0; }
+  74%, 90% { stroke-dashoffset: -114; stroke-dasharray: 120; stroke-opacity: 1; }
+}
+
+/* Subtle vertical nudge for mouse container */
+@keyframes nudgeMouse {
+  0%, 22%, 48%, 74% { transform: translateY(0) translateX(-50%); }
+  38%, 64%, 90% { transform: translateY(9px) translateX(-50%); }
+}
+
+/* Subtle vertical nudge + scale for "SCROLL" text */
+@keyframes nudgeText {
+  0%, 22%, 48%, 74% { transform: translateY(0) translateX(-50%) scaleY(1); opacity: 1; }
+  38%, 64%, 90% { transform: translateY(5px) translateX(-50%) scaleY(0.9); opacity: 0.5; }
+}
+
+/* Trackball sliding animation inside mouse */
+@keyframes trackBallSlide {
+  0%, 22%, 48%, 74%, 100% { transform: translateY(20px) scale(1); opacity: 1; }
+  26%, 52%, 78% { transform: translateY(30px) scale(0.9); opacity: 1; }
+  34%, 60%, 86% { transform: translateY(55px) scale(0.1); opacity: 0; }
+  41%, 67%, 93% { transform: translateY(30px) scale(0); opacity: 0.3; }
+}

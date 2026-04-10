@@ -1,52 +1,70 @@
-import Image from "next/image";
-import HeroHeading from "./HeroHeading";
-import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
-import HeroBackground from "./HeroBackground";
-import HeroCluster from "./HeroCluster";
-import ScrollIndicator from "./ScrollIndicator";
+import HeroText from "./HeroText";
+import HeroCluster from "./heroCluster/HeroCluster";
+import "./Hero.css";
+import { FadeSection } from "../wrappers/FadeSection";
+import { MotionValue, useTransform } from "framer-motion";
+import "../../styles/components/button.css";
 
-export default function Hero() {
+interface HeroProps {
+  scrollYProgress: MotionValue<number>;
+}
+
+export default function Hero({ scrollYProgress }: HeroProps) {
+  /* ------------------------------
+     Transform values for HeroText spacing
+     Adjusted based on scroll progress
+  ------------------------------- */
+  const pushSpace = useTransform(scrollYProgress, [0.55, 0.65], [0, 40]);
+  const pushSpaceBtm = useTransform(scrollYProgress, [0.58, 0.68], [0, 55]);
+
   return (
     <section
-      className="relative w-full h-screen bg-[var(--color-secondary)] flex flex-row items-center justify-start
-    overflow-x-hidden overflow-y-hidden"
+      className="relative w-full h-screen flex items-center justify-start
+                 overflow-x-hidden overflow-y-hidden"
     >
-      <HeroBackground></HeroBackground>
-      {/* Left Side - Text */}
-      <div className="mt-[-3rem] flex-1 max-[1060px]:text-center text-left pl-35 lg:pl-40 remove-padding shrink-con max-[1060px]:flex-none z-10">
-        <HeroHeading />
-        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={0.7}>
-          <p className="shrink-para text-lg mb-10 max-w-lg leading-[2.3rem] tracking-[.06rem]">
-            Hello! I’m <span className="text-white">Michael White</span> (most
-            people call me Julian). I build thoughtful, scalable, and
-            production-ready web apps.
-          </p>
-        </FadeInDirectionalWrapper>
-
-        <FadeInDirectionalWrapper direction="down" delay={2.1} duration={0.7}>
-          <button className="ml-1 px-4 py-5 bg-[var(--color-accent)] text-[var(--color-secondary)] rounded font-semibold text-lg tracking-wide cursor-pointer button button--calypso max-[1060px]:mx-auto max-[1060px]:block">
-            <span>LET'S CONNECT</span>
-            <span>SEND A MESSAGE</span>
-          </button>
-        </FadeInDirectionalWrapper>
-      </div>
-
-      {/* Right Side - Image */}
-      {/* Decorative Hero Image (out of document flow) */}
-
+      {/* ==========================
+          LEFT SIDE: HERO TEXT CONTENT
+      ========================== */}
       <div
-        className="absolute left-1/2 top-1/2 max-[1060px]:hidden
-"
+        className="mt-[-3rem] flex-1 pl-35 lg:pl-45 remove-padding shrink-con
+                      max-[1060px]:flex-none max-[1060px]:text-center text-left z-10"
       >
-        <FadeInDirectionalWrapper direction="right" delay={2.1} duration={0.7}>
-          <HeroCluster />
-        </FadeInDirectionalWrapper>
+        {/* Heading */}
+        <h1 className="text-7xl shrink-heading font-bold mt-15 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
+          <span className="block gradient-text">Full-stack</span>
+
+          <span className="block text-white max-[1060px]:pl-0 pl-4">
+            Developer
+          </span>
+        </h1>
+
+        {/* Animated Hero Text */}
+
+        <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
+
+        {/* Animated CTA Button */}
+
+        <button
+          className="ml-1 px-4 py-5 bg-[var(--color-accent)]
+                             text-[var(--color-secondary)] rounded font-semibold
+                             text-lg tracking-wide cursor-pointer
+                             button button--calypso
+                             max-[1060px]:mx-auto max-[1060px]:block"
+        >
+          <span>LET'S CONNECT</span>
+          <span>SEND A MESSAGE</span>
+        </button>
       </div>
 
-      <div className="absolute bottom-35 left-1/2 -translate-x-1/2 z-20 opacity-40">
-        <FadeInDirectionalWrapper delay={2.1} duration={0.7} direction="down">
-          <ScrollIndicator></ScrollIndicator>
-        </FadeInDirectionalWrapper>
+      {/* ==========================
+          RIGHT SIDE: HERO CLUSTER VISUALS
+      ========================== */}
+      <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
+        <FadeSection>
+          {(scrollYProgress) => (
+            <HeroCluster scrollYProgress={scrollYProgress} />
+          )}
+        </FadeSection>
       </div>
     </section>
   );

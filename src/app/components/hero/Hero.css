@@ -1,0 +1,33 @@
+/* ===============================
+   Hero Heading Styles
+   =============================== */
+
+/* Gradient text styling for first line */
+.gradient-text {
+  display: inline-block;
+
+  background: linear-gradient(90deg, #ff5757, #9e005d);
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Base state for animated text characters */
+.text-anim span {
+  color: inherit;
+  background: none;
+  opacity: 0; /* start hidden */
+
+  /* smooth fade-in (delay is applied inline per letter) */
+  transition:
+    opacity 0.55s ease,
+    filter 0.55s ease;
+}
+
+/* Active animation state (triggered via React state) */
+.text-anim.animate span {
+  opacity: 1; /* reveal letters */
+}

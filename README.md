@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Michael White | Full-Stack Developer
 
-## Getting Started
+## Overview
 
-First, run the development server:
+<!-- High-level description of the project -->
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This portfolio is built with **Next.js** and **React** for a modern, component-driven frontend, enhanced with **Tailwind CSS** for responsive, utility-first styling and **Framer Motion** for smooth animations. Development is powered by **Typescript** for type safety, with ESLint and Prettier ensuring consistent code quality and formatting.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Additional utilities include **clsx** for dynamic class handling and **Lenis** for smooth scrolling. The project leverages standard **Next.js** scripts for development, building, and production deployment.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+This portfolio features a **dynamic hero section** with an animated skill cluster, **animated content reveal** for smooth scrolling through About, Mission, and Process sections, and **scroll enhancements** powered by Lenis combined with **Framer Motion** for refined motion throughout. Floating circles, chevron conveyors, and decorative elements bring the **process visualization** to life, while **micro-interactions** on buttons and links provide subtle tactile feedback. The site is fully **responsive**, ensuring an engaging experience across devices, and is built with **performance** and **accessibility** in mind, delivering a polished and lively digital portfolio.
 
-To learn more about Next.js, take a look at the following resources:
+## Design Philosophy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!-- Your approach to UI/UX and motion -->
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture
 
-## Deploy on Vercel
+The project follows a **feature-driven, component-based architecture** built on top of the **Next.js** App Router. The codebase is organized to separate concerns between **UI, data, styling**, and **global behavior**, making the application **scalable** and **easy to maintain**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architectural Decisions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Feature-based organization**
+  Components are grouped by section (e.g. hero, mission) rather than by type, improving readability and making each section self-contained.
+
+- **Separation of concerns**
+  components/ → UI + interaction logic
+  data/ → static configuration (e.g. skill stack)
+  styles/ → global and animation styling
+  providers/ → app-wide behavior (Lenis scrolling)
+- **Animation abstraction**
+  Reusable wrappers like FadeSection and FadeInDirectionalWrapper encapsulate scroll-based animations, keeping components clean and declarative.
+
+- **Hybrid asset strategy**
+  public/ → static assets referenced by URL (/icons/...)
+  src/app/assets/ → imported SVGs for component-driven rendering
+
+- **Scalable styling approach**
+  Combines **Tailwind CSS** for layout and utility styling with custom CSS for complex animations (e.g. floating elements, conveyors).
+
+## Animations & Interactions
+
+This portfolio leverages **Framer Motion** to create **smooth, interactive animations** across components, including **scroll-based transitions**, **hover micro-interactions**, and **content fade-ins**. **Lenis** is used to implement **seamless, buttery scrolling** that enhances the user experience. In addition, subtle **CSS keyframe animations** provide gentle motion for **decorative elements** such as **floating circles**, **spinning icons**, and **chevron conveyors**, adding **dynamic depth** without compromising **performance**. Together, these techniques ensure the site feels **polished, responsive, and engaging** while keeping interactions **intuitive and lightweight**.
+
+## Challenges & Solutions
+
+<!-- Problems you ran into and how you solved them -->
+
+## Performance Considerations
+
+The portfolio is optimized for **fast load times** and **smooth interactions**. **Images** and **SVGs** are locally hosted and sized for efficiency, while **Tailwind CSS** keeps styles lightweight. **Framer Motion** animations are carefully orchestrated to avoid **jank**, and **Lenis** smooth scrolling ensures consistent **frame rates**. **Code splitting** and **Next.js** built-in optimizations help maintain **minimal bundle** sizes, and **lazy loading** of non-critical assets improves **perceived performance** across devices. Overall, the site balances **rich visuals** and **interactivity** with **speed** and **responsiveness**.
+
+## Future Improvements
+
+Planned improvements include responsive display; enhanced accessibility for keyboard navigation, screen readers, and the visually impaired; day/night mode.
+
+### Getting Started
+
+Clone the repo and run `npm install` then `npm run dev` to start a local development server.
+
+## Deployment
+
+This portfolio is deployed on **Vercel**, providing **instant global hosting, automatic CI/CD**, and seamless integration with **Next.js**. Updates are deployed automatically from the **main branch**, while local development is powered by npm run dev or yarn dev, allowing the site to be previewed at http://localhost:3000 before pushing changes. The deployment workflow ensures that the live site always reflects the **latest tested and stable code**.
+
+## Screenshots / Demo
+
+<!-- Add images or links later -->
+
+## Usage
+
+This project is shared as a **portfolio piece and learning reference**. Feel free to draw inspiration, but please avoid direct copying or redistribution.
