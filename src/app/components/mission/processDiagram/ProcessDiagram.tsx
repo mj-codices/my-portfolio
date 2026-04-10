@@ -21,7 +21,8 @@ export default function ProcessDiagram({
 }: ProcessDiagramProps) {
   const diagramRef = useRef<HTMLDivElement | null>(null);
 
-  // Local scroll progress tied to the diagram itself
+  // Local scroll progress scoped to the diagram
+  // Enables independent timing separate from the main section scroll
   const { scrollYProgress: diagramProgress } = useScroll({
     target: diagramRef,
     offset: ["start end", "end start"], // diagram enters viewport → fully passed
@@ -39,6 +40,7 @@ export default function ProcessDiagram({
     [0, 1, 1, 0.2]
   );
   const dParaYRaw = useTransform(diagramProgress, [0.08, 0.19], [-25, 0]);
+  // Smooths raw scroll-based motion to avoid rigid, linear movement
   const dParaY = useSpring(dParaYRaw, { stiffness: 90, damping: 22 });
 
   const devHeadOpacity = useTransform(

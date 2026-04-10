@@ -1,6 +1,6 @@
 import { motion, MotionValue, Variants } from "framer-motion";
 import { FadeSection } from "../wrappers/FadeSection";
-import logo from "../../assets/aphex.png";
+import logo from "../../assets/images/aphex.png";
 
 type AboutTextProps = {
   headingY: MotionValue<number>; // controls vertical motion of the section heading
@@ -83,7 +83,8 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
                 initial="initial"
                 whileHover="hover"
               >
-                {/* Logo on the LEFT, absolutely positioned relative to this span */}
+                {/* Wrap letters + logo together for a unified hover
+    - Cursor hidden to rely on custom interaction feel */}
                 <motion.img
                   src={logo.src}
                   alt="Logo"
