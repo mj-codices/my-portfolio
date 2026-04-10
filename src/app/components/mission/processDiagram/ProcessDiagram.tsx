@@ -1,40 +1,96 @@
-import { motion, MotionValue } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  MotionValue,
+} from "framer-motion";
+
 import { FadeSection } from "../../wrappers/FadeSection";
 import "./ProcessDiagram.css";
 
 type ProcessDiagramProps = {
-  headingY: MotionValue<number>;
   circleY1: MotionValue<number>;
   circleY2: MotionValue<number>;
 };
 
 export default function ProcessDiagram({
-  headingY,
   circleY1,
   circleY2,
 }: ProcessDiagramProps) {
+  const diagramRef = useRef<HTMLDivElement | null>(null);
+
+  // Local scroll progress tied to the diagram itself
+  const { scrollYProgress: diagramProgress } = useScroll({
+    target: diagramRef,
+    offset: ["start end", "end start"], // diagram enters viewport → fully passed
+  });
+
+  const dHeadOpacity = useTransform(
+    diagramProgress,
+    [0, 0.15, 0.5, 0.75],
+    [0, 1, 1, 0.2]
+  );
+
+  const dParaOpacity = useTransform(
+    diagramProgress,
+    [0.08, 0.19, 0.5, 0.75],
+    [0, 1, 1, 0.2]
+  );
+  const dParaYRaw = useTransform(diagramProgress, [0.08, 0.19], [-25, 0]);
+  const dParaY = useSpring(dParaYRaw, { stiffness: 90, damping: 22 });
+
+  const devHeadOpacity = useTransform(
+    diagramProgress,
+    [0.15, 0.3, 0.6, 0.75],
+    [0, 1, 1, 0.2]
+  );
+  const devParaOpacity = useTransform(
+    diagramProgress,
+    [0.18, 0.3, 0.6, 0.75],
+    [0, 1, 1, 0.2]
+  );
+  const devParaYRaw = useTransform(diagramProgress, [0.18, 0.3], [-25, 0]);
+  const devParaY = useSpring(devParaYRaw, { stiffness: 90, damping: 22 });
+
+  const depHeadOpacity = useTransform(
+    diagramProgress,
+    [0.25, 0.37, 0.6, 0.9],
+    [0, 1, 1, 0.2]
+  );
+  const depParaOpacity = useTransform(
+    diagramProgress,
+    [0.3, 0.34, 0.6, 0.9],
+    [0, 1, 1, 0.2]
+  );
+  const depParaYRaw = useTransform(diagramProgress, [0.3, 0.34], [-25, 0]);
+  const depParaY = useSpring(depParaYRaw, { stiffness: 90, damping: 22 });
   return (
     <motion.div
-      className="relative w-[520px] right-[-1rem] top-50"
-      style={{ y: headingY }}
+      ref={diagramRef}
+      className="relative w-[520px] right-[3rem] top-55"
     >
       {/* ==========================
           BACKGROUND CIRCLES
       ========================== */}
+
       <motion.div
         id="mission-circle-1"
         className="absolute top-10 right-8 w-[145px] h-[145px] rounded-full bg-[#ff5757] opacity-60 z-0"
         style={{ y: circleY1 }}
       />
+
       <motion.div
         id="mission-circle-2"
-        className="absolute top-[-3rem] right-20 -translate-x-95 w-[123px] h-[123px] rounded-full 
+        className="absolute top-[-2rem] right-15 -translate-x-115 w-[130px] h-[123px] rounded-full 
                    bg-gradient-to-br from-[#ff5757] to-[#9e005d] opacity-60 z-0"
         style={{ y: circleY2 }}
       />
+
       <motion.div
         id="mission-circle-3"
-        className="absolute top-78 right-57 w-[60px] h-[60px] rounded-full 
+        className="absolute top-95 right-70 w-[60px] h-[60px] rounded-full 
                    bg-gradient-to-br from-[#000000] to-[#545454] z-15"
       />
 
@@ -44,7 +100,7 @@ export default function ProcessDiagram({
       <div className="absolute inset-0 z-15">
         <FadeSection>
           <div className="relative flex -translate-x-15">
-            <h2 className="pt-8 ml-4 mr-3 uppercase text-3xl font-bold tracking-wider">
+            <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
               <span className="text-[#858383]">my</span> process
             </h2>
             <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
@@ -65,60 +121,70 @@ export default function ProcessDiagram({
               />
             </span>
           </div>
-
-          {/* ==========================
+        </FadeSection>
+        {/* ==========================
               PROCESS PANELS
           ========================== */}
-          <div>
-            <img
-              className="absolute w-30 translate-x-37 translate-y-18"
-              src="/decorations/dotted.svg"
-              alt=""
-            />
-
-            {/* Discovery Panel */}
-            <div className="-translate-x-11 mt-3">
+        <div>
+          <img
+            className="absolute w-43 translate-x-47 translate-y-23"
+            src="/decorations/dotted.svg"
+            alt=""
+          />
+          {/* Discovery Panel */}
+          <div className="-translate-x-11 translate-y-3 mt-3">
+            <motion.div style={{ opacity: dHeadOpacity }}>
               <img
-                className="w-6 ml-[-.2rem] opacity-80"
+                className="w-7 ml-[-.2rem] opacity-80"
                 src="/icons/discovery.svg"
                 alt=""
               />
-              <h3 className="text-base text-white">Discovery</h3>
-              <p className="w-50 pt-1 panel-para leading-4">
-                Defining project goals, user personas, and technical
-                requirements.
-              </p>
-            </div>
-
-            {/* Development Panel */}
-            <div className="translate-x-30 -translate-y-14 mt-3">
+              <h3 className="text-lg text-white">Discovery</h3>
+            </motion.div>
+            <motion.p
+              style={{ opacity: dParaOpacity, y: dParaY }}
+              className="w-50 pt-2 panel-para leading-4"
+            >
+              Defining project goals, user personas, and technical requirements.
+            </motion.p>
+          </div>
+          {/* Development Panel */}
+          <div className="translate-x-50 -translate-y-14 mt-3">
+            <motion.div style={{ opacity: devHeadOpacity }}>
               <img
-                className="w-6 translate-x-43"
+                className="w-8 translate-x-45"
                 src="/icons/panel-code.svg"
                 alt=""
               />
-              <h3 className="text-base text-white text-center -translate-x-16">
+              <h3 className="text-lg text-white text-center -translate-x-27">
                 Development
               </h3>
-              <p className="w-30 pt-1 panel-para leading-4 text-end translate-x-20">
-                Writing clean, scalable code and architectural implementation.
-              </p>
-            </div>
-
-            {/* Deployment Panel */}
-            <div className="translate-x-31 -translate-y-18 mt-3">
+            </motion.div>
+            <motion.p
+              style={{ opacity: devParaOpacity, y: devParaY }}
+              className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
+            >
+              Writing clean, scalable code and architectural implementation.
+            </motion.p>
+          </div>
+          {/* Deployment Panel */}
+          <div className="translate-x-44 -translate-y-12 mt-3">
+            <motion.div style={{ opacity: depHeadOpacity }}>
               <img
-                className="w-5 ml-[-.2rem] pb-2 opacity-80"
+                className="w-7 ml-[-.2rem] pb-2 opacity-80"
                 src="/icons/bolt.svg"
                 alt=""
               />
-              <h3 className="text-base text-white">Deployment</h3>
-              <p className="w-50 pt-1 panel-para leading-4">
-                Cloud delivery, server monitoring, and continuous maintenance.
-              </p>
-            </div>
+              <h3 className="text-lg text-white">Deployment</h3>
+            </motion.div>
+            <motion.p
+              style={{ opacity: depParaOpacity, y: depParaY }}
+              className="w-50 pt-2 panel-para leading-4"
+            >
+              Cloud delivery, server monitoring, and continuous maintenance.
+            </motion.p>
           </div>
-        </FadeSection>
+        </div>
       </div>
 
       {/* ==========================

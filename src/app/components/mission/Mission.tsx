@@ -40,17 +40,17 @@ export default function Mission() {
      - Heading rises into place
      - Paragraphs stagger in with delayed motion
   --------------------------------------------- */
-  const headingY = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const headingY = useTransform(scrollYProgress, [0, 1], [80, 0]);
 
-  const p1Y = useTransform(scrollYProgress, [0.55, 1], [80, 0]); // delayed start
-  const p2Y = useTransform(p2Progress, [0.25, 1], [6, 0]); // tighter, more subtle motion
+  const p1Y = useTransform(scrollYProgress, [0.3, 1], [100, 0]); // delayed start
+  const p2Y = useTransform(p2Progress, [0.3, 1], [10, 0]);
 
   /* ---------------------------------------------
      Process Diagram Animations
      - Floating circles drift upward into position
   --------------------------------------------- */
-  const circleY1 = useTransform(scrollYProgress, [0, 1], [-40, 0]);
-  const circleY2 = useTransform(scrollYProgress, [0.1, 1], [-60, 0]);
+  const circleY1 = useTransform(scrollYProgress, [0, 1], [-80, 0]);
+  const circleY2 = useTransform(scrollYProgress, [0.1, 1], [-30, 0]);
 
   return (
     <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-60">
@@ -62,14 +62,12 @@ export default function Mission() {
       {/* Main content row: text + process diagram */}
       <div className="flex row">
         {/* Left: About text with staggered scroll animations */}
-        <AboutText p1Y={p1Y} p2Y={p2Y} p2Ref={p2Ref} headingY={headingY} />
+        <AboutText p1Y={p1Y} p2Y={p2Y} headingY={headingY} p2Ref={p2Ref} />
 
         {/* Right: Visual process diagram with floating elements */}
-        <ProcessDiagram
-          headingY={headingY}
-          circleY1={circleY1}
-          circleY2={circleY2}
-        />
+        <div className="flex-shrink-0">
+          <ProcessDiagram circleY1={circleY1} circleY2={circleY2} />
+        </div>
       </div>
     </section>
   );
