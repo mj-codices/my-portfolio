@@ -1,10 +1,7 @@
-import HeroHeading from "./heroHeading/HeroHeading";
 import HeroText from "./HeroText";
 import HeroCluster from "./heroCluster/HeroCluster";
-
-import FadeInDirectionalWrapper from "../wrappers/FadeInDirectionalWrapper";
+import "./Hero.css";
 import { FadeSection } from "../wrappers/FadeSection";
-
 import { MotionValue, useTransform } from "framer-motion";
 import "../../styles/components/button.css";
 
@@ -33,39 +30,41 @@ export default function Hero({ scrollYProgress }: HeroProps) {
                       max-[1060px]:flex-none max-[1060px]:text-center text-left z-10"
       >
         {/* Heading */}
-        <HeroHeading />
+        <h1 className="text-7xl shrink-heading font-bold mt-15 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
+          <span className="block gradient-text">Full-stack</span>
+
+          <span className="block text-white max-[1060px]:pl-0 pl-4">
+            Developer
+          </span>
+        </h1>
 
         {/* Animated Hero Text */}
-        <FadeInDirectionalWrapper direction="up" delay={2.1} duration={0.7}>
-          <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
-        </FadeInDirectionalWrapper>
+
+        <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
 
         {/* Animated CTA Button */}
-        <FadeInDirectionalWrapper direction="down" delay={2.1} duration={0.7}>
-          <button
-            className="ml-1 px-4 py-5 bg-[var(--color-accent)]
+
+        <button
+          className="ml-1 px-4 py-5 bg-[var(--color-accent)]
                              text-[var(--color-secondary)] rounded font-semibold
                              text-lg tracking-wide cursor-pointer
                              button button--calypso
                              max-[1060px]:mx-auto max-[1060px]:block"
-          >
-            <span>LET'S CONNECT</span>
-            <span>SEND A MESSAGE</span>
-          </button>
-        </FadeInDirectionalWrapper>
+        >
+          <span>LET'S CONNECT</span>
+          <span>SEND A MESSAGE</span>
+        </button>
       </div>
 
       {/* ==========================
           RIGHT SIDE: HERO CLUSTER VISUALS
       ========================== */}
       <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
-        <FadeInDirectionalWrapper direction="right" delay={2.1} duration={0.7}>
-          <FadeSection>
-            {(scrollYProgress) => (
-              <HeroCluster scrollYProgress={scrollYProgress} />
-            )}
-          </FadeSection>
-        </FadeInDirectionalWrapper>
+        <FadeSection>
+          {(scrollYProgress) => (
+            <HeroCluster scrollYProgress={scrollYProgress} />
+          )}
+        </FadeSection>
       </div>
     </section>
   );

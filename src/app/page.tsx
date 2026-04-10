@@ -6,7 +6,6 @@ import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
-import FadeInDirectionalWrapper from "./components/wrappers/FadeInDirectionalWrapper";
 import { FadeSection } from "./components/wrappers/FadeSection";
 
 // Home page orchestrates scroll-driven storytelling between sections.
@@ -41,7 +40,7 @@ export default function Home() {
       {
         root: null, // viewport
         threshold: 0.2, // Trigger when ~20% of Mission is visible
-      },
+      }
     );
 
     observer.observe(missionRef.current);
@@ -70,9 +69,7 @@ export default function Home() {
             showIndicator ? "opacity-30" : "opacity-0"
           }`}
         >
-          <FadeInDirectionalWrapper delay={2.1} duration={0.7} direction="down">
-            <ScrollIndicator></ScrollIndicator>
-          </FadeInDirectionalWrapper>
+          <ScrollIndicator></ScrollIndicator>
         </div>
       </div>
       {/* Mission section (used as trigger point for scroll indicator visibility) */}

@@ -42,7 +42,7 @@ export default function SkillStack({}) {
   return (
     <section ref={ref} className="w-[150vw] px-50">
       {/* Section heading */}
-      <motion.div style={{ opacity, y }} className="rela tive flex">
+      <motion.div style={{ opacity, y }} className="relative flex">
         <img
           className="spin-slow w-12 h-auto mr-9 -translate-y-5"
           src={"/decorations/aster.svg"}

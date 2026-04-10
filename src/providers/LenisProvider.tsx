@@ -18,8 +18,8 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Initialize Lenis with custom scroll physics
     const lenis = new Lenis({
-      duration: 1.1, // Higher = slower, smoother scroll
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential ease-out
+      duration: 1, // Higher = slower, smoother scroll
+      easing: (t) => 1 - Math.pow(1 - t, 2),
       smoothWheel: true, // enables smoothing for mouse wheel input
     });
 
