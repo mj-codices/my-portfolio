@@ -45,7 +45,7 @@ export default function Hero({ scrollYProgress }: HeroProps) {
         {/* Animated CTA Button */}
 
         <button
-          className="ml-1 px-4 py-5 bg-[var(--color-accent)]
+          className="ml-1 px-3 py-5 bg-[var(--color-accent)]
                              text-[var(--color-secondary)] rounded font-semibold
                              text-lg tracking-wide cursor-pointer
                              button button--calypso

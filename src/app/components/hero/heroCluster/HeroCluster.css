@@ -289,3 +289,12 @@
 
 /* Foreground motion (kept separate for control) */
 /* NOTE: These are intentionally unique per element for organic motion */
+
+.reactGlow {
+  position: absolute;
+  border-radius: 20px;
+  box-shadow:
+    0 0 40px rgba(100, 175, 255, 0.093),
+    0 0 90px rgba(100, 183, 255, 0.152);
+}
+

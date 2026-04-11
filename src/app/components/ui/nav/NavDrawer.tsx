@@ -40,6 +40,18 @@ const itemVariants = {
   },
 };
 
+const floatVariants = {
+  float: (i: number) => ({
+    y: [0, -4, 0],
+    x: [0, i % 2 === 0 ? 2 : -2, 0],
+    transition: {
+      duration: 3.5 + i * 0.6,
+      repeat: Infinity,
+      ease: "easeInOut" as const,
+    },
+  }),
+};
+
 // ------------------------------
 // Props for NavDrawer
 // ------------------------------
@@ -52,7 +64,6 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <div>
-      
       {/* --------------------------
           Overlay behind drawer
           -------------------------- */}
@@ -77,7 +88,6 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           ease: "easeOut",
         }}
       >
-
         {/* --------------------------
             Large background circle
             -------------------------- */}
@@ -113,47 +123,56 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
               >
-
                 {/* Circle and hover arrow */}
                 <motion.div
-                  className="flex items-center justify-center relative"
-                  animate={{
-                    scale: hoveredIndex === i ? 1.7 : 1, // pop circle on hover
+                  className="relative flex items-center justify-center"
+                  custom={i}
+                  variants={{
+                    float: floatVariants.float(i),
                   }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 620,
-                    damping: 26,
-                    mass: 0.7,
-                  }}
+                  animate="float"
                 >
-                  <Image
-                    src={"/ui/nav/navCircle.svg"}
-                    width={20}
-                    height={20}
-                    alt="circle"
-                  ></Image>
-
+                  {/* HOVER WRAPPER (only scale happens here) */}
                   <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    initial={{ opacity: 0, scale: 0.5 }} // hidden by default
+                    className="relative flex items-center justify-center"
                     animate={{
-                      opacity: hoveredIndex === i ? 1 : 0, // fade in on hover
-                      scale: hoveredIndex === i ? 1 : 0.5, // pop to full size
+                      scale: hoveredIndex === i ? 1.7 : 1,
                     }}
                     transition={{
                       type: "spring",
-                      stiffness: 500,
-                      damping: 20,
+                      stiffness: 620,
+                      damping: 26,
                     }}
                   >
+                    {/* Circle */}
                     <Image
-                      src="/icons/arrow.svg"
-                      width={8}
-                      height={8}
-                      alt="arrow"
-                      className="absolute rotate-320"
+                      src={"/ui/nav/navCircle.svg"}
+                      width={20}
+                      height={20}
+                      alt="circle"
                     />
+
+                    {/* Arrow */}
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center"
+                      animate={{
+                        opacity: hoveredIndex === i ? 1 : 0,
+                        scale: hoveredIndex === i ? 1 : 0.5,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 20,
+                      }}
+                    >
+                      <Image
+                        src="/icons/arrow.svg"
+                        width={8}
+                        height={8}
+                        alt="arrow"
+                        className="rotate-320"
+                      />
+                    </motion.div>
                   </motion.div>
                 </motion.div>
                 {label}

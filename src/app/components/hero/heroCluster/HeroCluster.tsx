@@ -18,7 +18,6 @@ interface HeroClusterProps {
 // - Different motion ranges create depth (parallax-like effect)
 // ---------------------------
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
-
   // ---------------------------
   // Scroll-driven spacing (primary motion)
   // Used for larger, more noticeable elements
@@ -26,14 +25,10 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   const pushSpace = useTransform(
     scrollYProgress,
     [0.75, 0.95], // begin movement near end of hero scroll
-    [0, 40],
+    [0, 40]
   );
 
-  const pushSpaceBtm = useTransform(
-    scrollYProgress,
-    [0.75, 0.95],
-    [0, 55],
-  );
+  const pushSpaceBtm = useTransform(scrollYProgress, [0.75, 0.95], [0, 55]);
 
   // ---------------------------
   // Secondary motion (subtle / smaller elements)
@@ -44,7 +39,6 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
 
   return (
     <div className="flex relative mx-25">
-
       {/* ---------------------------
           Background decorative shapes (blurred)
           --------------------------- */}
@@ -58,9 +52,14 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       {/* Git icon tile */}
       <div
         id="square-3"
-        className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
+        className="gitGlow z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
       >
-        <Image width={70} height={70} src={"/decorations/git.svg"} alt="git icon" />
+        <Image
+          width={70}
+          height={70}
+          src={"/decorations/git.svg"}
+          alt="git icon"
+        />
       </div>
 
       {/* VS Code tile (scroll-reactive) */}
@@ -90,26 +89,28 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       </div>
 
       {/* React tile (larger focal element) */}
-      <div
-        id="square-6"
-        className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
-      >
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
-        <Image
-          src={"/decorations/react.svg"}
-          width={130}
-          height={130}
-          alt="react logo"
-        />
+      <div className="">
+        <div
+          id="square-6"
+          className="reactGlow z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
+        >
+          <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
+          <Image
+            src={"/decorations/react.svg"}
+            width={130}
+            height={130}
+            alt="react logo"
+          />
+        </div>
       </div>
 
       {/* Small interactive tile (faster motion) */}
       <motion.div
         id="square-2"
-        className="z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/7 p-2"
+        className="opacity-90 z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/10 p-2"
         style={{
           marginTop: pushSpaceShort,
-          marginBottom: pushSpaceBtmShort
+          marginBottom: pushSpaceBtmShort,
         }}
       >
         <Image
