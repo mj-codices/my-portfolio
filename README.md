@@ -2,7 +2,13 @@
 
 ## Overview
 
-<!-- High-level description of the project -->
+A modern, interactive portfolio and business website designed to showcase **design sensibility**, **frontend engineering skill**, and a focus on **thoughtful user experience**.
+
+Built with a strong emphasis on **motion design**, **component architecture**, and **maintainable structure**, the project balances **visual polish** with **clean, scalable code**.
+
+## Live Demo
+
+<!-- Site URL goes here -->
 
 ## Tech Stack
 
@@ -16,7 +22,13 @@ This portfolio features a **dynamic hero section** with an animated skill cluste
 
 ## Design Philosophy
 
-<!-- Your approach to UI/UX and motion -->
+This project begins with a simple question: who is this site for, and what is its purpose?
+
+The goal is to appeal to both recruiters and small business clients—an audience that values professionalism, clarity, and a strong sense of identity. With that in mind, the design balances distinct visual style with broad usability, ensuring the site feels memorable without limiting its appeal.
+
+The visual direction is built around soft gradients, layered glass panels, subtle depth, and intentional motion. These elements work together to create a modern, refined interface that emphasizes clarity, hierarchy, and user flow.
+
+Rather than relying on excessive animation or visual noise, the experience is guided by restraint—using motion and styling purposefully to support content, not distract from it.
 
 ## Architecture
 
@@ -66,10 +78,16 @@ Clone the repo and run `npm install` then `npm run dev` to start a local develop
 
 This portfolio is deployed on **Vercel**, providing **instant global hosting, automatic CI/CD**, and seamless integration with **Next.js**. Updates are deployed automatically from the **main branch**, while local development is powered by npm run dev or yarn dev, allowing the site to be previewed at http://localhost:3000 before pushing changes. The deployment workflow ensures that the live site always reflects the **latest tested and stable code**.
 
-## Screenshots / Demo
+## Screenshots
 
 <!-- Add images or links later -->
 
-## Usage
+## Contact
+
+If you're interested in working together or have questions:
+
+- Email: mjwhite.dev@gmail.com
+
+## License
 
 This project is shared as a **portfolio piece and learning reference**. Feel free to draw inspiration, but please avoid direct copying or redistribution.
