@@ -22,13 +22,15 @@ This portfolio features a **dynamic hero section** with an animated skill cluste
 
 ## Design Philosophy
 
-This project begins with a simple question: who is this site for, and what is its purpose?
+The goal of this site is to appeal to both **recruiters** and **small business clients**—an audience that values **professionalism, clarity, and a strong sense of identity**. With that in mind, the design balances distinct **visual style** with **broad usability**, ensuring the site feels **memorable without limiting its appeal**.
 
-The goal is to appeal to both recruiters and small business clients—an audience that values professionalism, clarity, and a strong sense of identity. With that in mind, the design balances distinct visual style with broad usability, ensuring the site feels memorable without limiting its appeal.
+The visual direction is built around **soft gradients**, **layered glass panels**, **subtle depth**, and **intentional motion**. These elements work together to create a modern, refined interface that emphasizes **clarity, hierarchy, and user flow**.
 
-The visual direction is built around soft gradients, layered glass panels, subtle depth, and intentional motion. These elements work together to create a modern, refined interface that emphasizes clarity, hierarchy, and user flow.
+Rather than relying on excessive animation or visual noise, the experience is guided by **restraint**—using motion and styling purposefully to **support content, not distract from it**.
 
-Rather than relying on excessive animation or visual noise, the experience is guided by restraint—using motion and styling purposefully to support content, not distract from it.
+The interface is designed to feel **cohesive** as users move through the site. Elements introduced early—such as the glass-based icon clusters in the hero section—**reappear and evolve** in later sections, including the skill stack. This creates a sense of **continuity and progression**, where visual motifs are not isolated, but part of a **larger system**.
+
+Rather than treating each section as independent, the experience is structured to **build on itself**, using **repetition and variation** to guide the user and reinforce a **unified design language**.
 
 ## Architecture
 
