@@ -18,6 +18,10 @@ const listVariants = {
   },
 };
 
+// ------------------------------
+// Individual nav item entrance animation
+// Handles slide-in + fade-in on drawer open
+// ------------------------------
 const itemVariants = {
   hidden: {
     opacity: 0,
@@ -40,14 +44,21 @@ const itemVariants = {
   },
 };
 
+// ------------------------------
+// FLOAT animation (idle motion)
+// IMPORTANT:
+// - Runs independently from hover interactions
+// - Uses index (i) to desync each circle (prevents uniform motion)
+// - Must use `as const` for TS easing type
+// ----------------
 const floatVariants = {
   float: (i: number) => ({
-    y: [0, -4, 0],
-    x: [0, i % 2 === 0 ? 2 : -2, 0],
+    y: [0, -4, 0], // gentle up/down motion
+    x: [0, i % 2 === 0 ? 2 : -2, 0], // alternate slight horizontal drift
     transition: {
-      duration: 3.5 + i * 0.6,
+      duration: 3.5 + i * 0.6, // offset timing per item (prevents sync)
       repeat: Infinity,
-      ease: "easeInOut" as const,
+      ease: "easeInOut" as const, // TS requires explicit easing type
     },
   }),
 };
@@ -61,6 +72,8 @@ type DrawerProps = {
 };
 
 export function NavDrawer({ open, onClose }: DrawerProps) {
+  // Tracks which nav item is hovered
+  // Used to sync hover effects between text + circle + arrow
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <div>
@@ -123,7 +136,12 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
               >
-                {/* Circle and hover arrow */}
+                {/* --------------------------
+                    FLOAT LAYER (position only)
+                    --------------------------
+                    This layer ONLY handles drifting motion.
+                    It should NOT control scale (important separation of concerns).
+                */}
                 <motion.div
                   className="relative flex items-center justify-center"
                   custom={i}
@@ -132,7 +150,14 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                   }}
                   animate="float"
                 >
-                  {/* HOVER WRAPPER (only scale happens here) */}
+                  {/* --------------------------
+                      HOVER LAYER (scale only)
+                      --------------------------
+                      This ensures:
+                      - Hover works when hovering TEXT or CIRCLE
+                      - Arrow + circle scale together
+                      - No conflict with float animation
+                  */}
                   <motion.div
                     className="relative flex items-center justify-center"
                     animate={{

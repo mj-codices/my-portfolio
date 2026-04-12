@@ -1,11 +1,4 @@
-import {
-  motion,
-  useTransform,
-  useScroll,
-  spring,
-  animate,
-} from "framer-motion";
-import { useMotionValue } from "framer-motion";
+import { motion, useTransform, useScroll } from "framer-motion";
 import { useRef } from "react";
 import SkillTile from "./SkillTile";
 import { skillStack } from "../../data/skillStack";
@@ -74,12 +67,12 @@ export default function SkillStack({}) {
           const titleRaw = useTransform(
             globalScroll,
             [titleStart, titleEnd],
-            [0, 1],
+            [0, 1]
           );
 
           const titleEased = useTransform(
             titleRaw,
-            (v) => 1 - Math.pow(1 - v, 5),
+            (v) => 1 - Math.pow(1 - v, 5)
           );
 
           const titleY = useTransform(titleEased, [0, 1], [30, 0]);
@@ -112,12 +105,12 @@ export default function SkillStack({}) {
                     const raw = useTransform(
                       globalScroll,
                       [start, end],
-                      [0, 1],
+                      [0, 1]
                     );
 
                     const eased = useTransform(
                       raw,
-                      (v) => 1 - Math.pow(1 - v, 7),
+                      (v) => 1 - Math.pow(1 - v, 7)
                     );
 
                     const tileY = useTransform(eased, [0, 1], [30, 0]);
