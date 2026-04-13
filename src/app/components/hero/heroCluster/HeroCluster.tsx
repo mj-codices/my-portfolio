@@ -108,10 +108,6 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       <motion.div
         id="square-2"
         className="opacity-90 z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/10 p-2"
-        style={{
-          marginTop: pushSpaceShort,
-          marginBottom: pushSpaceBtmShort,
-        }}
       >
         <Image
           src={"/decorations/play.svg"}

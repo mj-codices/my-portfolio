@@ -90,11 +90,7 @@
   transform: translateX(var(--x)) translateY(var(--y)) rotate(var(--r))
     scale(var(--s));
 
-  animation:
-    squareFloatY 16s ease-in-out infinite,
-    squareFloatX 24s ease-in-out infinite,
-    squareSway 18s ease-in-out infinite,
-    squareBreathe 13s ease-in-out infinite;
+  animation: squareFloatY 16s ease-in-out infinite;
 
   animation-delay:
     -6s,
@@ -110,11 +106,7 @@
   transform: translateX(var(--px)) translateY(var(--py)) rotate(var(--pr))
     scale(var(--ps));
 
-  animation:
-    playFloatY 5.5s ease-in-out infinite,
-    playFloatX 8s ease-in-out infinite,
-    playBreathe 3s ease-in-out infinite,
-    playSway 9.5s ease-in-out infinite;
+  animation: squareFloatY-smooth 5.5s ease-in-out infinite;
 
   animation-delay:
     -2s,
@@ -130,10 +122,7 @@
    Independent animations + subtle 3D transforms
 ========================================================= */
 
-#square-3,
-#square-4,
-#square-5,
-#square-6 {
+#square-5 {
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
   will-change: transform;
 }
@@ -142,14 +131,14 @@
 
 #square-3 {
   animation:
-    fgFloat3 17s ease-in-out infinite,
-    fgFloatX3 11s ease-in-out infinite,
-    fgSway3 15s ease-in-out infinite,
-    fgBreathe3 9s ease-in-out infinite;
+    fgFloatY 9.5s ease-in-out infinite,
+    fgFloatX 14s ease-in-out infinite,
+    fgSway 12s ease-in-out infinite,
+    fgBreathe 7s ease-in-out infinite;
 
   animation-delay:
     -2s,
-    -5s,
+    -6s,
     -3s,
     -1s;
 
@@ -162,21 +151,35 @@
 
 #square-4 {
   animation:
-    fgFloat4 14s ease-in-out infinite,
-    fgFloatX4 12s ease-in-out infinite,
-    fgSway4 16s ease-in-out infinite,
-    fgBreathe4 10s ease-in-out infinite;
+    fgFloatY 7.5s ease-in-out infinite,
+    fgFloatX 11s ease-in-out infinite,
+    fgSway 10s ease-in-out infinite,
+    fgBreathe 6s ease-in-out infinite;
 
   animation-delay:
-    -8s,
-    -3s,
-    -6s,
-    -2s;
+    -5s,
+    -2s,
+    -4s,
+    -1s;
 
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
     rotateX(20deg) rotateY(-8deg) rotateZ(5deg);
   transform-style: preserve-3d;
   perspective: 600px;
+}
+
+#square-5 {
+  animation:
+    fgFloatY 8.5s ease-in-out infinite,
+    fgFloatX 13s ease-in-out infinite,
+    fgSway 11s ease-in-out infinite,
+    fgBreathe 6.5s ease-in-out infinite;
+
+  animation-delay:
+    -3s,
+    -7s,
+    -2s,
+    -4s;
 }
 
 /* (square-5 and square-6 follow same pattern...) */
@@ -207,17 +210,6 @@
   }
 }
 
-/* Scale breathing */
-@keyframes breathe {
-  0%,
-  100% {
-    --s: 1;
-  }
-  50% {
-    --s: 1.04;
-  }
-}
-
 /* Softer variants for variation */
 @keyframes floatY-soft {
   0%,
@@ -239,16 +231,6 @@
   }
 }
 
-@keyframes breathe-soft {
-  0%,
-  100% {
-    --s: 1;
-  }
-  50% {
-    --s: 1.025;
-  }
-}
-
 /* Square motion */
 @keyframes squareFloatY {
   0%,
@@ -259,6 +241,7 @@
     --y: -8px;
   }
 }
+
 @keyframes squareFloatX {
   0%,
   100% {
@@ -268,22 +251,58 @@
     --x: 6px;
   }
 }
-@keyframes squareSway {
+
+@keyframes squareFloatY-smooth {
   0%,
   100% {
-    --r: -10deg;
+    --py: 0px;
   }
   50% {
-    --r: 10deg;
+    --py: -10px;
   }
 }
-@keyframes squareBreathe {
+
+/* Foreground Y float (main motion) */
+@keyframes fgFloatY {
   0%,
   100% {
-    --s: 1;
+    --py: 0px;
   }
   50% {
-    --s: 1.015;
+    --py: -12px;
+  }
+}
+
+/* Subtle horizontal drift */
+@keyframes fgFloatX {
+  0%,
+  100% {
+    --px: 0px;
+  }
+  50% {
+    --px: 6px;
+  }
+}
+
+/* Gentle breathing */
+@keyframes fgBreathe {
+  0%,
+  100% {
+    --ps: 1;
+  }
+  50% {
+    --ps: 1.025;
+  }
+}
+
+/* Subtle rotation sway */
+@keyframes fgSway {
+  0%,
+  100% {
+    --pr: -2deg;
+  }
+  50% {
+    --pr: 2deg;
   }
 }
 
@@ -292,9 +311,8 @@
 
 .reactGlow {
   position: absolute;
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow:
     0 0 40px rgba(100, 175, 255, 0.093),
     0 0 90px rgba(100, 183, 255, 0.152);
 }
-

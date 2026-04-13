@@ -38,7 +38,7 @@ const itemVariants = {
         mass: 0.8,
       },
       opacity: {
-        duration: 0.18,
+        duration: 0.25,
       },
     },
   },
