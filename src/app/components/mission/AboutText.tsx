@@ -117,7 +117,7 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
                 ))}
               </motion.span>
               , cheering for my hometown Lakers, or camping along the Pacific
-              Coast...
+              Coast with my wife, our dog, and our old VW wagon. 
             </p>
           </motion.div>
         </FadeSection>

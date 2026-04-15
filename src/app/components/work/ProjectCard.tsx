@@ -1,6 +1,6 @@
 import "./ProjectCard.css";
 
-export default function Project(){
+export default function ProjectCard(){
     return (
         <div>
 

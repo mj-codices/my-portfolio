@@ -44,8 +44,8 @@ export default function Menu({ open, onToggle }: MenuProps) {
               x2="100"
               y2="0"
             >
-              {/* <stop offset="20%" stopColor="#191919" /> */}
-              <stop offset="100%" stopColor="#545454" />
+              
+              <stop offset="100%" stopColor="white" />
             </linearGradient>
           </defs>
 

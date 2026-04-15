@@ -1,7 +1,8 @@
 "use client";
-
+import { useRef } from "react";
 import ProjectCard from "./ProjectCard";
 import { motion, useTransform, useScroll } from "framer-motion";
+
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -16,5 +17,15 @@ const fadeUp = {
 };
 
 export default function WorkCited() {
-  return <ProjectCard />;
+  const ref = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+  target: ref,
+  offset: ["start end", "end start"],
+});
+  return (
+    <div ref={ref} className="w-full h-[500px]">
+      <ProjectCard />
+    </div>
+  );
 }
