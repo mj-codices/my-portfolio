@@ -63,7 +63,7 @@ export default function ProcessDiagram({
   );
   const depParaOpacity = useTransform(
     diagramProgress,
-    [0.3, 0.34, 0.6, 0.9],
+    [0.29, 0.42, 0.75, 0.9],
     [0, 1, 1, 0.2]
   );
   const depParaYRaw = useTransform(diagramProgress, [0.3, 0.34], [-25, 0]);

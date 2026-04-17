@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { motion, MotionValue, useTransform } from "framer-motion";
+import { useTime, motion, MotionValue, useTransform } from "framer-motion";
 import "./HeroCluster.css";
 
 interface HeroClusterProps {
@@ -36,6 +36,29 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   // ---------------------------
   const pushSpaceShort = useTransform(scrollYProgress, [0, 1], [-30, 0]);
   const pushSpaceBtmShort = useTransform(scrollYProgress, [0, 1], [-40, 0]);
+
+  const time = useTime();
+
+  // create a looping 0 → 1 → 0 wave
+  const progress = useTransform(time, (t) => {
+    const cycle = (t / 3740) % 1;
+    return Math.pow(Math.sin(cycle * Math.PI), 1.5);
+  });
+
+  const iconOpacity = useTransform(progress, [0, 1], [1, 0.75]);
+
+  const glow = useTransform(progress, (v) => {
+    const inner = 80 - 40 * v;
+    const outer = 140 - 90 * v;
+
+    const alpha1 = 0.093 - 0.05 * v;
+    const alpha2 = 0.152 - 0.07 * v;
+
+    return `0 0 ${inner}px rgba(100,175,255,${alpha1}),
+          0 0 ${outer}px rgba(100,183,255,${alpha2})`;
+  });
+
+  const iconScale = useTransform(progress, [0, 1], [1.03, 1]);
 
   return (
     <div className="flex relative mx-25">
@@ -90,24 +113,30 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
 
       {/* React tile (larger focal element) */}
       <div className="">
-        <div
+        <motion.div
           id="square-6"
-          className="reactGlow z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
+          className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
+          style={{ boxShadow: glow, scale: iconScale }}
         >
+          {/* keep your mask as-is */}
           <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
-          <Image
-            src={"/decorations/react.svg"}
-            width={130}
-            height={130}
-            alt="react logo"
-          />
-        </div>
+
+          {/* ✅ animate THIS instead */}
+          <motion.div style={{ opacity: iconOpacity }}>
+            <Image
+              src={"/decorations/react.svg"}
+              width={130}
+              height={130}
+              alt="react logo"
+            />
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Small interactive tile (faster motion) */}
       <motion.div
         id="square-2"
-        className="opacity-90 z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/10 p-2"
+        className="z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/10 p-2"
       >
         <Image
           src={"/decorations/play.svg"}
@@ -120,7 +149,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       {/* Code tile with gradient mask */}
       <motion.div
         id="square-5"
-        className="z-15 absolute bottom-5 left-80 w-[80px] h-[80px] bg-[#32322b44] backdrop-blur-md rounded-xl rotate-350 border-solid border-[1px] border-white/4 p-3 overflow-hidden"
+        className="z-15 absolute bottom-5 left-80 w-[80px] h-[80px] bg-[#32322b44] backdrop-blur-md rounded-xl rotate-350 border-solid border-[1px] border-white/4 p-3 overflow-hidden opacity-80"
         style={{
           marginTop: pushSpace,
           marginBottom: pushSpaceBtm,
@@ -138,7 +167,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
             [-webkit-mask-size:contain]
           "
         />
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
+        {/* <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" /> */}
       </motion.div>
 
       {/* Background accent circle */}

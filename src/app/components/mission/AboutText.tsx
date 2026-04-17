@@ -75,7 +75,7 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
           --------------------------------------------- */}
         <FadeSection>
           <motion.div style={{ y: p2Y }} ref={p2Ref} className="relative">
-            <p className="text-lg w-148 leading-11 ml-7 tracking-wide opacity-85">
+            <p className="text-lg w-148 leading-11 ml-7 tracking-wide opacity-85 translate-y-[-.5rem]">
               When I’m not pushing pixels, you can find me jamming to{" "}
               {/* Wrap letters + logo together for a unified hover */}
               <motion.span

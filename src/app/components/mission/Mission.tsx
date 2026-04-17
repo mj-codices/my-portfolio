@@ -33,7 +33,7 @@ export default function Mission() {
      Mission Statement Animation
      - Subtle upward compression of the divider line
   --------------------------------------------- */
-  const pushUp = useTransform(scrollYProgress, [0, 1], [100, 60]);
+  const pushUp = useTransform(scrollYProgress, [0, 1], [100, 30]);
 
   /* ---------------------------------------------
      About Section Animations
@@ -43,7 +43,7 @@ export default function Mission() {
   const headingY = useTransform(scrollYProgress, [0, 1], [80, 0]);
 
   const p1Y = useTransform(scrollYProgress, [0.3, 1], [100, 0]); // delayed start
-  const p2Y = useTransform(p2Progress, [0.3, 1], [10, 0]);
+  const p2Y = useTransform(p2Progress, [0.15, 3], [20, 0]);
 
   /* ---------------------------------------------
      Process Diagram Animations

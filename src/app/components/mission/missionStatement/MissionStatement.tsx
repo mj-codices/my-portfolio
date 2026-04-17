@@ -14,7 +14,7 @@ export default function MissionStatement({ pushUp }: MissionStatementProps) {
           - Gradient text using bg-clip-text + text-transparent
           - Large red dot at the end for visual emphasis
       --------------------------------------------- */}
-      <p className="mission-text text-center leading-[58px] bg-gradient-to-b from-[#ffff] to-[#b4b4b4] bg-clip-text text-transparent">
+      <p className="-translate-y-10 mission-text text-center leading-[58px] bg-gradient-to-b from-[#ffff] to-[#b4b4b4] bg-clip-text text-transparent">
         My mission is to craft pixel-perfect web experiences where clarity in
         design and strength in architecture unite to create lasting, meaningful
         digital products

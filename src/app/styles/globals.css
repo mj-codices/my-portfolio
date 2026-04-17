@@ -57,7 +57,7 @@ body {
 .animated-bg {
   position: absolute;
   pointer-events: none; /* Background should not block clicks */
-  background: radial-gradient(circle, #191919 0%, #090a0f 100%);
+  background: radial-gradient(circle, #191919 0%, #07080d 100%);
   overflow: hidden;
   z-index: 0;
   inset: 0;
