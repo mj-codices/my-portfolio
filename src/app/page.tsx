@@ -7,6 +7,7 @@ import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
 import { FadeSection } from "./components/wrappers/FadeSection";
+import SelectedWork from "./components/work/SelectedWork";
 
 // Home page orchestrates scroll-driven storytelling between sections.
 // Controls:
@@ -81,6 +82,9 @@ export default function Home() {
       {/* SkillStack section (independent scroll animation system) */}
       <div>
         <SkillStack />
+      </div>
+      <div>
+        <SelectedWork />
       </div>
     </div>
   );

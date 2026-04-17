@@ -52,7 +52,7 @@ export default function Hero({ scrollYProgress }: HeroProps) {
                              max-[1060px]:mx-auto max-[1060px]:block"
         >
           <span>LET'S CONNECT</span>
-          <span>SEND A MESSAGE</span>
+          <span className="text-base">START THE CONVERSATION</span>
         </button>
       </div>
 

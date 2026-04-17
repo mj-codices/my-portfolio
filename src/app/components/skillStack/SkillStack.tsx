@@ -5,7 +5,7 @@ import { skillStack } from "../../data/skillStack";
 
 export default function SkillStack({}) {
   const ref = useRef(null);
-
+  const globalDelay = 0.08; // tweak this
   // Track scroll progress relative to this section
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -47,7 +47,7 @@ export default function SkillStack({}) {
       <div className="flex flex-col gap-25">
         {sections.map((section, sectionIndex) => {
           // Compute when this section's animations start
-          const sectionGap = 0.04; // breathing room between sections
+          const sectionGap = 0.02; // breathing room between sections
 
           const tilesBefore = sections
             .slice(0, sectionIndex)
@@ -55,14 +55,15 @@ export default function SkillStack({}) {
 
           const sectionStart =
             tileStartBase +
+            globalDelay +
             tilesBefore * staggerStep +
             sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
 
-          const titleDelay = 0.04 + sectionIndex * 0.005;
+          const titleDelay = 0.015 + sectionIndex * 0.005;
 
           // Animate section title opacity + vertical slide
           const titleStart = sectionStart + titleDelay;
-          const titleEnd = titleStart + 0.04;
+          const titleEnd = titleStart + 0.1;
 
           const titleRaw = useTransform(
             globalScroll,
@@ -93,7 +94,7 @@ export default function SkillStack({}) {
                 >
                   {section.data.map((skill, index) => {
                     // Calculate start + end for tile animation
-                    const tileDelay = 0.05; // delay after title
+                    const tileDelay = 0.02; // delay after title
                     const start =
                       sectionStart +
                       titleDelay +
@@ -110,7 +111,7 @@ export default function SkillStack({}) {
 
                     const eased = useTransform(
                       raw,
-                      (v) => 1 - Math.pow(1 - v, 7)
+                      (v) => 1 - Math.pow(1 - v, 3)
                     );
 
                     const tileY = useTransform(eased, [0, 1], [30, 0]);
@@ -135,7 +136,7 @@ export default function SkillStack({}) {
         })}
       </div>
       {/* Spacer to allow scrolling */}
-      <div className="h-[500px] w-full"></div>
+      <div className="h-[250px] w-full"></div>
     </section>
   );
 }
