@@ -5,7 +5,7 @@ import { skillStack } from "../../data/skillStack";
 
 export default function SkillStack({}) {
   const ref = useRef(null);
-  const globalDelay = 0.08; // tweak this
+  const globalDelay = 0.05; // tweak this
   // Track scroll progress relative to this section
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -14,7 +14,7 @@ export default function SkillStack({}) {
 
   // Basic fade + vertical slide for the section heading
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
 
   // Global page scroll to stagger individual tiles
   const { scrollYProgress: globalScroll } = useScroll(); // entire page scroll
@@ -59,7 +59,7 @@ export default function SkillStack({}) {
             tilesBefore * staggerStep +
             sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
 
-          const titleDelay = 0.015 + sectionIndex * 0.005;
+          const titleDelay = 0.002 + sectionIndex * 0.005;
 
           // Animate section title opacity + vertical slide
           const titleStart = sectionStart + titleDelay;
