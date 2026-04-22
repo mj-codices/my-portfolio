@@ -25,7 +25,7 @@ export default function WorkCited() {
                     - Includes decorative spinning icon
                 --------------------------------------------- */}
         <motion.div
-          className="relative flex -translate-x-15 mb-8"
+          className="relative flex -translate-x-15 mb-4"
           // style={{ y: headingY }}
         >
           <img
