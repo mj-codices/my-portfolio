@@ -1,4 +1,4 @@
-import { useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
 import MissionStatement from "./missionStatement/MissionStatement";
@@ -33,17 +33,34 @@ export default function Mission() {
      Mission Statement Animation
      - Subtle upward compression of the divider line
   --------------------------------------------- */
-  const pushUp = useTransform(scrollYProgress, [0, 1], [100, 30]);
+
+  const pushUpRaw = useTransform(scrollYProgress, [0, 1], [80, 40]);
+  const pushUp = useSpring(pushUpRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
 
   /* ---------------------------------------------
      About Section Animations
      - Heading rises into place
      - Paragraphs stagger in with delayed motion
   --------------------------------------------- */
-  const headingY = useTransform(scrollYProgress, [0, 1], [80, 0]);
+  const headingYRaw = useTransform(scrollYProgress, [0, 1], [80, 0]);
+  const headingY = useSpring(headingYRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
 
-  const p1Y = useTransform(scrollYProgress, [0.3, 1], [100, 0]); // delayed start
-  const p2Y = useTransform(p2Progress, [0.15, 3], [20, 0]);
+  const p1YRaw = useTransform(scrollYProgress, [0.3, 1], [100, 0]); // delayed start
+  const p1Y = useSpring(p1YRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+  const p2YRaw = useTransform(p2Progress, [0.35, 0.75], [15, 0]);
+  const p2Y = useSpring(p2YRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
 
   /* ---------------------------------------------
      Process Diagram Animations

@@ -1,11 +1,11 @@
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { useRef } from "react";
 import SkillTile from "./SkillTile";
 import { skillStack } from "../../data/skillStack";
 
 export default function SkillStack({}) {
   const ref = useRef(null);
-  const globalDelay = 0.05; // tweak this
+  const globalDelay = 0.02; // tweak this
   // Track scroll progress relative to this section
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -32,111 +32,128 @@ export default function SkillStack({}) {
     { title: "tools", data: skillStack.tools, offset: "pl-28" },
   ];
 
+  const backendRef = useRef(null);
+  const { scrollYProgress: backendProgress } = useScroll({
+    target: backendRef,
+    offset: ["start start", "end start"],
+  });
+  const fadeOut = useTransform(backendProgress, [0, 0.3], [1, .2]);
+
+  const fadeOutSmooth = useSpring(fadeOut, {
+    stiffness: 80,
+    damping: 20,
+  });
   return (
-    <section ref={ref} className="w-[150vw] px-50">
-      {/* Section heading */}
-      <motion.div style={{ opacity, y }} className="relative flex">
-        <img
-          className="spin-slow w-12 h-auto mr-9 -translate-y-5"
-          src={"/decorations/aster.svg"}
-        ></img>
-        <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
-          <span className="text-[#a3a2a2] opacity-100">my</span> stack
-        </h2>
-      </motion.div>
-      <div className="flex flex-col gap-25">
-        {sections.map((section, sectionIndex) => {
-          // Compute when this section's animations start
-          const sectionGap = 0.02; // breathing room between sections
+    <motion.div style={{ opacity: fadeOutSmooth }}>
+      <section ref={ref} className="w-[150vw] px-50">
+        {/* Section heading */}
+        <motion.div className="relative flex">
+          <img
+            className="spin-slow w-12 h-auto mr-9 -translate-y-5"
+            src={"/decorations/aster.svg"}
+          ></img>
+          <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
+            <span className="text-[#a3a2a2] opacity-100">my</span> stack
+          </h2>
+        </motion.div>
+        <div className="flex flex-col gap-25">
+          {sections.map((section, sectionIndex) => {
+            // Compute when this section's animations start
+            const sectionGap = 0.02; // breathing room between sections
 
-          const tilesBefore = sections
-            .slice(0, sectionIndex)
-            .reduce((acc, s) => acc + s.data.length, 0);
+            const tilesBefore = sections
+              .slice(0, sectionIndex)
+              .reduce((acc, s) => acc + s.data.length, 0);
 
-          const sectionStart =
-            tileStartBase +
-            globalDelay +
-            tilesBefore * staggerStep +
-            sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
+            const sectionStart =
+              tileStartBase +
+              globalDelay +
+              tilesBefore * staggerStep +
+              sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
 
-          const titleDelay = 0.002 + sectionIndex * 0.005;
+            const titleDelay = 0.002 + sectionIndex * 0.005;
 
-          // Animate section title opacity + vertical slide
-          const titleStart = sectionStart + titleDelay;
-          const titleEnd = titleStart + 0.1;
+            // Animate section title opacity + vertical slide
+            const titleStart = sectionStart + titleDelay;
+            const titleEnd = titleStart + 0.1;
 
-          const titleRaw = useTransform(
-            globalScroll,
-            [titleStart, titleEnd],
-            [0, 1]
-          );
+            const titleRaw = useTransform(
+              globalScroll,
+              [titleStart, titleEnd],
+              [0, 1]
+            );
 
-          const titleEased = useTransform(
-            titleRaw,
-            (v) => 1 - Math.pow(1 - v, 5)
-          );
+            const titleEased = useTransform(
+              titleRaw,
+              (v) => 1 - Math.pow(1 - v, 5)
+            );
 
-          const titleY = useTransform(titleEased, [0, 1], [30, 0]);
+            const titleY = useTransform(titleEased, [0, 1], [30, 0]);
 
-          return (
-            <div key={section.title} className="flex">
-              {/* Section title */}
-              <motion.div style={{ opacity: titleEased, y: titleY }}>
-                <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
-                  {section.title}
-                </h3>
-              </motion.div>
+            return (
+              <div
+                key={section.title}
+                ref={section.title === "back-end" ? backendRef : null}
+                className="flex"
+              >
+                {/* Section title */}
+                <motion.div style={{ opacity: titleEased, y: titleY }}>
+                  <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
+                    {section.title}
+                  </h3>
+                </motion.div>
 
-              {/* Skill tiles */}
-              <div className="pl-30 -translate-y-1">
-                <div
-                  className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
-                >
-                  {section.data.map((skill, index) => {
-                    // Calculate start + end for tile animation
-                    const tileDelay = 0.02; // delay after title
-                    const start =
-                      sectionStart +
-                      titleDelay +
-                      tileDelay +
-                      index * staggerStep;
-                    const end = start + tileDuration;
+                {/* Skill tiles */}
+                <div className="pl-30 -translate-y-1">
+                  <div
+                    className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
+                  >
+                    {section.data.map((skill, index) => {
+                      // Calculate start + end for tile animation
+                      const tileDelay = 0.02; // delay after title
+                      const start =
+                        sectionStart +
+                        titleDelay +
+                        tileDelay +
+                        index * staggerStep;
+                      const end = start + tileDuration;
 
-                    // Opacity + vertical slide per tile
-                    const raw = useTransform(
-                      globalScroll,
-                      [start, end],
-                      [0, 1]
-                    );
+                      // Opacity + vertical slide per tile
+                      const raw = useTransform(
+                        globalScroll,
+                        [start, end],
+                        [0, 1]
+                      );
 
-                    const eased = useTransform(
-                      raw,
-                      (v) => 1 - Math.pow(1 - v, 3)
-                    );
+                      const eased = useTransform(
+                        raw,
+                        (v) => 1 - Math.pow(1 - v, 3)
+                      );
 
-                    const tileY = useTransform(eased, [0, 1], [30, 0]);
+                      const tileY = useTransform(eased, [0, 1], [30, 0]);
 
-                    return (
-                      <motion.div
-                        key={skill.id}
-                        className={skill.offset ?? ""}
-                        style={{
-                          opacity: eased,
-                          y: tileY,
-                        }}
-                      >
-                        <SkillTile {...skill} />
-                      </motion.div>
-                    );
-                  })}
+                      return (
+                        <motion.div
+                          key={skill.id}
+                          className={skill.offset ?? ""}
+                          style={{
+                            opacity: eased,
+                            y: tileY,
+                          }}
+                        >
+                          <SkillTile {...skill} />
+                        </motion.div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-      {/* Spacer to allow scrolling */}
-      <div className="h-[250px] w-full"></div>
-    </section>
+            );
+          })}
+        </div>
+        {/* Spacer to allow scrolling */}
+        <div className="h-[250px] w-full"></div>
+      </section>
+    </motion.div>
   );
 }

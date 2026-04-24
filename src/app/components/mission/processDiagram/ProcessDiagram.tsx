@@ -7,7 +7,6 @@ import {
   MotionValue,
 } from "framer-motion";
 
-import { FadeSection } from "../../wrappers/FadeSection";
 import "./ProcessDiagram.css";
 
 type ProcessDiagramProps = {
@@ -28,46 +27,29 @@ export default function ProcessDiagram({
     offset: ["start end", "end start"], // diagram enters viewport → fully passed
   });
 
-  const dHeadOpacity = useTransform(
+  const start = 0.2;
+  const end = 0.4;
+
+  const opacity = useTransform(
     diagramProgress,
-    [0, 0.15, 0.5, 0.75],
-    [0, 1, 1, 0.2]
+    [0.25, 0.4, 0.55, 0.75],
+    [0, 1, 1, .2]
   );
 
-  const dParaOpacity = useTransform(
-    diagramProgress,
-    [0.08, 0.19, 0.5, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const dParaYRaw = useTransform(diagramProgress, [0.08, 0.19], [-25, 0]);
-  // Smooths raw scroll-based motion to avoid rigid, linear movement
-  const dParaY = useSpring(dParaYRaw, { stiffness: 90, damping: 22 });
+  const dHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
+  const devHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
+  const depHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
 
-  const devHeadOpacity = useTransform(
-    diagramProgress,
-    [0.15, 0.3, 0.6, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const devParaOpacity = useTransform(
-    diagramProgress,
-    [0.18, 0.3, 0.6, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const devParaYRaw = useTransform(diagramProgress, [0.18, 0.3], [-25, 0]);
-  const devParaY = useSpring(devParaYRaw, { stiffness: 90, damping: 22 });
+  const dParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
+  const devParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
+  const depParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
 
-  const depHeadOpacity = useTransform(
-    diagramProgress,
-    [0.25, 0.37, 0.6, 0.9],
-    [0, 1, 1, 0.2]
-  );
-  const depParaOpacity = useTransform(
-    diagramProgress,
-    [0.29, 0.42, 0.75, 0.9],
-    [0, 1, 1, 0.2]
-  );
-  const depParaYRaw = useTransform(diagramProgress, [0.3, 0.34], [-25, 0]);
-  const depParaY = useSpring(depParaYRaw, { stiffness: 90, damping: 22 });
+  const paraYRaw = useTransform(diagramProgress, [start, end], [-25, 0]);
+
+  const paraY = useSpring(paraYRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
   return (
     <motion.div
       ref={diagramRef}
@@ -100,30 +82,29 @@ export default function ProcessDiagram({
           HEADING AND CHEVRONS
       ========================== */}
       <div className="absolute inset-0 z-15">
-        <FadeSection>
-          <div className="relative flex -translate-x-15">
-            <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
-              <span className="text-[#858383]">my</span> process
-            </h2>
-            <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
-              <img
-                className="w-6 opacity-80 chev chev-1"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-              <img
-                className="w-6 opacity-80 chev chev-2"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-              <img
-                className="w-6 opacity-80 chev chev-3"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-            </span>
-          </div>
-        </FadeSection>
+        <div className="relative flex -translate-x-15">
+          <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
+            <span className="text-[#858383]">my</span> process
+          </h2>
+          <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
+            <img
+              className="w-6 opacity-80 chev chev-1"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+            <img
+              className="w-6 opacity-80 chev chev-2"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+            <img
+              className="w-6 opacity-80 chev chev-3"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+          </span>
+        </div>
+
         {/* ==========================
               PROCESS PANELS
           ========================== */}
@@ -135,7 +116,7 @@ export default function ProcessDiagram({
           />
           {/* Discovery Panel */}
           <div className="-translate-x-11 translate-y-3 mt-3">
-            <motion.div style={{ opacity: dHeadOpacity }}>
+            <motion.div style={{ opacity, y: paraY }}>
               <img
                 className="w-7 ml-[-.2rem] opacity-80"
                 src="/icons/discovery.svg"
@@ -144,7 +125,7 @@ export default function ProcessDiagram({
               <h3 className="text-lg text-white">Discovery</h3>
             </motion.div>
             <motion.p
-              style={{ opacity: dParaOpacity, y: dParaY }}
+              style={{ opacity, y: paraY }}
               className="w-50 pt-2 panel-para leading-4"
             >
               Defining project goals, user personas, and technical requirements.
@@ -152,7 +133,7 @@ export default function ProcessDiagram({
           </div>
           {/* Development Panel */}
           <div className="translate-x-50 -translate-y-14 mt-3">
-            <motion.div style={{ opacity: devHeadOpacity }}>
+            <motion.div style={{ opacity, y: paraY }}>
               <img
                 className="w-8 translate-x-45"
                 src="/icons/panel-code.svg"
@@ -163,7 +144,7 @@ export default function ProcessDiagram({
               </h3>
             </motion.div>
             <motion.p
-              style={{ opacity: devParaOpacity, y: devParaY }}
+              style={{ opacity, y: paraY }}
               className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
             >
               Writing clean, scalable code and architectural implementation.
@@ -171,7 +152,7 @@ export default function ProcessDiagram({
           </div>
           {/* Deployment Panel */}
           <div className="translate-x-44 -translate-y-12 mt-3">
-            <motion.div style={{ opacity: depHeadOpacity }}>
+            <motion.div style={{ opacity, y: paraY }}>
               <img
                 className="w-7 ml-[-.2rem] pb-2 opacity-80"
                 src="/icons/bolt.svg"
@@ -180,7 +161,7 @@ export default function ProcessDiagram({
               <h3 className="text-lg text-white">Deployment</h3>
             </motion.div>
             <motion.p
-              style={{ opacity: depParaOpacity, y: depParaY }}
+              style={{ opacity, y: paraY }}
               className="w-50 pt-2 panel-para leading-4"
             >
               Cloud delivery, server monitoring, and continuous maintenance.

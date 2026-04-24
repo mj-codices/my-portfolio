@@ -32,7 +32,7 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
           - Keeps animation concerns separated from content
       --------------------------------------------- */}
       <div className="ml-15 relative z-10 pt-10">
-        <FadeSection>
+        
           {/* ---------------------------------------------
               Section Heading
               - Scroll-linked vertical movement via `headingY`
@@ -51,7 +51,7 @@ export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
               <span className="text-[#a3a2a2] opacity-100">my</span> story
             </h2>
           </motion.div>
-        </FadeSection>
+       
 
         {/* ---------------------------------------------
               Paragraph 1

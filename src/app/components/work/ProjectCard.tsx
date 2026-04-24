@@ -24,10 +24,10 @@ export default function ProjectCard({ project }: { project: Project }) {
       x: -6,
       y: -20,
       rotate: 350,
-          filter: "brightness(1)",
+      filter: "brightness(1)",
       transition: {
         delay: 0.16,
-        duration: .85,
+        duration: 0.85,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -47,7 +47,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       filter: "brightness(.93)",
       transition: {
         delay: 0.16,
-        duration: .85,
+        duration: 0.85,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -87,7 +87,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        <p className="w-170 leading-9 text-lg opacity-90">
+        <p className="w-170 pl-2 leading-9 text-lg opacity-90">
           {project.description}
         </p>
       </div>
@@ -98,6 +98,8 @@ export default function ProjectCard({ project }: { project: Project }) {
           alt=""
           className="absolute top-0 right-[-1.3rem] border-4 border-gray-600 z-0 rounded-lg"
           variants={backImage}
+          decoding="async"
+          loading="lazy"
         />
 
         {/* Front image */}
@@ -106,6 +108,8 @@ export default function ProjectCard({ project }: { project: Project }) {
           alt=""
           className="absolute top-4 left-0 border-4 border-gray-600 z-10 rounded-lg"
           variants={frontImage}
+          decoding="async"
+          loading="lazy"
         />
       </div>
     </motion.div>

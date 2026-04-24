@@ -116,10 +116,10 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         <motion.div
           id="square-6"
           className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
-          style={{ boxShadow: glow, scale: iconScale }}
+          style={{ scale: iconScale }}
         >
           {/* keep your mask as-is */}
-          <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
+          {/* <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" /> */}
 
           {/* ✅ animate THIS instead */}
           <motion.div style={{ opacity: iconOpacity }}>
