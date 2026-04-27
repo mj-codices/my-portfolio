@@ -5,7 +5,7 @@ import "./ProjectCard.css";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { projects } from "../../data/projects";
 
-export default function WorkCited() {
+export default function SelectedWork() {
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -16,7 +16,7 @@ export default function WorkCited() {
   const cardStart = 0.25; // wait for heading to move first
   const cardEnd = 0.5;
   return (
-    <div ref={ref} className="w-full px-65">
+    <div ref={ref} className="w-full px-65 h-auto">
       {/* ---------------------------------------------
                     Section Heading
                     - Scroll-linked vertical movement via `headingY`
@@ -58,13 +58,27 @@ export default function WorkCited() {
             damping: 20,
           });
 
+          const borderYRaw = useTransform(
+            scrollYProgress,
+            [start, end],
+            [25, 0] // 👈 subtle upward push
+          );
+          const borderY = useSpring(borderYRaw, {
+            stiffness: 90,
+            damping: 20,
+          });
+
           return (
             <motion.div key={project.id} style={{ opacity, y }}>
               <ProjectCard project={project} />
 
-              {index !== projects.length - 1 && (
-                <div className="border-b border-white/20 my-6" />
-              )}
+              {
+                index !== projects.length - 1 &&
+                <motion.div
+                  style={{ y: borderY }}
+                  className="border-b border-white/20 my-6"
+                />
+              }
             </motion.div>
           );
         })}

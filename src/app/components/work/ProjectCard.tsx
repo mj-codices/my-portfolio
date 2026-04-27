@@ -87,11 +87,11 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        <p className="w-170 pl-2 leading-9 text-lg opacity-90">
+        <p className="w-170 pl-4 leading-9 text-base">
           {project.description}
         </p>
       </div>
-      <div className="mt-12 ml-20 relative w-[135px] h-[135px]">
+      <div className="mt-12 ml-15 relative w-[135px] h-[135px]">
         {/* Back image */}
         <motion.img
           src={project.images[1]}

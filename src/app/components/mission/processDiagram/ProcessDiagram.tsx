@@ -107,11 +107,13 @@ export default function ProcessDiagram({
               PROCESS PANELS
           ========================== */}
         <div>
-          <img
-            className="absolute w-43 translate-x-47 translate-y-23"
-            src="/decorations/dotted.svg"
-            alt=""
-          />
+          <motion.div style={{ opacity }}>
+            <img
+              className="absolute w-43 translate-x-47 translate-y-23"
+              src="/decorations/dotted.svg"
+              alt=""
+            />
+          </motion.div>
           {/* Discovery Panel */}
           <div className="-translate-x-11 translate-y-3 mt-3">
             <motion.div style={{ opacity }}>
