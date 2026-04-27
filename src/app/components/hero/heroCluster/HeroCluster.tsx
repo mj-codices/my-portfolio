@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { useTime, motion, MotionValue, useTransform } from "framer-motion";
+import {
+  useTime,
+  motion,
+  MotionValue,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import "./HeroCluster.css";
 
 interface HeroClusterProps {
@@ -22,13 +28,19 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   // Scroll-driven spacing (primary motion)
   // Used for larger, more noticeable elements
   // ---------------------------
-  const pushSpace = useTransform(
-    scrollYProgress,
-    [0.75, 0.95], // begin movement near end of hero scroll
-    [0, 40]
-  );
+  const pushSpaceRaw = useTransform(scrollYProgress, [0.75, 0.95], [0, 40]);
 
-  const pushSpaceBtm = useTransform(scrollYProgress, [0.75, 0.95], [0, 55]);
+  const pushSpace = useSpring(pushSpaceRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
+  const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.75, 0.95], [0, 55]);
+
+  const pushSpaceBtm = useSpring(pushSpaceBtmRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
 
   // ---------------------------
   // Secondary motion (subtle / smaller elements)

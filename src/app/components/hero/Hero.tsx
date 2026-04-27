@@ -2,7 +2,7 @@ import HeroText from "./HeroText";
 import HeroCluster from "./heroCluster/HeroCluster";
 import "./Hero.css";
 import { FadeSection } from "../wrappers/FadeSection";
-import { MotionValue, useTransform } from "framer-motion";
+import { MotionValue, useTransform, useSpring } from "framer-motion";
 import "../../styles/components/button.css";
 
 interface HeroProps {
@@ -14,8 +14,16 @@ export default function Hero({ scrollYProgress }: HeroProps) {
      Transform values for HeroText spacing
      Adjusted based on scroll progress
   ------------------------------- */
-  const pushSpace = useTransform(scrollYProgress, [0.55, 0.65], [0, 40]);
-  const pushSpaceBtm = useTransform(scrollYProgress, [0.58, 0.68], [0, 55]);
+  const pushSpaceRaw = useTransform(scrollYProgress, [0.55, 0.65], [0, 40]);
+  const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.58, 0.68], [0, 55]);
+
+  const springConfig = {
+    stiffness: 90,
+    damping: 22,
+  };
+
+  const pushSpace = useSpring(pushSpaceRaw, springConfig);
+  const pushSpaceBtm = useSpring(pushSpaceBtmRaw, springConfig);
 
   return (
     <section

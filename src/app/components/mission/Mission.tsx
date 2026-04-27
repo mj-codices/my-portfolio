@@ -83,7 +83,11 @@ export default function Mission() {
 
         {/* Right: Visual process diagram with floating elements */}
         <div className="flex-shrink-0">
-          <ProcessDiagram circleY1={circleY1} circleY2={circleY2} />
+          <ProcessDiagram
+            circleY1={circleY1}
+            circleY2={circleY2}
+            headingY={headingY}
+          />
         </div>
       </div>
     </section>

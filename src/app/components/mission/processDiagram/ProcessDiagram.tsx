@@ -12,11 +12,13 @@ import "./ProcessDiagram.css";
 type ProcessDiagramProps = {
   circleY1: MotionValue<number>;
   circleY2: MotionValue<number>;
+  headingY: MotionValue<number>;
 };
 
 export default function ProcessDiagram({
   circleY1,
   circleY2,
+  headingY,
 }: ProcessDiagramProps) {
   const diagramRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,16 +35,8 @@ export default function ProcessDiagram({
   const opacity = useTransform(
     diagramProgress,
     [0.25, 0.4, 0.55, 0.75],
-    [0, 1, 1, .2]
+    [0, 1, 1, 0.2]
   );
-
-  const dHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
-  const devHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
-  const depHeadOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
-
-  const dParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
-  const devParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
-  const depParaOpacity = useTransform(diagramProgress, [start, end], [0, 1]);
 
   const paraYRaw = useTransform(diagramProgress, [start, end], [-25, 0]);
 
@@ -50,10 +44,11 @@ export default function ProcessDiagram({
     stiffness: 90,
     damping: 22,
   });
+
   return (
     <motion.div
       ref={diagramRef}
-      className="relative w-[520px] right-[3rem] top-55"
+      className="relative w-[520px] right-[3rem] top-40"
     >
       {/* ==========================
           BACKGROUND CIRCLES
@@ -82,7 +77,10 @@ export default function ProcessDiagram({
           HEADING AND CHEVRONS
       ========================== */}
       <div className="absolute inset-0 z-15">
-        <div className="relative flex -translate-x-15">
+        <motion.div
+          className="relative flex -translate-x-15"
+          style={{ y: headingY }}
+        >
           <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
             <span className="text-[#858383]">my</span> process
           </h2>
@@ -103,7 +101,7 @@ export default function ProcessDiagram({
               alt=""
             />
           </span>
-        </div>
+        </motion.div>
 
         {/* ==========================
               PROCESS PANELS
@@ -116,7 +114,7 @@ export default function ProcessDiagram({
           />
           {/* Discovery Panel */}
           <div className="-translate-x-11 translate-y-3 mt-3">
-            <motion.div style={{ opacity, y: paraY }}>
+            <motion.div style={{ opacity }}>
               <img
                 className="w-7 ml-[-.2rem] opacity-80"
                 src="/icons/discovery.svg"
@@ -133,7 +131,7 @@ export default function ProcessDiagram({
           </div>
           {/* Development Panel */}
           <div className="translate-x-50 -translate-y-14 mt-3">
-            <motion.div style={{ opacity, y: paraY }}>
+            <motion.div style={{ opacity }}>
               <img
                 className="w-8 translate-x-45"
                 src="/icons/panel-code.svg"
@@ -152,7 +150,7 @@ export default function ProcessDiagram({
           </div>
           {/* Deployment Panel */}
           <div className="translate-x-44 -translate-y-12 mt-3">
-            <motion.div style={{ opacity, y: paraY }}>
+            <motion.div style={{ opacity }}>
               <img
                 className="w-7 ml-[-.2rem] pb-2 opacity-80"
                 src="/icons/bolt.svg"

@@ -25,7 +25,7 @@ const waveVariants: Variants = {
 
 export default function AboutMe({ headingY, p1Y, p2Y, p2Ref }: AboutTextProps) {
   return (
-    <div className="mt-30 flex relative">
+    <div className="mt-20 flex relative">
       {/* ---------------------------------------------
           FadeSection
           - Handles section-level fade-in when entering viewport
