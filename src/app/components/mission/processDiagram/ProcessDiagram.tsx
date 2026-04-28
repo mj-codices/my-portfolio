@@ -29,20 +29,53 @@ export default function ProcessDiagram({
     offset: ["start end", "end start"], // diagram enters viewport → fully passed
   });
 
-  const start = 0.2;
-  const end = 0.4;
+  const headingStart = -4;
+  const headingEnd = 0.15;
 
-  const opacity = useTransform(
+  const paraStart = 0.25;
+  const paraEnd = 0.33;
+
+  const headingOpacityRaw = useTransform(
+    diagramProgress,
+    [headingStart, headingEnd],
+    [0, 1]
+  );
+
+  const headingOpacity = useSpring(headingOpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
+  const paraOpacityRaw = useTransform(
+    diagramProgress,
+    [paraStart, paraEnd],
+    [0, 1]
+  );
+
+  const paraOpacity = useSpring(paraOpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+  const paraYRaw = useTransform(
+    diagramProgress,
+    [paraStart, paraEnd],
+    [-25, 0]
+  );
+
+  const paraY = useSpring(paraYRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
+  const containerOpacityRaw = useTransform(
     diagramProgress,
     [0.25, 0.4, 0.55, 0.75],
     [0, 1, 1, 0.2]
   );
 
-  const paraYRaw = useTransform(diagramProgress, [start, end], [-25, 0]);
-
-  const paraY = useSpring(paraYRaw, {
-    stiffness: 90,
-    damping: 22,
+  const containerOpacity = useSpring(containerOpacityRaw, {
+    stiffness: 80,
+    damping: 25,
   });
 
   return (
@@ -100,8 +133,8 @@ export default function ProcessDiagram({
         {/* ==========================
               PROCESS PANELS
           ========================== */}
-        <div>
-          <motion.div style={{ opacity }}>
+        <motion.div style={{ opacity: containerOpacity }}>
+          <motion.div style={{ opacity: headingOpacity }}>
             <img
               className="absolute w-43 translate-x-47 translate-y-23"
               src="/decorations/dotted.svg"
@@ -110,7 +143,7 @@ export default function ProcessDiagram({
           </motion.div>
           {/* Discovery Panel */}
           <div className="-translate-x-11 translate-y-3 mt-3">
-            <motion.div style={{ opacity }}>
+            <motion.div style={{ opacity: headingOpacity }}>
               <img
                 className="w-7 ml-[-.2rem] opacity-80"
                 src="/icons/discovery.svg"
@@ -119,7 +152,7 @@ export default function ProcessDiagram({
               <h3 className="text-lg text-white">Discovery</h3>
             </motion.div>
             <motion.p
-              style={{ opacity, y: paraY }}
+              style={{ opacity: paraOpacity, y: paraY }}
               className="w-50 pt-2 panel-para leading-4"
             >
               Defining project goals, user personas, and technical requirements.
@@ -127,7 +160,7 @@ export default function ProcessDiagram({
           </div>
           {/* Development Panel */}
           <div className="translate-x-50 -translate-y-14 mt-3">
-            <motion.div style={{ opacity }}>
+            <motion.div style={{ opacity: headingOpacity }}>
               <img
                 className="w-8 translate-x-45"
                 src="/icons/panel-code.svg"
@@ -138,7 +171,7 @@ export default function ProcessDiagram({
               </h3>
             </motion.div>
             <motion.p
-              style={{ opacity, y: paraY }}
+              style={{ opacity: paraOpacity, y: paraY }}
               className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
             >
               Writing clean, scalable code and architectural implementation.
@@ -146,7 +179,7 @@ export default function ProcessDiagram({
           </div>
           {/* Deployment Panel */}
           <div className="translate-x-44 -translate-y-12 mt-3">
-            <motion.div style={{ opacity }}>
+            <motion.div style={{ opacity: headingOpacity }}>
               <img
                 className="w-7 ml-[-.2rem] pb-2 opacity-80"
                 src="/icons/bolt.svg"
@@ -155,13 +188,13 @@ export default function ProcessDiagram({
               <h3 className="text-lg text-white">Deployment</h3>
             </motion.div>
             <motion.p
-              style={{ opacity, y: paraY }}
+              style={{ opacity: paraOpacity, y: paraY }}
               className="w-50 pt-2 panel-para leading-4"
             >
               Cloud delivery, server monitoring, and continuous maintenance.
             </motion.p>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ==========================

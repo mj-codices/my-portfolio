@@ -1,6 +1,7 @@
-.project-title {
+/* .project-title {
   font-size: 50px;
-}
+  
+} */
 
 .mission-border {
   border-width: 0.2px;
@@ -11,7 +12,8 @@
 }
 
 .title-fill {
-  color: rgb(207, 207, 207, 0.80); /* base visible text */
+  line-height: 1.5;
+  color: rgb(207, 207, 207, 0.8); /* base visible text */
 
   background-image: linear-gradient(to right, white, white);
   background-repeat: no-repeat;
@@ -21,7 +23,7 @@
   -webkit-background-clip: text;
   background-clip: text;
 
-  transition: background-size .5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .group:hover .title-fill {

@@ -57,7 +57,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       initial="rest"
       whileHover="hover"
       animate="rest"
-      className="pl-6 mb-10 pt-2 flex cursor-pointer group"
+      className="pl-6 mb-10 flex cursor-pointer group"
     >
       <div>
         <div className="mb-3 flex items-center">
