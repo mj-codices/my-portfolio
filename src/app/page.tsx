@@ -83,9 +83,13 @@ export default function Home() {
       <div>
         <SkillStack />
       </div>
+      {/* Divider for SkillStack Section */}
+      <div className="w-auto h-[300px]"></div>
       <div>
         <SelectedWork />
       </div>
+         {/* Divider for Selected Work Section */}
+      <div className="w-auto h-[300px]"></div>
     </div>
   );
 }

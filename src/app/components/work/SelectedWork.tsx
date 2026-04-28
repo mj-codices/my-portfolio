@@ -15,8 +15,23 @@ export default function SelectedWork() {
 
   const cardStart = 0.25; // wait for heading to move first
   const cardEnd = 0.5;
+
+  const lastCardRef = useRef(null);
+
+  const { scrollYProgress: lastCardProgress } = useScroll({
+    target: lastCardRef,
+    offset: ["start end", "start start"],
+  });
+
+  const sectionOpacityRaw = useTransform(lastCardProgress, [0.8, 1], [1, .2]);
+
+  const sectionOpacity = useSpring(sectionOpacityRaw, {
+    stiffness: 80,
+    damping: 25,
+  });
+
   return (
-    <div ref={ref} className="w-full px-65 h-auto">
+    <div ref={ref} className="w-full px-65 h-auto pb-140">
       {/* ---------------------------------------------
                     Section Heading
                     - Scroll-linked vertical movement via `headingY`
@@ -32,57 +47,61 @@ export default function SelectedWork() {
           <span className="text-[#a3a2a2] opacity-100">my</span> work
         </h2>
       </motion.div>
+      <motion.div style={{ opacity: sectionOpacity }}>
+        <div>
+          {projects.map((project, index) => {
+            const stagger = index * 0.08;
 
-      <div>
-        {projects.map((project, index) => {
-          const stagger = index * 0.08;
+            const start = cardStart + stagger;
+            const end = cardEnd + stagger;
 
-          const start = cardStart + stagger;
-          const end = cardEnd + stagger;
+            const opacityRaw = useTransform(
+              scrollYProgress,
+              [start, end],
+              [0, 1]
+            );
 
-          const opacityRaw = useTransform(
-            scrollYProgress,
-            [start, end],
-            [0, 1]
-          );
-          const yRaw = useTransform(scrollYProgress, [start, end], [40, 0]);
+            // 👇 THIS is what makes it feel premium
+            const opacity = useSpring(opacityRaw, {
+              stiffness: 90,
+              damping: 20,
+            });
 
-          // 👇 THIS is what makes it feel premium
-          const opacity = useSpring(opacityRaw, {
-            stiffness: 90,
-            damping: 20,
-          });
+            const yRaw = useTransform(scrollYProgress, [start, end], [20, 0]);
+            const y = useSpring(yRaw, {
+              stiffness: 90,
+              damping: 20,
+            });
 
-          const y = useSpring(yRaw, {
-            stiffness: 90,
-            damping: 20,
-          });
+            const borderYRaw = useTransform(
+              scrollYProgress,
+              [start, end],
+              [35, 0] // 👈 subtle upward push
+            );
+            const borderY = useSpring(borderYRaw, {
+              stiffness: 90,
+              damping: 40,
+            });
 
-          const borderYRaw = useTransform(
-            scrollYProgress,
-            [start, end],
-            [25, 0] // 👈 subtle upward push
-          );
-          const borderY = useSpring(borderYRaw, {
-            stiffness: 90,
-            damping: 20,
-          });
+            return (
+              <motion.div
+                ref={index === projects.length - 1 ? lastCardRef : null}
+                key={project.id}
+                style={{ opacity, y }}
+              >
+                <ProjectCard project={project} />
 
-          return (
-            <motion.div key={project.id} style={{ opacity, y }}>
-              <ProjectCard project={project} />
-
-              {
-                index !== projects.length - 1 &&
-                <motion.div
-                  style={{ y: borderY }}
-                  className="border-b border-white/20 my-6"
-                />
-              }
-            </motion.div>
-          );
-        })}
-      </div>
+                {index !== projects.length - 1 && (
+                  <motion.div
+                    style={{ y: borderY }}
+                    className="border-b border-white/20 my-12 -mx-15"
+                  />
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.div>
     </div>
   );
 }

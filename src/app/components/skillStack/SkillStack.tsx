@@ -5,24 +5,23 @@ import { skillStack } from "../../data/skillStack";
 
 export default function SkillStack({}) {
   const ref = useRef(null);
+
   const globalDelay = 0.02; // tweak this
+
   // Track scroll progress relative to this section
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 95%", "start 70%"], // trigger animations slightly before fully visible
+    offset: ["start 80%", "end 20%"], // trigger animations slightly before fully visible
   });
 
   // Basic fade + vertical slide for the section heading
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
 
-  // Global page scroll to stagger individual tiles
-  const { scrollYProgress: globalScroll } = useScroll(); // entire page scroll
-
   // Timing constants for tile animation
-  const tileStartBase = 0.52; // start slightly earlier than viewport trigger
-  const tileDuration = 0.026; // how fast each tile animates in
-  const staggerStep = 0.018; // space between consecutive tiles
+  const tileStartBase = 0.001; // start slightly earlier than viewport trigger
+  const tileDuration = 0.04; // how fast each tile animates in
+  const staggerStep = 0.04; // space between consecutive tiles
 
   // Define skill sections
   const sections = [
@@ -37,7 +36,7 @@ export default function SkillStack({}) {
     target: backendRef,
     offset: ["start start", "end start"],
   });
-  const fadeOut = useTransform(backendProgress, [0, 0.3], [1, .2]);
+  const fadeOut = useTransform(backendProgress, [0, 0.3], [1, 0.2]);
 
   const fadeOutSmooth = useSpring(fadeOut, {
     stiffness: 80,
@@ -78,7 +77,7 @@ export default function SkillStack({}) {
             const titleEnd = titleStart + 0.1;
 
             const titleRaw = useTransform(
-              globalScroll,
+              scrollYProgress,
               [titleStart, titleEnd],
               [0, 1]
             );
@@ -120,7 +119,7 @@ export default function SkillStack({}) {
 
                       // Opacity + vertical slide per tile
                       const raw = useTransform(
-                        globalScroll,
+                        scrollYProgress,
                         [start, end],
                         [0, 1]
                       );
@@ -151,8 +150,6 @@ export default function SkillStack({}) {
             );
           })}
         </div>
-        {/* Spacer to allow scrolling */}
-        <div className="h-[250px] w-full"></div>
       </section>
     </motion.div>
   );
