@@ -40,6 +40,13 @@ export default function Mission() {
     damping: 22,
   });
 
+  const missionScaleRaw = useTransform(scrollYProgress, [0, .4], [0.97, 1]);
+
+  const missionScale = useSpring(missionScaleRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
   /* ---------------------------------------------
      About Section Animations
      - Heading rises into place
@@ -73,7 +80,7 @@ export default function Mission() {
     <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-60">
       {/* Mission statement (top of section) */}
       <FadeSection>
-        <MissionStatement pushUp={pushUp} />
+        <MissionStatement missionScale={missionScale} pushUp={pushUp} />
       </FadeSection>
 
       {/* Main content row: text + process diagram */}

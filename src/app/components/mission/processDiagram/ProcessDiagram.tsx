@@ -67,12 +67,6 @@ export default function ProcessDiagram({
         style={{ y: circleY2 }}
       />
 
-      <motion.div
-        id="mission-circle-3"
-        className="absolute top-95 right-70 w-[60px] h-[60px] rounded-full 
-                   bg-gradient-to-br from-[#000000] to-[#545454] z-15"
-      />
-
       {/* ==========================
           HEADING AND CHEVRONS
       ========================== */}
