@@ -40,7 +40,7 @@ export default function Mission() {
     damping: 22,
   });
 
-  const missionScaleRaw = useTransform(scrollYProgress, [0, .4], [0.97, 1]);
+  const missionScaleRaw = useTransform(scrollYProgress, [0, 0.4], [0.97, 1]);
 
   const missionScale = useSpring(missionScaleRaw, {
     stiffness: 90,
@@ -76,17 +76,43 @@ export default function Mission() {
   const circleY1 = useTransform(scrollYProgress, [0, 1], [-80, 0]);
   const circleY2 = useTransform(scrollYProgress, [0.1, 1], [-30, 0]);
 
+  const p1Ref = useRef<HTMLDivElement | null>(null);
+
+  const { scrollYProgress: p1Progress } = useScroll({
+    target: p1Ref,
+    offset: ["start 100%", "start 85%"],
+  });
+
+  const p1OpacityRaw = useTransform(p1Progress, [0.2, 0.9], [0, 1]);
+  const p1Opacity = useSpring(p1OpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+  const p2OpacityRaw = useTransform(p2Progress, [0.3, 0.6], [0, 1]);
+  const p2Opacity = useSpring(p2OpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
   return (
     <section ref={ref} className="w-[100vw] bg-black-90 px-50 text-5xl mb-60">
       {/* Mission statement (top of section) */}
-      <FadeSection>
+      <FadeSection mode="in-only">
         <MissionStatement missionScale={missionScale} pushUp={pushUp} />
       </FadeSection>
-
       {/* Main content row: text + process diagram */}
       <div className="flex row">
         {/* Left: About text with staggered scroll animations */}
-        <AboutText p1Y={p1Y} p2Y={p2Y} headingY={headingY} p2Ref={p2Ref} />
+        <FadeSection>
+          <AboutText
+            p1Y={p1Y}
+            p2Y={p2Y}
+            headingY={headingY}
+            p1Ref={p1Ref}
+            p2Ref={p2Ref}
+            p1Opacity={p1Opacity}
+            p2Opacity={p2Opacity}
+          />
+        </FadeSection>
 
         {/* Right: Visual process diagram with floating elements */}
         <div className="flex-shrink-0">

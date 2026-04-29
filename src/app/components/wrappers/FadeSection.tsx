@@ -5,6 +5,8 @@ interface FadeSectionProps {
   children:
     | React.ReactNode
     | ((scrollYProgress: MotionValue<number>) => React.ReactNode);
+
+  mode?: "in-out" | "in-only";
 }
 
 /**
@@ -12,7 +14,7 @@ interface FadeSectionProps {
  * A wrapper component that fades in/out its content based on scroll position.
  * Can accept children directly, or a render function that receives scroll progress.
  */
-export function FadeSection({ children }: FadeSectionProps) {
+export function FadeSection({ children, mode = "in-out" }: FadeSectionProps) {
   const ref = useRef(null);
 
   // Track scroll progress of this section
@@ -24,8 +26,10 @@ export function FadeSection({ children }: FadeSectionProps) {
   // Map scroll progress to opacity values
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.55, 0.75], // scroll positions
-    [0, 1, 1, 0.4], // opacity at each scroll point
+    mode === "in-only"
+      ? [0, 0.2, 1] // fade in and stay
+      : [0, 0.18, 0.55, 0.75], // fade in + out
+    mode === "in-only" ? [0, 1, 1] : [0, 1, 1, 0.4]
   );
 
   return (

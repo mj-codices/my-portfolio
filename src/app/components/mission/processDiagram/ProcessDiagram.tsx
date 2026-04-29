@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 
 import "./ProcessDiagram.css";
+import { FadeSection } from "../../wrappers/FadeSection";
 
 type ProcessDiagramProps = {
   circleY1: MotionValue<number>;
@@ -69,8 +70,8 @@ export default function ProcessDiagram({
 
   const containerOpacityRaw = useTransform(
     diagramProgress,
-    [0.25, 0.4, 0.55, 0.75],
-    [0, 1, 1, 0.2]
+    [0.25, 0.4],
+    [0, 1]
   );
 
   const containerOpacity = useSpring(containerOpacityRaw, {
@@ -103,99 +104,103 @@ export default function ProcessDiagram({
       {/* ==========================
           HEADING AND CHEVRONS
       ========================== */}
-      <div className="absolute inset-0 z-15">
-        <motion.div
-          className="relative flex -translate-x-15"
-          style={{ y: headingY }}
-        >
-          <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
-            <span className="text-[#858383]">my</span> process
-          </h2>
-          <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
-            <img
-              className="w-6 opacity-80 chev chev-1"
-              src="/decorations/chevron.svg"
-              alt=""
-            />
-            <img
-              className="w-6 opacity-80 chev chev-2"
-              src="/decorations/chevron.svg"
-              alt=""
-            />
-            <img
-              className="w-6 opacity-80 chev chev-3"
-              src="/decorations/chevron.svg"
-              alt=""
-            />
-          </span>
-        </motion.div>
+        <div className="absolute inset-0 z-15">
+      <FadeSection>
+          <motion.div
+            className="relative flex -translate-x-15"
+            style={{ y: headingY }}
+          >
+            <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
+              <span className="text-[#858383]">my</span> process
+            </h2>
+            <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
+              <img
+                className="w-6 opacity-80 chev chev-1"
+                src="/decorations/chevron.svg"
+                alt=""
+              />
+              <img
+                className="w-6 opacity-80 chev chev-2"
+                src="/decorations/chevron.svg"
+                alt=""
+              />
+              <img
+                className="w-6 opacity-80 chev chev-3"
+                src="/decorations/chevron.svg"
+                alt=""
+              />
+            </span>
+          </motion.div>
 
-        {/* ==========================
+          {/* ==========================
               PROCESS PANELS
           ========================== */}
-        <motion.div style={{ opacity: containerOpacity }}>
-          <motion.div style={{ opacity: headingOpacity }}>
-            <img
-              className="absolute w-43 translate-x-47 translate-y-23"
-              src="/decorations/dotted.svg"
-              alt=""
-            />
+
+          <motion.div style={{ opacity: containerOpacity }}>
+            <motion.div style={{ opacity: headingOpacity }}>
+              <img
+                className="absolute w-43 translate-x-47 translate-y-23"
+                src="/decorations/dotted.svg"
+                alt=""
+              />
+            </motion.div>
+            {/* Discovery Panel */}
+            <div className="-translate-x-11 translate-y-3 mt-3">
+              <motion.div style={{ opacity: headingOpacity }}>
+                <img
+                  className="w-7 ml-[-.2rem] opacity-80"
+                  src="/icons/discovery.svg"
+                  alt=""
+                />
+                <h3 className="text-lg text-white">Discovery</h3>
+              </motion.div>
+              <motion.p
+                style={{ opacity: paraOpacity, y: paraY }}
+                className="w-50 pt-2 panel-para leading-4"
+              >
+                Defining project goals, user personas, and technical
+                requirements.
+              </motion.p>
+            </div>
+            {/* Development Panel */}
+            <div className="translate-x-50 -translate-y-14 mt-3">
+              <motion.div style={{ opacity: headingOpacity }}>
+                <img
+                  className="w-8 translate-x-45"
+                  src="/icons/panel-code.svg"
+                  alt=""
+                />
+                <h3 className="text-lg text-white text-center -translate-x-27">
+                  Development
+                </h3>
+              </motion.div>
+              <motion.p
+                style={{ opacity: paraOpacity, y: paraY }}
+                className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
+              >
+                Writing clean, scalable code and architectural implementation.
+              </motion.p>
+            </div>
+            {/* Deployment Panel */}
+            <div className="translate-x-44 -translate-y-12 mt-3">
+              <motion.div style={{ opacity: headingOpacity }}>
+                <img
+                  className="w-7 ml-[-.2rem] pb-2 opacity-80"
+                  src="/icons/bolt.svg"
+                  alt=""
+                />
+                <h3 className="text-lg text-white">Deployment</h3>
+              </motion.div>
+              <motion.p
+                style={{ opacity: paraOpacity, y: paraY }}
+                className="w-50 pt-2 panel-para leading-4"
+              >
+                Cloud delivery, server monitoring, and continuous maintenance.
+              </motion.p>
+            </div>
           </motion.div>
-          {/* Discovery Panel */}
-          <div className="-translate-x-11 translate-y-3 mt-3">
-            <motion.div style={{ opacity: headingOpacity }}>
-              <img
-                className="w-7 ml-[-.2rem] opacity-80"
-                src="/icons/discovery.svg"
-                alt=""
-              />
-              <h3 className="text-lg text-white">Discovery</h3>
-            </motion.div>
-            <motion.p
-              style={{ opacity: paraOpacity, y: paraY }}
-              className="w-50 pt-2 panel-para leading-4"
-            >
-              Defining project goals, user personas, and technical requirements.
-            </motion.p>
-          </div>
-          {/* Development Panel */}
-          <div className="translate-x-50 -translate-y-14 mt-3">
-            <motion.div style={{ opacity: headingOpacity }}>
-              <img
-                className="w-8 translate-x-45"
-                src="/icons/panel-code.svg"
-                alt=""
-              />
-              <h3 className="text-lg text-white text-center -translate-x-27">
-                Development
-              </h3>
-            </motion.div>
-            <motion.p
-              style={{ opacity: paraOpacity, y: paraY }}
-              className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
-            >
-              Writing clean, scalable code and architectural implementation.
-            </motion.p>
-          </div>
-          {/* Deployment Panel */}
-          <div className="translate-x-44 -translate-y-12 mt-3">
-            <motion.div style={{ opacity: headingOpacity }}>
-              <img
-                className="w-7 ml-[-.2rem] pb-2 opacity-80"
-                src="/icons/bolt.svg"
-                alt=""
-              />
-              <h3 className="text-lg text-white">Deployment</h3>
-            </motion.div>
-            <motion.p
-              style={{ opacity: paraOpacity, y: paraY }}
-              className="w-50 pt-2 panel-para leading-4"
-            >
-              Cloud delivery, server monitoring, and continuous maintenance.
-            </motion.p>
-          </div>
-        </motion.div>
-      </div>
+      </FadeSection>
+        </div>
 
       {/* ==========================
           GLASS PANEL SVG
