@@ -39,7 +39,7 @@ export default function HeroText({ pushSpace, pushSpaceBtm }: HeroTextProps) {
           transition={{ duration: 0.6 }}
         >
           <p className="text-lg leading-[2.3rem] tracking-[.06rem]">
-            Hello! I’m <span className="text-white">Michael White</span> (most
+            Hello! I’m <span className="text-white">Michael J. White</span> (most
             people call me Julian). I build thoughtful, scalable, and
             production-ready web apps.
           </p>

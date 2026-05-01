@@ -39,7 +39,7 @@ export default function Hero({ scrollYProgress }: HeroProps) {
       >
         {/* Heading */}
         <h1 className="text-7xl shrink-heading font-bold mt-15 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
-          <span className="block gradient-text">Full-stack</span>
+          <span className="block text-[#ff5757]">Full-stack</span>
 
           <span className="block text-white max-[1060px]:pl-0 pl-4">
             Developer
