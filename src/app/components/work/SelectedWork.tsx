@@ -31,7 +31,7 @@ export default function SelectedWork() {
   });
 
   return (
-    <div ref={ref} className="w-full px-65 h-auto pb-140">
+    <div ref={ref} className="w-full px-65 h-auto pb-130">
       {/* ---------------------------------------------
                     Section Heading
                     - Scroll-linked vertical movement via `headingY`

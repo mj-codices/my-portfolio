@@ -6,6 +6,7 @@ import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
+import ClosingCTA from "./components/cta/ClosingCTA";
 import { FadeSection } from "./components/wrappers/FadeSection";
 import SelectedWork from "./components/work/SelectedWork";
 
@@ -88,8 +89,11 @@ export default function Home() {
       <div>
         <SelectedWork />
       </div>
-         {/* Divider for Selected Work Section */}
-      <div className="w-auto h-[300px]"></div>
+      {/* Divider for Selected Work Section */}
+      <div className="w-auto h-[140px]"></div>
+      <section className="w-auto h-[500px]">
+        <ClosingCTA />
+      </section>
     </div>
   );
 }

@@ -1,6 +1,10 @@
 import { motion, Variants } from "framer-motion";
 
-export default function ExternalLinkIcon() {
+type Props = {
+  className?: string;
+};
+
+export default function ExternalLinkIcon({ className = "" }: Props) {
   const arrowVariants: Variants = {
     rest: { x: 0, y: 0 },
     hover: {
@@ -19,7 +23,7 @@ export default function ExternalLinkIcon() {
       width="30"
       height="30"
       viewBox="0 0 241 245"
-      className="overflow-visible"
+      className={`overflow-visible ${className}`}
     >
       {/* static box */}
       <path
