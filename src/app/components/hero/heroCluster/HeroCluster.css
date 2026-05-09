@@ -1,6 +1,16 @@
 /* =========================================================
    ANIMATION SYSTEM (CSS Houdini Custom Properties)
-   Enables smooth interpolation of transform values
+
+   CSS custom properties are registered through Houdini so
+   transform values can interpolate smoothly during keyframe
+   animation instead of snapping between states.
+
+   Separate variable groups exist for:
+   - background motion layers (--x, --y, --s, --r)
+   - foreground / interactive layers (--px, --py, --ps, --pr)
+
+   This separation prevents animation systems from competing
+   with each other and allows independent motion tuning.
 ========================================================= */
 
 @property --x {
@@ -47,14 +57,24 @@
 
 /* =========================================================
    BACKGROUND ELEMENTS
-   Subtle ambient motion (float + drift + breathe)
+
+   Ambient motion layer intended to feel atmospheric rather
+   than attention-grabbing.
+
+   Motion combines:
+   - vertical drift
+   - horizontal drift
+   - subtle scale breathing
+
+   Independent durations and negative delays intentionally
+   prevent elements from synchronizing, which creates a more
+   natural and less mechanical composition.
 ========================================================= */
 
 /* --- Circle 1 --- */
 #circle-1 {
   transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
 
-  /* Layered motion: vertical + horizontal + scale */
   animation:
     floatY 10s ease-in-out infinite,
     floatX 17s ease-in-out infinite,
@@ -72,7 +92,10 @@
     floatX-wide 17s ease-in-out infinite,
     breathe-soft 9s ease-in-out infinite;
 
-  /* Prevent synchronized motion */
+  /* 
+    Negative delays intentionally desynchronize motion cycles
+    so elements never appear mirrored or procedurally identical.
+  */
   animation-delay:
     -6s,
     -13s,
@@ -83,7 +106,12 @@
 
 /* =========================================================
    BACKGROUND SQUARES
-   Adds rotation (sway) for more dimensional motion
+
+   Transitional depth layer between background ambience
+   and foreground UI motion.
+
+   Rotation sway adds dimensionality so shapes feel less flat
+   against the overall scene composition.
 ========================================================= */
 
 #square-1 {
@@ -106,7 +134,7 @@
   transform: translateX(var(--px)) translateY(var(--py)) rotate(var(--pr))
     scale(var(--ps));
 
-  animation: squareFloatY-smooth 5.5s ease-in-out infinite;
+  animation: squareFloatY-smooth 12s ease-in-out infinite;
 
   animation-delay:
     -2s,
@@ -119,7 +147,17 @@
 
 /* =========================================================
    FOREGROUND ELEMENTS (UI LAYER)
-   Independent animations + subtle 3D transforms
+
+   Foreground motion is intentionally more pronounced and
+   dimensional than background motion to establish hierarchy.
+
+   These elements use:
+   - layered motion stacks
+   - subtle perspective transforms
+   - independent timing systems
+
+   This creates a "floating interface cluster" feeling
+   rather than simple decorative movement.
 ========================================================= */
 
 #square-5 {
@@ -142,7 +180,10 @@
     -3s,
     -1s;
 
-  /* Subtle 3D tilt for depth */
+  /* 
+    Subtle perspective transforms create depth separation
+    without becoming visually distracting or overtly 3D.
+  */
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
     rotateX(10deg) rotateY(-30deg);
   transform-style: preserve-3d;
@@ -182,11 +223,26 @@
     -4s;
 }
 
-/* (square-5 and square-6 follow same pattern...) */
+/* 
+  Foreground motion values intentionally differ per element.
+
+  Shared timing across all foreground elements caused the
+  cluster to feel robotic and visually repetitive.
+
+  Slightly offset durations maintain cohesion while preserving
+  organic movement variation.
+*/
 
 /* =========================================================
    SHARED ANIMATION PATTERNS
 ========================================================= */
+
+/* 
+  Motion amplitudes remain intentionally restrained.
+
+  Larger translation ranges made the cluster feel disconnected
+  from the surrounding UI and visually too "floaty".
+*/
 
 /* Vertical float */
 @keyframes floatY {
@@ -258,9 +314,14 @@
     --py: 0px;
   }
   50% {
-    --py: -10px;
+    --py: -20px;
   }
 }
+
+/* 
+  Foreground motion remains isolated from background motion
+  for finer compositional control and future interactivity.
+*/
 
 /* Foreground Y float (main motion) */
 @keyframes fgFloatY {
@@ -304,15 +365,4 @@
   50% {
     --pr: 2deg;
   }
-}
-
-/* Foreground motion (kept separate for control) */
-/* NOTE: These are intentionally unique per element for organic motion */
-
-.reactGlow {
-  position: absolute;
-  border-radius: 15px;
-  box-shadow:
-    0 0 40px rgba(100, 175, 255, 0.093),
-    0 0 90px rgba(100, 183, 255, 0.152);
 }

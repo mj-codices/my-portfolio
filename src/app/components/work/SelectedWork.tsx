@@ -10,20 +10,30 @@ export default function SelectedWork() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 90%", "start 20%"], // enters → mid viewport
+    offset: ["start 90%", "start 20%"],
   });
 
-  const cardStart = 0.25; // wait for heading to move first
+  /*
+  Stagger timing base for project card reveals.
+
+  Each card offsets its animation range slightly using the index
+  so cards enter sequentially instead of simultaneously.
+*/
+  const cardStart = 0.25;
   const cardEnd = 0.5;
 
   const lastCardRef = useRef(null);
 
+  /*
+  Tracks the final project card separately so the entire section
+  can fade as the user scrolls beyond the work section.
+*/
   const { scrollYProgress: lastCardProgress } = useScroll({
     target: lastCardRef,
     offset: ["start end", "start start"],
   });
 
-  const sectionOpacityRaw = useTransform(lastCardProgress, [0.8, 1], [1, .2]);
+  const sectionOpacityRaw = useTransform(lastCardProgress, [0.8, 1], [1, 0.2]);
 
   const sectionOpacity = useSpring(sectionOpacityRaw, {
     stiffness: 80,
@@ -43,7 +53,7 @@ export default function SelectedWork() {
           src={"/decorations/aster.svg"}
           alt="decorative asterisk"
         />
-        <h2 className="mb-8 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
+        <h2 className="mb-6 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
           <span className="text-[#a3a2a2] opacity-100">my</span> work
         </h2>
       </motion.div>
@@ -61,13 +71,16 @@ export default function SelectedWork() {
               [0, 1]
             );
 
-            // 👇 THIS is what makes it feel premium
+            /*
+  Raw transforms are wrapped in springs to soften scroll-linked
+  motion and avoid rigid 1:1 tracking during fast scrolling.
+*/
             const opacity = useSpring(opacityRaw, {
               stiffness: 90,
               damping: 20,
             });
 
-            const yRaw = useTransform(scrollYProgress, [start, end], [20, 0]);
+            const yRaw = useTransform(scrollYProgress, [start, end], [30, 0]);
             const y = useSpring(yRaw, {
               stiffness: 90,
               damping: 20,
@@ -78,6 +91,11 @@ export default function SelectedWork() {
               [start, end],
               [35, 0] // 👈 subtle upward push
             );
+
+            /*
+  Divider motion is intentionally slightly overdamped compared
+  to the cards so borders settle more subtly during entrance.
+*/
             const borderY = useSpring(borderYRaw, {
               stiffness: 90,
               damping: 40,

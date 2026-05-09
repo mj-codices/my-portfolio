@@ -25,20 +25,39 @@ export default function ProgBar() {
       `linear-gradient(
         to bottom,
         #FF6F61
-      )`,
+      )`
   );
 
   return (
-    <div className="fixed right-8 bottom-1/3 -translate-y-20 w-[.5rem] h-28 bg-white/3 rounded-lg backdrop-blur-md overflow-hidden z-50 border border-white/4 overflow-hidden">
-      {/* Decorative top mask for visual softness */}
-      <div className="top-mask absolute w-[10rem] h-[10rem] top-[-.95rem] left-2 rotate-350 opacity-53" />
-
-      {/* Scroll-progress indicator */}
-      <motion.div
-        className="rounded w-full h-full origin-top"
+    <div>
+      <div className="fixed right-8 bottom-1/3 -translate-y-20 w-[.5rem] h-28 rounded-lg backdrop-blur-md overflow-hidden z-10 overflow-hidden">
+        {/* Scroll-progress indicator */}
+        <motion.div
+          className="rounded w-full h-full origin-top"
+          style={{
+            scaleY: smoothProgress, // Scale vertically based on scroll
+            backgroundImage: gradientBg, // Gradient fill
+          }}
+        />
+      </div>
+      <div
+        className="w-[.7rem] h-[7.23rem] fixed right-[30.5px] bottom-1/3 -translate-y-[78.4px] rounded-lg pointer-events-none z-50"
         style={{
-          scaleY: smoothProgress, // Scale vertically based on scroll
-          backgroundImage: gradientBg, // Gradient fill
+          /* This padding defines the thickness of your border 'crown' */
+          padding: "1.2px",
+          /* The gradient for the top and bottom highlights */
+          background: `linear-gradient(
+        150deg, 
+        rgba(255,255,255,0.55) 0%, 
+        rgba(255,255,255,0.02) 5%, 
+        rgba(255,255,255,0.02) 95%, 
+        rgba(255,255,255,0.55) 100%
+      )`,
+          WebkitMask:
+            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
         }}
       />
     </div>

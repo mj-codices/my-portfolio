@@ -28,6 +28,8 @@ export default function Home() {
   // Used to drive Hero animations
   const { scrollYProgress } = useScroll();
 
+  const [isHoveringCTA, setIsHoveringCTA] = useState(false);
+
   // 2️⃣ Observer setup
   useEffect(() => {
     if (!missionRef.current) return;
@@ -59,7 +61,12 @@ export default function Home() {
   It wraps Hero to control when it fades into view independently of global scroll.
 */}
         <FadeSection>
-          {(scrollYProgress) => <Hero scrollYProgress={scrollYProgress} />}
+          {(scrollYProgress) => (
+            <Hero
+              scrollYProgress={scrollYProgress}
+              setIsHoveringCTA={setIsHoveringCTA}
+            />
+          )}
         </FadeSection>
 
         {/* 
@@ -68,10 +75,10 @@ export default function Home() {
 */}
         <div
           className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 ${
-            showIndicator ? "opacity-30" : "opacity-0"
+            showIndicator && !isHoveringCTA ? "opacity-15" : "opacity-0"
           }`}
         >
-          <ScrollIndicator></ScrollIndicator>
+          <ScrollIndicator />
         </div>
       </div>
       {/* Mission section (used as trigger point for scroll indicator visibility) */}
