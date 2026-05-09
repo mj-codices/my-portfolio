@@ -217,13 +217,42 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           }}
           whileTap={{ scale: 0.98 }}
         >
-          <Image
-            src="/icons/giticon.svg"
-            width={40}
-            height={40}
-            alt="Github logo"
-            className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
-          ></Image>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/mj-codices"
+          >
+            <Image
+              src="/icons/giticon.svg"
+              width={40}
+              height={40}
+              alt="Github logo"
+              className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
+            ></Image>
+          </a>
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-[2.35rem] right-25"
+          whileHover={{
+            scale: 1.15,
+            opacity: 1,
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.instagram.com/casa_junbubby"
+          >
+            <Image
+              src="/icons/instagram.svg"
+              width={29}
+              height={29}
+              alt="Instagram logo"
+              className="opacity-47 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
+            ></Image>
+          </a>
         </motion.div>
       </motion.aside>
     </div>

@@ -69,48 +69,52 @@ export default function ClosingCTA() {
           style={{ y, scale, opacity }}
           initial="rest"
           animate="rest"
-          whileHover="hover"
         >
-          <motion.p
-            className="cursor-pointer text-5xl font-bold"
-            variants={{
-              rest: { color: "#d1d5db" }, // optional default
-              hover: { color: "#ffffff" },
-            }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+          <motion.a
+            href="mailto:mjwhite.dev@gmail.com"
+            whileHover="hover"
+            className="relative z-20"
           >
-            mjwhite.dev@gmail.com
-          </motion.p>
-
-          <motion.div
-            className="flex items-center gap-2 pointer-events-none absolute top-full mt-5 px-5 py-3
-             rounded-full bg-white/5 backdrop-blur-md text-white
-             text-2xl font-medium shadow-2xl relative"
-            variants={{
-              rest: { opacity: 0, y: 15 },
-              hover: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            <div
-              className="absolute inset-0 rounded-full p-[2px] pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.1))",
-                WebkitMask:
-                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                WebkitMaskComposite: "xor",
-                maskComposite: "exclude",
+            <motion.p
+              className="cursor-pointer text-5xl font-bold"
+              variants={{
+                rest: { color: "#d1d5db" },
+                hover: { color: "#ffffff" },
               }}
-            />
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              mjwhite.dev@gmail.com
+            </motion.p>
 
-            {/* CONTENT */}
-            <p className="relative z-10 pt-1 opacity-80 tracking-wide">
-              SEND EMAIL
-            </p>
-            <ExternalLinkIcon className="relative z-10 w-6 h-6 opacity-80" />
-          </motion.div>
+            <motion.div
+              className="flex gap-2 pointer-events-none absolute left-45 top-full mt-5 px-5 py-3
+       rounded-full bg-white/5 backdrop-blur-md text-white
+       text-2xl font-medium shadow-2xl"
+              variants={{
+                rest: { opacity: 0, y: 15 },
+                hover: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <div
+                className="absolute flex items-center inset-0 rounded-full p-[2px] pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.1))",
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+
+              <p className="relative z-10 pt-1 opacity-80 tracking-wide">
+                SEND EMAIL
+              </p>
+              <ExternalLinkIcon className="relative z-10 w-6 h-6 opacity-80" />
+            </motion.div>
+          </motion.a>
         </motion.div>
       </div>
       <motion.div
@@ -130,32 +134,10 @@ export default function ClosingCTA() {
           <LiveTime />
         </div>
 
-        {/* 2. CENTER: GitHub Oval Link */}
+        {/* 2. CENTER: Links */}
         <div className="absolute left-1/2 -translate-x-1/2 flex gap-2">
           <motion.a
-            href="https://x.com" // Updated with your likely handle
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="
-        px-3 py-2 
-        rounded-full border border-white/20
-        bg-white/5 backdrop-blur-md
-        text-white font-medium
-        transition-all duration-300
-        hover:bg-white/10 hover:border-white/40
-        flex items-center justify-center
-        group overflow-hidden
-      "
-          >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <span className="relative z-10 uppercase text-sm opacity-40 group-hover:opacity-100 transition-opacity">
-              TWITTER
-            </span>
-          </motion.a>
-          <motion.a
-            href="https://instagram.com" // Updated with your likely handle
+            href="https://www.instagram.com/casa_junbubby"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -177,7 +159,7 @@ export default function ClosingCTA() {
             </span>
           </motion.a>
           <motion.a
-            href="https://github.com/mjwhite-dev" // Updated with your likely handle
+            href="https://github.com/mj-codices"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
