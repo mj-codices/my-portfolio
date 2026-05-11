@@ -50,29 +50,12 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   // 2. The Momentum Spring
   // This is where the 'momentum' comes from. A high stiffness with low damping
   // makes the entire Hero 'snap' and fly upward.
-const launchY = useSpring(launchRaw, {
-  stiffness: 1000,   // High tension for a high-velocity launch
-  damping: 40,      // Enough damping to stop it from jittering, but low enough to stay fast
-  mass: 0.5,        // Lighter weight allows it to accelerate instantly
-  restDelta: 0.01   // Tells the engine to stop calculating sooner once it's off-screen
-});
-  // 2. THE LAUNCH HANDLER
-  const handleLaunch = () => {
-    if (isLaunching) return; // Prevent double clicks
-
-    setIsLaunching(true);
-
-    // Short delay to "rev the engine" before moving
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-
-      // Reset the state once we've had time to scroll down
-      setTimeout(() => setIsLaunching(false), 1500);
-    }, 400);
-  };
+  const launchY = useSpring(launchRaw, {
+    stiffness: 1000, // High tension for a high-velocity launch
+    damping: 40, // Enough damping to stop it from jittering, but low enough to stay fast
+    mass: 0.5, // Lighter weight allows it to accelerate instantly
+    restDelta: 0.01, // Tells the engine to stop calculating sooner once it's off-screen
+  });
 
   return (
     <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
@@ -119,7 +102,7 @@ const launchY = useSpring(launchRaw, {
             >
               {/* LEFT chevrons */}
               <motion.span
-                className={`ml-6 absolute left-0 flex justify-center w-10 h-8 opacity-90 left-group 
+                className={`ml-[1.8rem] absolute left-0 flex justify-center w-10 h-8 opacity-90 left-group 
               ${isLaunching ? "is-priming" : ""}`}
               >
                 <img
@@ -141,7 +124,7 @@ const launchY = useSpring(launchRaw, {
 
               {/* RIGHT chevrons */}
               <motion.span
-                className={`mr-[-.65rem] absolute right-0 flex justify-center w-10 h-8 opacity-90 right-group 
+                className={`mr-[-.4rem] absolute right-0 flex justify-center w-10 h-8 opacity-90 right-group 
               ${isLaunching ? "is-priming" : ""}`}
               >
                 <img
@@ -164,6 +147,7 @@ const launchY = useSpring(launchRaw, {
           </div>
         </motion.div>
       </FadeSection>
+
       <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
         <HeroCluster scrollYProgress={scrollYProgress} />
       </div>
