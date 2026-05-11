@@ -7,7 +7,6 @@ import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
 import ClosingCTA from "./components/cta/ClosingCTA";
-import { FadeSection } from "./components/wrappers/FadeSection";
 import SelectedWork from "./components/work/SelectedWork";
 
 // Home page orchestrates scroll-driven storytelling between sections.
@@ -56,18 +55,10 @@ export default function Home() {
     <div className="relative">
       {/* Hero section (scroll-driven via global scrollYProgress) */}
       <div className="hero relative">
-        {/* 
-  FadeSection provides localized scroll progress for entrance animations.
-  It wraps Hero to control when it fades into view independently of global scroll.
-*/}
-        <FadeSection>
-          {(scrollYProgress) => (
-            <Hero
-              scrollYProgress={scrollYProgress}
-              setIsHoveringCTA={setIsHoveringCTA}
-            />
-          )}
-        </FadeSection>
+        <Hero
+          scrollYProgress={scrollYProgress}
+          setIsHoveringCTA={setIsHoveringCTA}
+        />
 
         {/* 
   Scroll indicator (only visible during Hero).
