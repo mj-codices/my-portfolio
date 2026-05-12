@@ -4,7 +4,10 @@ import LiveTime from "../ui/status/LiveTime";
 import LocationDisplay from "../ui/status/LocationDisplay";
 import ExternalLinkIcon from "../ui/icons/ExternalLinkIcon";
 
-export default function ClosingCTA() {
+interface ClosingCTAProps {
+  speed?: number; // Optional prop
+}
+export default function ClosingCTA({ speed }: ClosingCTAProps) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   /*
@@ -82,7 +85,6 @@ export default function ClosingCTA() {
               className="flex gap-2 pointer-events-none absolute left-45 top-full mt-5 px-5 py-3
        rounded-full bg-white/5 backdrop-blur-md text-white
        text-2xl font-medium shadow-2xl"
-         
               variants={{
                 rest: { opacity: 0, y: 15 },
                 hover: { opacity: 1, y: 0 },
@@ -105,14 +107,17 @@ export default function ClosingCTA() {
               <p className="relative z-10 pt-1 opacity-80 tracking-wide">
                 SEND EMAIL
               </p>
-              <ExternalLinkIcon className="relative z-10 w-6 h-6 opacity-80" />
+              <ExternalLinkIcon
+                className="relative z-10 w-6 h-6 opacity-80 mt-[.3rem]"
+                speed={1}
+              />
             </motion.div>
           </motion.a>
         </motion.div>
       </div>
       <motion.div
         style={{ y: footerY }}
-        className="absolute bottom-10 left-0 w-full px-10 flex items-end justify-between"
+        className="absolute bottom-8 left-0 w-full px-10 flex items-end justify-between"
       >
         {/* 1. LEFT SIDE: Globe, Location, Time */}
         <div className="flex space-x-3 items-center">

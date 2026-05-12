@@ -13,19 +13,23 @@
 
 .title-fill {
   line-height: 1.5;
-  color: rgb(207, 207, 207, 0.8); /* base visible text */
-
+  color: rgba(207, 207, 207, 0.8);
   background-image: linear-gradient(to right, white, white);
   background-repeat: no-repeat;
   background-size: 0% 100%;
   background-position: left;
-
   -webkit-background-clip: text;
   background-clip: text;
 
-  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  /* 1. THE RETURN SPEED: This controls the "unfill" (Hover Out) */
+  /* We make it 0.8s or 1s for a more "drifty" exit */
+  transition: background-size 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .group:hover .title-fill {
   background-size: 100% 100%;
+
+  /* 2. THE ENTRANCE SPEED: This controls the "fill" (Hover In) */
+  /* We keep this at 0.5s so it feels responsive to the user's touch */
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }

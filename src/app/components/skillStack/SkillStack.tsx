@@ -16,8 +16,8 @@ export default function SkillStack({}) {
 
   // Timing constants for tile animation
   const tileStartBase = 0.001; // start slightly earlier than viewport trigger
-  const tileDuration = 0.04; // how fast each tile animates in
-  const staggerStep = 0.04; // space between consecutive tiles
+  const tileDuration = 0.08; // how fast each tile animates in
+  const staggerStep = 0.045; // space between consecutive tiles
 
   // Define skill sections
   const sections = [

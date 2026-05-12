@@ -102,7 +102,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
             >
               {/* LEFT chevrons */}
               <motion.span
-                className={`ml-[1.8rem] absolute left-0 flex justify-center w-10 h-8 opacity-90 left-group 
+                className={`ml-[1.8rem] absolute left-0 flex justify-center w-10 h-8 opacity-70 left-group 
               ${isLaunching ? "is-priming" : ""}`}
               >
                 <img
@@ -124,7 +124,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
               {/* RIGHT chevrons */}
               <motion.span
-                className={`mr-[-.4rem] absolute right-0 flex justify-center w-10 h-8 opacity-90 right-group 
+                className={`mr-[-.4rem] absolute right-0 flex justify-center w-10 h-8 opacity-70 right-group 
               ${isLaunching ? "is-priming" : ""}`}
               >
                 <img
