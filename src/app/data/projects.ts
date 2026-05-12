@@ -7,6 +7,6 @@ export const projects = [
     description:
       "A modern, content-first website for Riverside Lyric Opera built with Next.js, TypeScript, and Tailwind CSS. Guided by a client-provided designer, the project leans into bold typography and a structured layout, prioritizing clarity and usability.",
     stack: ["Next.js", "TypeScript", "Tailwind"],
-    images: ["/projects/rlo_home.png", "/projects/rlo_calendar.png"],
+    images: ["/projects/rlo_home.webp", "/projects/rlo_calendar.webp"],
   },
 ];

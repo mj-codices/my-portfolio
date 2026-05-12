@@ -19,8 +19,8 @@ export default function SelectedWork() {
   Each card offsets its animation range slightly using the index
   so cards enter sequentially instead of simultaneously.
 */
-  const cardStart = 0.25;
-  const cardEnd = 0.5;
+  const cardStart = 0.35;
+  const cardEnd = 0.6;
 
   const lastCardRef = useRef(null);
 
@@ -33,15 +33,32 @@ export default function SelectedWork() {
     offset: ["start end", "start start"],
   });
 
-  const sectionOpacityRaw = useTransform(lastCardProgress, [0.8, 1], [1, 0.2]);
+  const sectionOpacityRaw = useTransform(lastCardProgress, [0.9, 1], [1, 0.1]);
 
   const sectionOpacity = useSpring(sectionOpacityRaw, {
     stiffness: 80,
     damping: 25,
   });
 
+  // 1. Tighten the Window & Increase Distance
+  // We wait until 85% scroll progress, then fly -600px.
+  // This means the section covers more ground in less time.
+  const launchRaw = useTransform(lastCardProgress, [0.7, 1], [0, -155]);
+
+  // 2. High-Tension Physics
+  const launchY = useSpring(launchRaw, {
+    stiffness: 130, // Much higher tension for a "snap"
+    damping: 45, // Higher damping to keep the snap controlled
+    mass: 0.5, // Light mass so it reacts instantly
+    restDelta: 0.01,
+  });
+
   return (
-    <div ref={ref} className="w-full px-65 h-auto pb-130">
+    <motion.div
+      style={{ y: launchY }}
+      ref={ref}
+      className="w-full px-65 h-auto pb-40"
+    >
       {/* ---------------------------------------------
                     Section Heading
                     - Scroll-linked vertical movement via `headingY`
@@ -60,7 +77,7 @@ export default function SelectedWork() {
       <motion.div style={{ opacity: sectionOpacity }}>
         <div>
           {projects.map((project, index) => {
-            const stagger = index * 0.08;
+            const stagger = index * 0.07;
 
             const start = cardStart + stagger;
             const end = cardEnd + stagger;
@@ -80,10 +97,11 @@ export default function SelectedWork() {
               damping: 20,
             });
 
-            const yRaw = useTransform(scrollYProgress, [start, end], [30, 0]);
+            const yRaw = useTransform(scrollYProgress, [start, end], [45, 0]);
+
             const y = useSpring(yRaw, {
               stiffness: 90,
-              damping: 20,
+              damping: 30,
             });
 
             const borderYRaw = useTransform(
@@ -120,6 +138,6 @@ export default function SelectedWork() {
           })}
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

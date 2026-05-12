@@ -30,13 +30,6 @@ export default function ClosingCTA() {
     damping: 22,
   });
 
-  const scaleRaw = useTransform(scrollYProgress, [0.3, 0.6], [0.96, 1]);
-
-  const scale = useSpring(scaleRaw, {
-    stiffness: 90,
-    damping: 22,
-  });
-
   /*
   Slight vertical offset gives the CTA a softer upward reveal
   instead of fading/scaling in place.
@@ -44,15 +37,15 @@ export default function ClosingCTA() {
   const yRaw = useTransform(scrollYProgress, [0.15, 0.7], [28, 0]);
 
   const y = useSpring(yRaw, {
-    stiffness: 90,
-    damping: 22,
+    stiffness: 80,
+    damping: 32,
   });
 
   /*
   Footer motion is intentionally slower/later than the main CTA
   to create subtle separation between the content layers.
 */
-  const footerYRaw = useTransform(scrollYProgress, [0.25, 0.85], [40, 0]);
+  const footerYRaw = useTransform(scrollYProgress, [0.45, 0.65], [40, 0]);
 
   const footerY = useSpring(footerYRaw, {
     stiffness: 70,
@@ -66,14 +59,13 @@ export default function ClosingCTA() {
         <motion.div
           ref={ref}
           className="relative flex flex-col items-center"
-          style={{ y, scale, opacity }}
-          initial="rest"
-          animate="rest"
+          style={{ opacity, y }}
         >
           <motion.a
             href="mailto:mjwhite.dev@gmail.com"
             whileHover="hover"
             className="relative z-20"
+            initial="rest"
           >
             <motion.p
               className="cursor-pointer text-5xl font-bold"
@@ -90,6 +82,7 @@ export default function ClosingCTA() {
               className="flex gap-2 pointer-events-none absolute left-45 top-full mt-5 px-5 py-3
        rounded-full bg-white/5 backdrop-blur-md text-white
        text-2xl font-medium shadow-2xl"
+         
               variants={{
                 rest: { opacity: 0, y: 15 },
                 hover: { opacity: 1, y: 0 },
@@ -119,7 +112,7 @@ export default function ClosingCTA() {
       </div>
       <motion.div
         style={{ y: footerY }}
-        className="absolute bottom-5 left-0 w-full px-10 flex items-end justify-between"
+        className="absolute bottom-10 left-0 w-full px-10 flex items-end justify-between"
       >
         {/* 1. LEFT SIDE: Globe, Location, Time */}
         <div className="flex space-x-3 items-center">

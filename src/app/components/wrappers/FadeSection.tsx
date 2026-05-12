@@ -30,7 +30,7 @@ export function FadeSection({
     mode === "in-only"
       ? [0, 0.2, 1] 
       : [0, 0.18, 0.55, 0.75],
-    mode === "in-only" ? [0, 1, 1] : [0, 1, 1, 0.4]
+    mode === "in-only" ? [0, 1, 1] : [0, 1, 1, 0.3]
   );
 
   return (

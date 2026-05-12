@@ -14,10 +14,6 @@ export default function SkillStack({}) {
     offset: ["start 80%", "end 20%"], // trigger animations slightly before fully visible
   });
 
-  // Basic fade + vertical slide for the section heading
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
-
   // Timing constants for tile animation
   const tileStartBase = 0.001; // start slightly earlier than viewport trigger
   const tileDuration = 0.04; // how fast each tile animates in
@@ -31,19 +27,37 @@ export default function SkillStack({}) {
     { title: "tools", data: skillStack.tools, offset: "pl-28" },
   ];
 
-  const backendRef = useRef(null);
-  const { scrollYProgress: backendProgress } = useScroll({
-    target: backendRef,
-    offset: ["start start", "end start"],
-  });
-  const fadeOut = useTransform(backendProgress, [0, 0.3], [1, 0.2]);
+  // This tells Framer:
+  // From 0% to 80% scroll progress, stay at 1 (100% opacity).
+  // From 80% to 100% scroll progress, fade down to 0.
+  const fadeOut = useTransform(scrollYProgress, [0.75, 1], [1, 0.1]);
 
   const fadeOutSmooth = useSpring(fadeOut, {
-    stiffness: 80,
-    damping: 20,
+    stiffness: 130,
+    damping: 30,
   });
+
+  // 1. Sync the trigger window to the final 20% of the section
+  // We'll use -100px for a noticeable but 'premium' lift.
+  const launchRaw = useTransform(scrollYProgress, [0.75, 1], [0, -150]);
+
+  // 2. The Launch Spring
+  // Since you wanted to avoid the 'tug' when scrolling back, we'll keep
+  // the stiffness low. This makes it feel like it's drifting away.
+  const launchY = useSpring(launchRaw, {
+    stiffness: 50, // Lowered for a more 'weightless' feel
+    damping: 10, // High enough to prevent the spring from 'bouncing'
+    mass: .3,
+    restDelta: 0.01,
+  });
+
   return (
-    <motion.div style={{ opacity: fadeOutSmooth }}>
+    <motion.div
+      style={{
+        opacity: fadeOutSmooth,
+        y: launchY, // The magic happens here
+      }}
+    >
       <section ref={ref} className="w-[150vw] px-50">
         {/* Section heading */}
         <motion.div className="relative flex">
@@ -90,11 +104,7 @@ export default function SkillStack({}) {
             const titleY = useTransform(titleEased, [0, 1], [30, 0]);
 
             return (
-              <div
-                key={section.title}
-                ref={section.title === "back-end" ? backendRef : null}
-                className="flex"
-              >
+              <div key={section.title} className="flex">
                 {/* Section title */}
                 <motion.div style={{ opacity: titleEased, y: titleY }}>
                   <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">

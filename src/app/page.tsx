@@ -89,7 +89,7 @@ export default function Home() {
       </div>
       {/* Divider for Selected Work Section */}
       <div className="w-auto h-[140px]"></div>
-      <section className="w-auto h-[500px]">
+      <section className="w-auto h-[400px]">
         <ClosingCTA />
       </section>
     </div>
