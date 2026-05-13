@@ -66,7 +66,7 @@ export default function SelectedWork() {
                 --------------------------------------------- */}
       <motion.div className="relative flex -translate-x-15 mb-4">
         <img
-          className="spin-slow w-12 h-auto mr-9 -translate-y-5"
+          className="spin-slow w-12 h-auto mr-9 -translate-y-4"
           src={"/decorations/aster.svg"}
           alt="decorative asterisk"
         />

@@ -125,8 +125,8 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           animate={open ? "visible" : "hidden"}
           variants={listVariants}
         >
-          <ul className="space-y-6">
-            {["Home", "About", "Work", "Contact"].map((label, i) => (
+          <ul className="space-y-7">
+            {["Home", "Stack", "Work", "Contact"].map((label, i) => (
               <motion.li
                 key={label}
                 variants={itemVariants}

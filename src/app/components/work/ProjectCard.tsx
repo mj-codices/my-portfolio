@@ -18,17 +18,22 @@ export default function ProjectCard({ project }: { project: Project }) {
       x: 0,
       y: 0,
       rotate: 357,
-      filter: "brightness(0.93)",
+      filter: "brightness(0.7)", // Lower idle brightness
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
     },
     hover: {
-      x: -6,
-      y: -20,
-      rotate: 350,
-      filter: "brightness(1)",
+      x: -12,
+      y: -25,
+      rotate: 348,
+      filter: "brightness(1.1)", // Subtle "over-brightness" for the glow effect
       transition: {
-        delay: 0.16,
-        duration: 0.85,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 1.3,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "mirror",
       },
     },
   };
@@ -38,17 +43,23 @@ export default function ProjectCard({ project }: { project: Project }) {
       x: 0,
       y: 0,
       rotate: 3,
-      filter: "brightness(0.6)",
+      filter: "brightness(0.4)", // Even darker to create depth
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
     },
     hover: {
-      x: 18,
-      y: -25,
-      rotate: 9,
-      filter: "brightness(.93)",
+      x: 24,
+      y: -35,
+      rotate: 12,
+      filter: "brightness(0.9)", // Brightens but stays slightly darker than the front
       transition: {
-        delay: 0.16,
-        duration: 0.85,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 1.3,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "mirror",
+        delay: 0.1, // Maintains that organic "out of phase" drift
       },
     },
   };
@@ -87,9 +98,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        <p className="w-170 pl-4 leading-9 text-base">
-          {project.description}
-        </p>
+        <p className="w-170 pl-4 leading-9 text-base">{project.description}</p>
       </div>
       <div className="mt-12 ml-15 relative w-[135px] h-[135px]">
         {/* Back image */}

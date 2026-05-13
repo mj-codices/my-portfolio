@@ -86,7 +86,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               className="ml-1 px-3 py-5 bg-[var(--color-accent)]
                        text-[var(--color-secondary)] rounded font-semibold
                        text-lg tracking-wide cursor-pointer
-                       button button--calypso mt-10
+                       button button--calypso 
                        max-[1060px]:mx-auto max-[1060px]:block z-10"
             >
               <span>LET'S CONNECT</span>
@@ -95,10 +95,10 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
             {/* 4. DYNAMIC CLASS WRAPPER */}
             <div
-              className={`absolute top-full left-0 w-full mt-3
+              className={`pointer-events-none absolute top-full left-0 w-full 
              opacity-0 translate-y-[-15px] transition-all duration-500
              group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-350
-             ${isLaunching ? "is-launching" : ""}`}
+             ${isLaunching ? "is-launching" : ""}`} 
             >
               {/* LEFT chevrons */}
               <motion.span

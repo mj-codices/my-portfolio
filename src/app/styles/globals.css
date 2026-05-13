@@ -153,3 +153,20 @@ body {
 .section:not(.fade-wrapper) {
   padding-block: clamp(120px, 14vh, 200px);
 }
+
+/* ---------------------------------------------
+   SLOW SPIN ANIMATION
+   Used for elements that need a gentle continuous rotation
+--------------------------------------------- */
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: slowSpin 12s linear infinite;
+}

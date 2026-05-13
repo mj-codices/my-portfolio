@@ -38,7 +38,7 @@ export default function HeroText({
         <motion.div
        
         >
-          <p className="text-lg leading-[2.3rem] tracking-[.06rem]">
+          <p className="text-lg leading-[2.3rem] tracking-[.06rem] mb-10">
             Hello! I’m <span className="text-white">Michael J. White</span>{" "}
             (most people call me Julian). I build thoughtful, scalable, and
             production-ready web apps.
