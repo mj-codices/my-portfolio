@@ -7,8 +7,6 @@ type AboutTextProps = {
   p1Y: MotionValue<number>;
   p2Y: MotionValue<number>;
   p1Opacity: MotionValue<number>;
-  p2Opacity: MotionValue<number>;
-  p2Ref: React.RefObject<HTMLDivElement | null>;
   p1Ref: React.RefObject<HTMLDivElement | null>;
 };
 
@@ -31,12 +29,10 @@ export default function AboutMe({
   p1Y,
   p2Y,
   p1Ref,
-  p2Ref,
   p1Opacity,
-  p2Opacity,
 }: AboutTextProps) {
   return (
-    <div className="mt-20 flex relative">
+    <div className="mt-5 flex relative">
       {/* ---------------------------------------------
           FadeSection
           - Handles section-level fade-in when entering viewport
@@ -69,7 +65,7 @@ export default function AboutMe({
           --------------------------------------------- */}
 
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
-          <p className="text-lg w-95 leading-11 ml-7 mb-5 tracking-wide opacity-85">
+          <p className="text-lg w-120 leading-9 ml-7 mb-5 tracking-wide opacity-85">
             I’m a full-stack software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
@@ -83,12 +79,8 @@ export default function AboutMe({
               - `p2Ref` can be used for intersection/scroll triggers
           --------------------------------------------- */}
 
-        <motion.div
-          style={{ y: p2Y, opacity: p2Opacity }}
-          ref={p2Ref}
-          className="relative"
-        >
-          <p className="text-lg w-148 leading-11 ml-7 tracking-wide opacity-85 translate-y-[-.5rem]">
+        <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
+          <p className="text-lg w-130 leading-9 ml-7 tracking-wide opacity-85">
             When I’m not pushing pixels, you can find me jamming to{" "}
             {/* Wrap letters + logo together for a unified hover */}
             <motion.span

@@ -4,6 +4,7 @@ import "./MissionStatement.css";
 type MissionStatementProps = {
   pushUp: MotionValue<number>;
   missionScale: MotionValue<number>;
+
   // motion value controlling vertical spacing of the bottom border
 };
 
@@ -19,14 +20,11 @@ export default function MissionStatement({
           - Gradient text using bg-clip-text + text-transparent
           - Large red dot at the end for visual emphasis
       --------------------------------------------- */}
-      <motion.p
-        style={{ scale: missionScale }}
-        className="text-center leading-[58px] opacity-80"
-      >
+      <motion.p className="text-center leading-[58px] opacity-80">
         My mission is to craft pixel-perfect web experiences where clarity in
         design and strength in architecture unite to create lasting, meaningful
         digital products
-        <span className="px-1 text-[#ff5757] text-7xl leading-7 whitespace-nowrap">
+        <span className="px-1 text-[#ff5757] text-5xl leading-7 whitespace-nowrap">
           .
         </span>
       </motion.p>
