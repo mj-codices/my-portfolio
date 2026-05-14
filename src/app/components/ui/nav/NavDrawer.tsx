@@ -126,7 +126,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           variants={listVariants}
         >
           <ul className="space-y-7">
-            {["Home", "Stack", "Work", "Contact"].map((label, i) => (
+            {["Start", "Stack", "Work", "Contact"].map((label, i) => (
               <motion.li
                 key={label}
                 variants={itemVariants}
