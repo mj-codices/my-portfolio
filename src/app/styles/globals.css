@@ -43,6 +43,13 @@ body {
   color: var(--color-text-primary);
 }
 
+/* Apply this to the body tag when the menu is open */
+.no-scroll {
+  overflow: hidden;
+  /* Optional: Prevents layout shift if a scrollbar disappears on Windows/Linux */
+  padding-right: var(--removed-body-scrollbar-width, 0px); 
+}
+
 /* ============================= */
 /*        Animated Background     */
 /* ============================= */
@@ -56,7 +63,7 @@ body {
 
 .animated-bg {
   position: absolute;
-  pointer-events: none; /* Background should not block clicks */
+  pointer-events: none;
   background: radial-gradient(circle, #191919 0%, #07080d 100%);
   overflow: hidden;
   z-index: 0;
@@ -145,7 +152,7 @@ body {
   animation-delay: -28s;
   transform-origin: 25vw -3vh;
   box-shadow: 40vmin 0 5.196265905749415vmin currentColor;
-}
+} */
 
 /* ============================= */
 /*      Layout / Section Spacing  */

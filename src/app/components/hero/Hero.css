@@ -1,13 +1,10 @@
 .hero-heading {
   /* Direct color control - No variables to get in the way */
-  background: linear-gradient(
-    to right, 
-    #ff5757 100%
-  );
+  background: linear-gradient(to right, #ff5757 100%);
 
   -webkit-background-clip: text;
   background-clip: text;
-  
+
   -webkit-text-fill-color: transparent;
   color: transparent;
 
@@ -58,10 +55,10 @@
   animation-play-state: paused;
 
   /* ADDED: Smoothly transition the brightness/glow */
-  filter: brightness(1) contrast(1);
+  /* filter: brightness(1) contrast(1);
   transition:
     transform 0.4s ease,
-    filter 0.3s ease;
+    filter 0.3s ease; */
 }
 
 /* TILT: (Keep at 90deg if you prefer no tilt, or adjust as needed) */
@@ -73,35 +70,49 @@
 }
 
 /* ============================================================
-   3. ANIMATION LOGIC (IDLE vs LAUNCH)
+   3. ANIMATION LOGIC (IDLE vs HOVER vs LAUNCH)
    ============================================================ */
 
 .group:hover .btnChev {
   animation-play-state: running;
+  /* SPEED BOOST ON HOVER: Drop from 3s down to 1.4s */
+  animation-duration: 1.4s;
+  /* Make the conveyor loop continuous and punchy */
+  animation-timing-function: linear;
 }
 
-/* IDLE TIMING */
+/* IDLE TIMING BASE DEFINITIONS */
 .btnChev-1 {
   animation: btn-chevron-conveyor 3s ease-in-out infinite both;
 }
 .btnChev-2 {
   animation: btn-chevron-conveyor 3s ease-in-out infinite both;
-  animation-delay: 1s;
+  animation-delay: 1s; /* Default staggered idle delay */
 }
 .btnChev-3 {
   animation: btn-chevron-conveyor 3s ease-in-out infinite both;
-  animation-delay: 2s;
+  animation-delay: 2s; /* Default staggered idle delay */
 }
 
-/* LAUNCH TIMING (Revving) */
+/* HOVER SPECIFIC DELAYS (Proportionately scales with the 1.4s hover speed) */
+.group:hover .btnChev-1 {
+  animation-delay: 0s;
+}
+.group:hover .btnChev-2 {
+  animation-delay: 0.466s; /* 1.4s divided by 3 items */
+}
+.group:hover .btnChev-3 {
+  animation-delay: 0.933s; /* 2/3rds of the way through */
+}
+
+/* LAUNCH TIMING (Revving - Stays exactly as you had it!) */
 .is-launching .btnChev {
   animation-duration: 0.7s !important;
   animation-timing-function: linear !important;
-  /* Maintain the glow while it's revving */
   filter: brightness(1.4) contrast(1.1);
 }
 
-/* SYNCED DELAYS */
+/* SYNCED LAUNCH DELAYS */
 .is-launching .btnChev-1 {
   animation-delay: 0s !important;
 }

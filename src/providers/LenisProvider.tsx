@@ -3,6 +3,12 @@
 import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
 
+// Declare global type augmentation so TypeScript doesn't complain about window.lenis
+declare global {
+  interface Window {
+    lenis?: Lenis;
+  }
+}
 // Provides smooth scrolling behavior across the entire app using Lenis.
 // This wraps the application and replaces the browser's default scroll behavior.
 //
@@ -18,6 +24,7 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Initialize Lenis with custom scroll physics
     const lenis = new Lenis();
+    window.lenis = lenis;
 
     // RAF loop drives Lenis updates every frame
     // Without this, Lenis will not animate scroll properly

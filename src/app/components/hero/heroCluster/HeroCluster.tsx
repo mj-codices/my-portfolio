@@ -24,7 +24,7 @@ interface HeroClusterProps {
 // - Different motion ranges create depth (parallax-like effect)
 // ---------------------------
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
-  const topDislodgeRaw = useTransform(scrollYProgress, [0, 0.07], [0, -25]);
+  const topDislodgeRaw = useTransform(scrollYProgress, [0, 0.07], [0, -35]);
   const topY = useSpring(topDislodgeRaw, { stiffness: 300, damping: 30 });
 
   const time = useTime();

@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import "./NavIcon.css";
@@ -20,16 +19,15 @@ const listVariants = {
 
 // ------------------------------
 // Individual nav item entrance animation
-// Handles slide-in + fade-in on drawer open
 // ------------------------------
 const itemVariants = {
   hidden: {
     opacity: 0,
-    x: 160, // start off-screen right
+    x: 160,
   },
   visible: {
     opacity: 1,
-    x: 0, // slide into place
+    x: 0,
     transition: {
       x: {
         type: "spring" as const,
@@ -46,19 +44,15 @@ const itemVariants = {
 
 // ------------------------------
 // FLOAT animation (idle motion)
-// IMPORTANT:
-// - Runs independently from hover interactions
-// - Uses index (i) to desync each circle (prevents uniform motion)
-// - Must use `as const` for TS easing type
-// ----------------
+// ------------------------------
 const floatVariants = {
   float: (i: number) => ({
-    y: [0, -4, 0], // gentle up/down motion
-    x: [0, i % 2 === 0 ? 2 : -2, 0], // alternate slight horizontal drift
+    y: [0, -4, 0],
+    x: [0, i % 2 === 0 ? 2 : -2, 0],
     transition: {
-      duration: 3.5 + i * 0.6, // offset timing per item (prevents sync)
+      duration: 3.5 + i * 0.6,
       repeat: Infinity,
-      ease: "easeInOut" as const, // TS requires explicit easing type
+      ease: "easeInOut" as const,
     },
   }),
 };
@@ -73,8 +67,38 @@ type DrawerProps = {
 
 export function NavDrawer({ open, onClose }: DrawerProps) {
   // Tracks which nav item is hovered
-  // Used to sync hover effects between text + circle + arrow
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  /* ---------------------------------------------
+     LENIS & CSS SCROLL LOCK INTERCEPTOR
+  --------------------------------------------- */
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (open) {
+      // 1. Standard CSS lock fallback
+      html.classList.add("no-scroll");
+      body.classList.add("no-scroll");
+
+      // 2. Kill the Lenis JS scroll engine loop
+      if (window.lenis) window.lenis.stop();
+    } else {
+      // 1. Remove standard CSS lock fallback
+      html.classList.remove("no-scroll");
+      body.classList.remove("no-scroll");
+
+      // 2. Fire up the Lenis JS scroll engine loop again
+      if (window.lenis) window.lenis.start();
+    }
+
+    // Cleanup ensures scrolling is safely restored if the drawer unmounts
+    return () => {
+      html.classList.remove("no-scroll");
+      body.classList.remove("no-scroll");
+      if (window.lenis) window.lenis.start();
+    };
+  }, [open]);
   return (
     <div>
       {/* --------------------------
@@ -97,7 +121,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{
-          duration: open ? 0.4 : 0.4, // slower open, faster close
+          duration: 0.4,
           ease: "easeOut",
         }}
       >
@@ -136,12 +160,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
               >
-                {/* --------------------------
-                    FLOAT LAYER (position only)
-                    --------------------------
-                    This layer ONLY handles drifting motion.
-                    It should NOT control scale (important separation of concerns).
-                */}
+                {/* FLOAT LAYER */}
                 <motion.div
                   className="relative flex items-center justify-center"
                   custom={i}
@@ -150,14 +169,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                   }}
                   animate="float"
                 >
-                  {/* --------------------------
-                      HOVER LAYER (scale only)
-                      --------------------------
-                      This ensures:
-                      - Hover works when hovering TEXT or CIRCLE
-                      - Arrow + circle scale together
-                      - No conflict with float animation
-                  */}
+                  {/* HOVER LAYER */}
                   <motion.div
                     className="relative flex items-center justify-center"
                     animate={{
@@ -207,14 +219,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         </motion.nav>
 
         {/* --------------------------
-            GitHub icon bottom-right
+            Icons bottom-right
             -------------------------- */}
         <motion.div
           className="absolute bottom-8 right-10"
-          whileHover={{
-            scale: 1.15,
-            opacity: 1,
-          }}
+          whileHover={{ scale: 1.15, opacity: 1 }}
           whileTap={{ scale: 0.98 }}
         >
           <a
@@ -228,16 +237,13 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
               height={40}
               alt="Github logo"
               className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
-            ></Image>
+            />
           </a>
         </motion.div>
 
         <motion.div
           className="absolute bottom-[2.35rem] right-25"
-          whileHover={{
-            scale: 1.15,
-            opacity: 1,
-          }}
+          whileHover={{ scale: 1.15, opacity: 1 }}
           whileTap={{ scale: 0.98 }}
         >
           <a
@@ -251,7 +257,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
               height={29}
               alt="Instagram logo"
               className="opacity-47 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
-            ></Image>
+            />
           </a>
         </motion.div>
       </motion.aside>

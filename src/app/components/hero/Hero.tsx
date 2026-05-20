@@ -51,9 +51,9 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   // This is where the 'momentum' comes from. A high stiffness with low damping
   // makes the entire Hero 'snap' and fly upward.
   const launchY = useSpring(launchRaw, {
-    stiffness: 1000, // High tension for a high-velocity launch
-    damping: 40, // Enough damping to stop it from jittering, but low enough to stay fast
-    mass: 0.5, // Lighter weight allows it to accelerate instantly
+    stiffness: 800, // High tension for a high-velocity launch
+    damping: 30, // Enough damping to stop it from jittering, but low enough to stay fast
+    mass: 0.65, // Lighter weight allows it to accelerate instantly
     restDelta: 0.01, // Tells the engine to stop calculating sooner once it's off-screen
   });
 
@@ -96,53 +96,53 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
             {/* 4. DYNAMIC CLASS WRAPPER */}
             <div
               className={`pointer-events-none absolute top-full left-0 w-full 
-             opacity-0 translate-y-[-15px] transition-all duration-500
+  opacity-0 translate-y-[-15px] transition-all duration-500
              group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-350
-             ${isLaunching ? "is-launching" : ""}`} 
+  ${isLaunching ? "is-launching" : ""}`}
             >
               {/* LEFT chevrons */}
-              <motion.span
-                className={`ml-[1.8rem] absolute left-0 flex justify-center w-10 h-8 opacity-70 left-group 
+                <motion.span
+                className={`ml-[2rem] absolute left-0 flex justify-center opacity-30 left-group 
               ${isLaunching ? "is-priming" : ""}`}
-              >
+                >
                 <img
-                  className="w-8 btnChev btnChev-1"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-1"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
                 <img
-                  className="w-8 btnChev btnChev-2"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-2"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
                 <img
-                  className="w-8 btnChev btnChev-3"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-3"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
-              </motion.span>
+                </motion.span>
 
               {/* RIGHT chevrons */}
-              <motion.span
-                className={`mr-[-.4rem] absolute right-0 flex justify-center w-10 h-8 opacity-70 right-group 
+                <motion.span
+                className={`absolute right-0 flex justify-center opacity-30 right-group 
               ${isLaunching ? "is-priming" : ""}`}
-              >
+                >
                 <img
-                  className="w-8 btnChev btnChev-1"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-1"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
                 <img
-                  className="w-8 btnChev btnChev-2"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-2"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
                 <img
-                  className="w-8 btnChev btnChev-3"
-                  src="/decorations/chevron.svg"
+                  className="btnChev btnChev-3"
+                  src="/decorations/chevronb.svg"
                   alt=""
                 />
-              </motion.span>
+                </motion.span>
             </div>
           </div>
         </motion.div>

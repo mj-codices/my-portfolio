@@ -13,7 +13,7 @@ export default function MissionStatement({
   missionScale,
 }: MissionStatementProps) {
   return (
-    <motion.div>
+    <motion.div style={{ scale: missionScale }} >
       {/* ---------------------------------------------
           Mission Text
           - Centered paragraph describing your mission
