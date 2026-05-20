@@ -8,11 +8,13 @@ import {
 } from "framer-motion";
 import "./ProcessDiagram.css";
 
-type ProcessDiagramProps = {
-  headingY: MotionValue<number>;
-};
+interface ProcessDiagramProps {
+  scrollYProgress: MotionValue<number>; // Strongly type the Framer Motion value
+}
 
-export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
+export default function ProcessDiagram({
+  scrollYProgress,
+}: ProcessDiagramProps) {
   const diagramRef = useRef<HTMLDivElement | null>(null);
 
   // Local scroll progress scoped to the diagram
@@ -22,13 +24,19 @@ export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
     offset: ["start end", "end start"], // diagram enters viewport → fully passed
   });
 
-  const clusterYRaw = useTransform(diagramProgress, [0.1, 0.3], [50, 0]);
-  const clusterY = useSpring(clusterYRaw, {
+  const headingPYRaw = useTransform(scrollYProgress, [0.3, 0.9], [70, 0]);
+  const headingPY = useSpring(headingPYRaw, {
     stiffness: 90,
-    damping: 22,
+    damping: 42,
   });
 
-  const paraYRaw = useTransform(diagramProgress, [0.12, 0.3], [70, 0]);
+  const clusterYRaw = useTransform(diagramProgress, [0.08, 0.3], [50, 0]);
+  const clusterY = useSpring(clusterYRaw, {
+    stiffness: 75,
+    damping: 28,
+  });
+
+  const paraYRaw = useTransform(diagramProgress, [0.1, 0.3], [70, 0]);
   const paraY = useSpring(paraYRaw, {
     stiffness: 80,
     damping: 26, // Slightly higher damping for a silky settle
@@ -39,7 +47,7 @@ export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
    Cluster Heading & Icon Opacity
    - Pairs with clusterY (0.1 -> 0.3)
 --------------------------------------------- */
-  const clusterOpacityRaw = useTransform(diagramProgress, [0.1, 0.25], [0, 1]);
+  const clusterOpacityRaw = useTransform(diagramProgress, [0.08, 0.25], [0, 1]);
   const clusterOpacity = useSpring(clusterOpacityRaw, {
     stiffness: 90,
     damping: 22,
@@ -66,7 +74,7 @@ export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
   const circle1OpacityRaw = useTransform(
     diagramProgress,
     [0.05, 0.2, 0.75, 0.95],
-    [0, .3, .6, 0.2]
+    [0, 0.3, 0.6, 0.2]
   );
   const circle1Opacity = useSpring(circle1OpacityRaw, {
     stiffness: 90,
@@ -77,18 +85,17 @@ export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
   const circle2OpacityRaw = useTransform(
     diagramProgress,
     [0.08, 0.25, 0.72, 0.92],
-    [0, .3, .6, 0.2]
+    [0, 0.3, 0.6, 0.2]
   );
   const circle2Opacity = useSpring(circle2OpacityRaw, {
     stiffness: 90,
     damping: 22,
   });
 
-
   return (
     <motion.div
       ref={diagramRef}
-      className="relative w-[520px] right-[-5rem] top-40"
+      className="relative w-[520px] right-[-6rem] top-40"
     >
       {/* ==========================
           BACKGROUND CIRCLES
@@ -114,7 +121,7 @@ export default function ProcessDiagram({ headingY }: ProcessDiagramProps) {
         {/* <FadeSection> */}
         <motion.div
           className="relative flex -translate-x-15 mt-[-4rem]"
-          style={{ y: headingY }}
+          style={{ y: headingPY }}
         >
           <h2 className="pt-8 ml-13 mr-8 uppercase text-3xl font-bold tracking-[.25rem] opacity-80 text-[#ffff]">
             <span className="text-[#a3a2a2]">my</span> process

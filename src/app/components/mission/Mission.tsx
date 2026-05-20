@@ -36,17 +36,17 @@ export default function Mission() {
      - Subtle upward compression of the divider line
   --------------------------------------------- */
 
-  const pushUpRaw = useTransform(scrollYProgress, [0, 1], [130, 60]);
+  const pushUpRaw = useTransform(scrollYProgress, [0, 1], [120, 60]);
   const pushUp = useSpring(pushUpRaw, {
-    stiffness: 120,
-    damping: 25,
+    stiffness: 140,
+    damping: 55,
   });
 
-  const missionScaleRaw = useTransform(scrollYProgress, [0, 0.9], [0.95, 1]);
+  const missionScaleRaw = useTransform(scrollYProgress, [0, 1], [0.96, 1]);
 
   const missionScale = useSpring(missionScaleRaw, {
     stiffness: 120,
-    damping: 32,
+    damping: 22,
   });
 
   /* ---------------------------------------------
@@ -60,7 +60,7 @@ export default function Mission() {
     damping: 22,
   });
 
-  const p1YRaw = useTransform(scrollYProgress, [0.3, 0.9], [105, 0]); // delayed start
+  const p1YRaw = useTransform(scrollYProgress, [0.2, 0.9], [115, 0]); // delayed start
   const p1Y = useSpring(p1YRaw, {
     stiffness: 90,
     damping: 22,
@@ -83,7 +83,7 @@ export default function Mission() {
   const p2YRaw = useTransform(scrollYProgress, [0.3, 0.9], [195, 0]);
   const p2Y = useSpring(p2YRaw, {
     stiffness: 80, // Match P1 stiffness
-    damping: 25, // Match P1 damping
+    damping: 28, // Match P1 damping
     mass: 0.85,
   });
 
@@ -103,7 +103,7 @@ export default function Mission() {
   --------------------------------------------- */
   const exitLaunchRaw = useTransform(
     exitProgress,
-    [0.0, 0.45, 1.0],
+    [0.0, 0.25, 1.0],
     [0, 0, -75]
   );
 
@@ -155,7 +155,7 @@ export default function Mission() {
 
             {/* Right: Visual process diagram with floating elements */}
             <div className="flex-shrink-0">
-              <ProcessDiagram headingY={headingY} />
+              <ProcessDiagram scrollYProgress={scrollYProgress} />
             </div>
           </motion.div>
         </motion.div>

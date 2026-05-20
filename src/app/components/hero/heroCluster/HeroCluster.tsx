@@ -25,7 +25,7 @@ interface HeroClusterProps {
 // ---------------------------
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   const topDislodgeRaw = useTransform(scrollYProgress, [0, 0.07], [0, -35]);
-  const topY = useSpring(topDislodgeRaw, { stiffness: 300, damping: 30 });
+  const topY = useSpring(topDislodgeRaw, { stiffness: 300, damping: 40 });
 
   const time = useTime();
   const progress = useTransform(time, (t) => {
@@ -41,7 +41,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   // makes the entire Hero 'snap' and fly upward.
   const launchY = useSpring(launchRaw, {
     stiffness: 1000, // High tension for a high-velocity launch
-    damping: 40, // Enough damping to stop it from jittering, but low enough to stay fast
+    damping: 50, // Enough damping to stop it from jittering, but low enough to stay fast
     mass: 0.5, // Lighter weight allows it to accelerate instantly
     restDelta: 0.01, // Tells the engine to stop calculating sooner once it's off-screen
   });
