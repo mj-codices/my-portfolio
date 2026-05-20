@@ -80,7 +80,7 @@
 /* Background “blob” effect on hover */
 .button--calypso::before {
   content: "";
-  background: #ffff;
+  background: #ede6e6;
   width: 120%;
   height: 0;
   padding-bottom: 120%;
@@ -98,7 +98,7 @@
 /* Second pseudo-element for additional hover effect */
 .button--calypso::after {
   content: "";
-  background: #ffff;
+  background: #ede6e6;
   transform: translate3d(0, -100%, 0); /* start above button */
   transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
 }

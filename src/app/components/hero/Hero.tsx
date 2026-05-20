@@ -102,44 +102,44 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
             >
               {/* LEFT chevrons */}
                 <motion.span
-                className={`ml-[2rem] absolute left-0 flex justify-center opacity-30 left-group 
+                className={`ml-[2rem] absolute left-0 flex justify-center opacity-40 left-group 
               ${isLaunching ? "is-priming" : ""}`}
                 >
                 <img
                   className="btnChev btnChev-1"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 <img
                   className="btnChev btnChev-2"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 <img
                   className="btnChev btnChev-3"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 </motion.span>
 
               {/* RIGHT chevrons */}
                 <motion.span
-                className={`absolute right-0 flex justify-center opacity-30 right-group 
+                className={`absolute right-0 flex justify-center opacity-40 right-group 
               ${isLaunching ? "is-priming" : ""}`}
                 >
                 <img
                   className="btnChev btnChev-1"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 <img
                   className="btnChev btnChev-2"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 <img
                   className="btnChev btnChev-3"
-                  src="/decorations/chevronb.svg"
+                  src="/decorations/chevron.svg"
                   alt=""
                 />
                 </motion.span>

@@ -54,7 +54,7 @@ export default function AboutMe({
             alt="decorative asterisk"
           />
           <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
-            <span className="text-[#a3a2a2] opacity-100">my</span> story
+            <span className="text-[#a3a2a2]">my</span> story
           </h2>
         </motion.div>
 
@@ -65,7 +65,7 @@ export default function AboutMe({
           --------------------------------------------- */}
 
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
-          <p className="text-lg w-120 leading-9 ml-7 mb-5 tracking-wide opacity-85">
+          <p className="text-lg w-120 leading-9 ml-7 mb-3 tracking-wide opacity-85">
             I’m a full-stack software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
@@ -80,7 +80,7 @@ export default function AboutMe({
           --------------------------------------------- */}
 
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
-          <p className="text-lg w-130 leading-9 ml-7 tracking-wide opacity-85">
+          <p className="text-lg w-120 leading-9 ml-7 tracking-wide opacity-85">
             When I’m not pushing pixels, you can find me jamming to{" "}
             {/* Wrap letters + logo together for a unified hover */}
             <motion.span
@@ -93,13 +93,13 @@ export default function AboutMe({
               <motion.img
                 src={logo.src}
                 alt="Logo"
-                className="w-15 h-auto absolute -left-24 top-4/5 -translate-y-1/2 pointer-events-none"
+                className="w-12 h-auto absolute -left-48 top-4/5 -translate-y-1/4 pointer-events-none"
                 initial={{ opacity: 0, x: 0, y: 0 }}
                 variants={{
                   hover: {
-                    opacity: 0.8,
-                    x: 5, // move toward the letters
-                    y: -6,
+                    opacity: 0.9,
+                    x: 10, // move toward the letters
+                    y: -2,
                     transition: {
                       type: "spring",
                       stiffness: 120,
@@ -122,7 +122,7 @@ export default function AboutMe({
               ))}
             </motion.span>
             , cheering for my hometown Lakers, or camping along the Pacific
-            Coast with my wife, our dog, and our old VW wagon.
+            Coast with my wife and our dog.
           </p>
         </motion.div>
       </div>
