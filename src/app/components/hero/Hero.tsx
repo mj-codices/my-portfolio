@@ -15,6 +15,15 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   const pushSpaceRaw = useTransform(scrollYProgress, [0.04, 0.05], [0, 15]);
   const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.04, 0.08], [0, 11]);
 
+  const tightSpring = {
+    stiffness: 400,
+    damping: 35,
+    restDelta: 0.001,
+  };
+
+  const pushSpace = useSpring(pushSpaceRaw, tightSpring);
+  const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
+
   const handlePressDown = () => {
     // 1. Immediate physical feedback
     setIsLaunching(true);
@@ -33,23 +42,11 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   // States for hovering and the launch sequence
   const [isLaunching, setIsLaunching] = useState(false);
 
-  const tightSpring = {
-    stiffness: 400,
-    damping: 35,
-    restDelta: 0.001,
-  };
-
-  const pushSpace = useSpring(pushSpaceRaw, tightSpring);
-  const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
-
   // 1. Create the Launch Transform
   // We track from 0 (start) to your 0.04 trigger.
   // Once it hits 0.04, the 'y' value will have moved to -100vh (completely off-screen)
   const launchRaw = useTransform(scrollYProgress, [0, 2.3], [0, -2000]);
 
-  // 2. The Momentum Spring
-  // This is where the 'momentum' comes from. A high stiffness with low damping
-  // makes the entire Hero 'snap' and fly upward.
   const launchY = useSpring(launchRaw, {
     stiffness: 800, // High tension for a high-velocity launch
     damping: 30, // Enough damping to stop it from jittering, but low enough to stay fast
@@ -92,58 +89,6 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               <span>LET'S CONNECT</span>
               <span className="text-lg">JUMP TO CONTACT</span>
             </button>
-
-            {/* 4. DYNAMIC CLASS WRAPPER */}
-            <div
-              className={`pointer-events-none absolute top-full left-0 w-full 
-  opacity-0 translate-y-[-15px] transition-all duration-500
-             group-hover:opacity-100 group-hover:translate-y-0 group-hover:delay-350
-  ${isLaunching ? "is-launching" : ""}`}
-            >
-              {/* LEFT chevrons */}
-                <motion.span
-                className={`ml-[2rem] absolute left-0 flex justify-center opacity-40 left-group 
-              ${isLaunching ? "is-priming" : ""}`}
-                >
-                <img
-                  className="btnChev btnChev-1"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                <img
-                  className="btnChev btnChev-2"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                <img
-                  className="btnChev btnChev-3"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                </motion.span>
-
-              {/* RIGHT chevrons */}
-                <motion.span
-                className={`absolute right-0 flex justify-center opacity-40 right-group 
-              ${isLaunching ? "is-priming" : ""}`}
-                >
-                <img
-                  className="btnChev btnChev-1"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                <img
-                  className="btnChev btnChev-2"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                <img
-                  className="btnChev btnChev-3"
-                  src="/decorations/chevron.svg"
-                  alt=""
-                />
-                </motion.span>
-            </div>
           </div>
         </motion.div>
       </FadeSection>

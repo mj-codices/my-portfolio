@@ -1,5 +1,4 @@
 import { motion, MotionValue, Variants } from "framer-motion";
-import { FadeSection } from "../wrappers/FadeSection";
 import logo from "../../assets/images/aphex.png";
 
 type AboutTextProps = {
@@ -33,11 +32,6 @@ export default function AboutMe({
 }: AboutTextProps) {
   return (
     <div className="mt-5 flex relative">
-      {/* ---------------------------------------------
-          FadeSection
-          - Handles section-level fade-in when entering viewport
-          - Keeps animation concerns separated from content
-      --------------------------------------------- */}
       <div className="ml-15 relative z-10 pt-10">
         {/* ---------------------------------------------
               Section Heading
