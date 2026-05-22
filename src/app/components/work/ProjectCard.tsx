@@ -1,6 +1,7 @@
 import "./ProjectCard.css";
 import ExternalLinkIcon from "../ui/icons/ExternalLinkIcon";
 import { motion, Variants } from "framer-motion";
+import Link from "next/link";
 
 interface Project {
   id: number;
@@ -10,6 +11,7 @@ interface Project {
   description: string;
   stack: string[];
   images: string[];
+  link: string;
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
@@ -64,6 +66,12 @@ export default function ProjectCard({ project }: { project: Project }) {
     },
   };
   return (
+    <Link 
+      href={project.link} 
+      target="_blank"             // Opens your live project site in a clean new browser tab
+      rel="noopener noreferrer"   // Security best-practice flag for external tab targeting
+      className="block"           // Ensures the link layout stretches over the entire card area
+    >
     <motion.div
       initial="rest"
       whileHover="hover"
@@ -122,5 +130,6 @@ export default function ProjectCard({ project }: { project: Project }) {
         />
       </div>
     </motion.div>
+    </Link>
   );
 }

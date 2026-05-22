@@ -22,15 +22,15 @@
   color: #191919; /* Text color */
 }
 
-/* Front text span stays above background animations */
-.button--calypso span:first-child {
+/* 💡 FIX 1: Change to > child combinators so it ONLY moves the top-level layers */
+.button--calypso > span:first-child {
   display: block;
   position: relative;
   z-index: 10;
 }
 
-/* Back text span used for hover animation */
-.button--calypso span:last-child {
+/* 💡 FIX 2: Change to > child combinators here as well */
+.button--calypso > span:last-child {
   display: block;
   position: absolute;
   top: 50%;
@@ -45,16 +45,17 @@
 /* ============================= */
 /*      Hover Animations          */
 /* ============================= */
-.button--calypso:hover span:first-child {
+/* 💡 FIX 3: Target ONLY the direct top-level spans for the entry/exit paths */
+.button--calypso:hover > span:first-child {
   animation: MoveScaleUpInitial 0.3s forwards;
 }
 
-.button--calypso:hover span:last-child {
+.button--calypso:hover > span:last-child {
   animation: MoveScaleUpEnd 0.3s forwards 0.3s; /* delay so it appears after first span moves */
 }
 
-.button--calypso:hover span {
-  /* Combine both animations for consistency */
+/* ❌ REMOVED OR FIXED: The broken generic selector block has been tightened here: */
+.button--calypso:hover > span {
   animation:
     MoveScaleUpInitial 0.3s forwards,
     MoveScaleUpEnd 0.3s forwards 0.3s;
@@ -108,6 +109,32 @@
   transition-duration: 0.05s; /* quick final movement */
   transition-delay: 0.4s; /* wait for before pseudo-element to finish */
   transition-timing-function: linear;
+}
+
+/* ============================================================
+   CTA Hover Text GIF Integration Styles
+   ============================================================ */
+.button--calypso .btn-hover-content {
+  display: flex !important; /* Converts container to layout row alignment */
+  align-items: center; /* Keeps text and the arrow mathematically centered */
+  justify-content: center; /* Forces structural balance within the button frame */
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(
+    100%
+  ); /* Keeps matching original keyframe starting track positioning */
+  opacity: 0;
+  z-index: 5;
+}
+
+.btn-hover-gif {
+  width: 60px; /* Controls the custom target display width framework */
+  height: auto; /* Preserves clean proportional rendering ratios */
+  display: inline-block;
+  object-fit: contain;
 }
 
 /* ============================= */

@@ -75,19 +75,28 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               onMouseEnter={() => setIsHoveringCTA(true)}
               onMouseLeave={() => {
                 setIsHoveringCTA(false);
-                // Optional: if they drag the mouse off without releasing, reset the rev
                 if (isLaunching) setIsLaunching(false);
               }}
-              onMouseDown={handlePressDown} // TRIGGER ON CLICK DOWN
-              onMouseUp={handleRelease} // BLAST OFF
+              onMouseDown={handlePressDown}
+              onMouseUp={handleRelease}
               className="ml-1 px-3 py-5 bg-[var(--color-accent)]
-                       text-[var(--color-secondary)] rounded font-semibold
-                       text-lg tracking-wide cursor-pointer
-                       button button--calypso 
-                       max-[1060px]:mx-auto max-[1060px]:block z-10"
+             text-[var(--color-secondary)] rounded font-semibold
+             text-lg tracking-wide cursor-pointer
+             button button--calypso 
+             max-[1060px]:mx-auto max-[1060px]:block z-10"
             >
+              {/* Default visible text layer */}
               <span>LET'S CONNECT</span>
-              <span className="text-lg">JUMP TO CONTACT</span>
+
+              {/* Hover active text layer containing the GIF arrow */}
+              <span className="text-base btn-hover-content">
+                <span className="translate-x-2">JUMP TO CONTACT</span>
+                <img
+                  src="/icons/down-arrow.gif"
+                  alt="Animated arrow"
+                  className="btn-hover-gif -translate-x-1 translate-y-1"
+                />
+              </span>
             </button>
           </div>
         </motion.div>
