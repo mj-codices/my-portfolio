@@ -55,6 +55,7 @@ export default function SelectedWork() {
 
   return (
     <motion.div
+      id="work"
       style={{ y: launchY }}
       ref={ref}
       className="w-full px-65 h-auto pb-40"

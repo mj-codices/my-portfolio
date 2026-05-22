@@ -77,28 +77,75 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
     const body = document.body;
 
     if (open) {
-      // 1. Standard CSS lock fallback
       html.classList.add("no-scroll");
       body.classList.add("no-scroll");
-
-      // 2. Kill the Lenis JS scroll engine loop
       if (window.lenis) window.lenis.stop();
     } else {
-      // 1. Remove standard CSS lock fallback
       html.classList.remove("no-scroll");
       body.classList.remove("no-scroll");
-
-      // 2. Fire up the Lenis JS scroll engine loop again
       if (window.lenis) window.lenis.start();
     }
 
-    // Cleanup ensures scrolling is safely restored if the drawer unmounts
     return () => {
       html.classList.remove("no-scroll");
       body.classList.remove("no-scroll");
       if (window.lenis) window.lenis.start();
     };
   }, [open]);
+
+  /* ---------------------------------------------
+     NEW: LENIS ANCHOR SCROLL CLICK HANDLER
+  --------------------------------------------- */
+  const handleNavLinkClick = (label: string) => {
+    // 1. Instantly wake up the Lenis engine loop so it can accept scroll inputs immediately
+    if (window.lenis) {
+      window.lenis.start();
+    }
+
+    // 2. Trigger your state update to slide the drawer out of view
+    onClose();
+
+    const lowerLabel = label.toLowerCase();
+
+    // 3. Orchestrate the silky-smooth transition
+    if (window.lenis) {
+      if (lowerLabel === "start") {
+        // Scroll to absolute topmost pixel coordinate boundary
+        window.lenis.scrollTo(0, {
+          duration: 1.4,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
+      } else if (lowerLabel === "contact") {
+        // SCROLL TO ABSOLUTE BOTTOM: Lenis accepts the 'bottom' keyword natively!
+        window.lenis.scrollTo("bottom", {
+          duration: 1.5, // Giving long vertical journeys a slightly longer, luxurious time to slide
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
+      } else {
+        // Dynamic fallback targeting standard section components (#stack, #work)
+        const targetId = `#${lowerLabel}`;
+        window.lenis.scrollTo(targetId, {
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          offset: -100,
+        });
+      }
+    } else {
+      // 4. Solid native fallback chains if Lenis hasn't booted up yet
+      if (lowerLabel === "start") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (lowerLabel === "contact") {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      } else {
+        const targetElement = document.querySelector(`#${lowerLabel}`);
+        targetElement?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <div>
       {/* --------------------------
@@ -159,6 +206,8 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 transition={{ type: "tween", duration: 0.2 }}
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
+                // CONNECT THE SCROLL ACTION HANDLER HERE
+                onClick={() => handleNavLinkClick(label)}
               >
                 {/* FLOAT LAYER */}
                 <motion.div
@@ -173,7 +222,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                   <motion.div
                     className="relative flex items-center justify-center"
                     animate={{
-                      scale: hoveredIndex === i ? 1.7 : 1,
+                      scale: hoveredIndex === i ? 2 : 1,
                     }}
                     transition={{
                       type: "spring",
@@ -189,27 +238,37 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                       alt="circle"
                     />
 
-                    {/* Arrow */}
-                    <motion.div
-                      className="absolute inset-0 flex items-center justify-center"
-                      animate={{
-                        opacity: hoveredIndex === i ? 1 : 0,
-                        scale: hoveredIndex === i ? 1 : 0.5,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 20,
-                      }}
-                    >
-                      <Image
-                        src="/icons/arrow.svg"
-                        width={8}
-                        height={8}
-                        alt="arrow"
-                        className="rotate-320"
-                      />
-                    </motion.div>
+                    {/* ARROW VIEWPORT CONTAINER (With your new diagonal sliding arrow logic) */}
+                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
+                      <motion.div
+                        className="absolute flex items-center justify-center w-full h-full"
+                        initial={{ opacity: 0, x: -8, y: 8, scale: 0.5 }}
+                        animate={{
+                          x: hoveredIndex === i ? 0 : -8,
+                          y: hoveredIndex === i ? 0 : 8,
+                          scale: hoveredIndex === i ? 1 : 0.7,
+                          opacity: hoveredIndex === i ? [0, 0, 1] : 0,
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 18,
+                          delay: hoveredIndex === i ? 0.05 : 0,
+                          opacity: {
+                            duration: hoveredIndex === i ? 0.32 : 0.1,
+                            ease: "easeOut",
+                          },
+                        }}
+                      >
+                        <Image
+                          src="/icons/arrow.svg"
+                          width={8}
+                          height={8}
+                          alt="arrow"
+                          className="rotate-320"
+                        />
+                      </motion.div>
+                    </div>
                   </motion.div>
                 </motion.div>
                 {label}
@@ -223,7 +282,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
             -------------------------- */}
         <motion.div
           className="absolute bottom-8 right-10"
-          whileHover={{ scale: 1.15, opacity: 1 }}
+          whileHover={{ scale: 1.25, opacity: 1 }}
           whileTap={{ scale: 0.98 }}
         >
           <a

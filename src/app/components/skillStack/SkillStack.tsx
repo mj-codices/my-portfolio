@@ -58,7 +58,7 @@ export default function SkillStack({}) {
         y: launchY, // The magic happens here
       }}
     >
-      <section ref={ref} className="w-[150vw] px-50">
+      <section ref={ref} id="stack" className="w-[150vw] px-50">
         {/* Section heading */}
         <motion.div className="relative flex">
           <img
