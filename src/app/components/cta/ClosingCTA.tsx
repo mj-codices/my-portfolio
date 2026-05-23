@@ -120,12 +120,12 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
         className="absolute bottom-8 left-0 w-full px-10 flex items-end justify-between"
       >
         {/* 1. LEFT SIDE: Globe, Location, Time */}
-        <div className="flex space-x-3 items-center">
+        <div className="flex space-x-2 items-center translate-y-2">
           <img
             src="icons/globe.gif"
-            width={30}
-            height={30}
-            className="opacity-70 mt-[-3px]"
+            width={50}
+            height={50}
+            className="opacity-20 mt-[-3px]"
             alt="Globe"
           />
           <LocationDisplay />
@@ -133,7 +133,7 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
         </div>
 
         {/* 2. CENTER: Links */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute left-1/2 -translate-x-1/2 flex gap-5">
           <motion.a
             href="https://www.instagram.com/casa_junbubby"
             target="_blank"

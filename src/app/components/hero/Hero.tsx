@@ -1,10 +1,12 @@
 import HeroText from "./HeroText";
 import HeroCluster from "./heroCluster/HeroCluster";
+import CTAChevrons from "../ui/icons/CTAChevrons";
 import "./Hero.css";
 import { MotionValue, useTransform, useSpring, motion } from "framer-motion";
 import "../../styles/components/button.css";
 import { useState } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
+
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;
@@ -89,13 +91,9 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               <span>LET'S CONNECT</span>
 
               {/* Hover active text layer containing the GIF arrow */}
-              <span className="text-base btn-hover-content">
-                <span className="translate-x-2">JUMP TO CONTACT</span>
-                <img
-                  src="/icons/down-arrow.gif"
-                  alt="Animated arrow"
-                  className="btn-hover-gif -translate-x-1 translate-y-1"
-                />
+              <span className="text-lg btn-hover-content">
+                <span className="translate-x-5 leading-6">JUMP TO CONTACT</span>
+                <CTAChevrons />
               </span>
             </button>
           </div>

@@ -11,7 +11,7 @@ const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1, // stagger each menu item
+      staggerChildren: 0.125, // stagger each menu item
       delayChildren: 0.25, // delay first item
     },
   },
@@ -32,11 +32,11 @@ const itemVariants = {
       x: {
         type: "spring" as const,
         stiffness: 420,
-        damping: 26,
+        damping: 36,
         mass: 0.8,
       },
       opacity: {
-        duration: 0.25,
+        duration: 0.35,
       },
     },
   },
@@ -253,7 +253,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                           type: "spring",
                           stiffness: 200,
                           damping: 18,
-                          delay: hoveredIndex === i ? 0.05 : 0,
+                          delay: hoveredIndex === i ? 0.04 : 0,
                           opacity: {
                             duration: hoveredIndex === i ? 0.32 : 0.1,
                             ease: "easeOut",
