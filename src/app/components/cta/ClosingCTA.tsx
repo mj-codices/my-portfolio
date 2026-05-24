@@ -120,7 +120,7 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
         className="absolute bottom-8 left-0 w-full px-10 flex items-end justify-between"
       >
         {/* 1. LEFT SIDE: Globe, Location, Time */}
-        <div className="flex space-x-2 items-center translate-y-2">
+        <div className="flex space-x-2 items-center translate-y-2 ml-[-1rem]">
           <img
             src="icons/globe.gif"
             width={50}

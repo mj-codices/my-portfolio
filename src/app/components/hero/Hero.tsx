@@ -118,7 +118,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
               {/* Hover active text layer containing the GIF arrow */}
               <span className="text-lg btn-hover-content">
-                <span className="translate-x-6 leading-6">JUMP TO CONTACT</span>
+                <span className="translate-x-5 leading-6">JUMP TO CONTACT</span>
 
                 {/* 2. Link your motion.span to the chevronVariants */}
                 <motion.span

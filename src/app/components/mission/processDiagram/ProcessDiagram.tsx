@@ -36,11 +36,44 @@ export default function ProcessDiagram({
     damping: 28,
   });
 
-  const paraYRaw = useTransform(diagramProgress, [0.07, 0.3], [67, 0]);
+  const paraYRaw = useTransform(diagramProgress, [0.07, 0.3], [77, 0]);
   const paraY = useSpring(paraYRaw, {
     stiffness: 80,
     damping: 26, // Slightly higher damping for a silky settle
     mass: 0.7, // Lighter mass for the "swoop" feel
+  });
+
+  /* ---------------------------------------------
+     Circle 1 Y-Motion Tracking
+     - Entrance: 0.01 -> 0.05 (slides up from 150 to 0)
+     - Plateau:  0.05 -> 0.75 (stays at 0 while user reads)
+     - Exit:     0.75 -> 0.95 (slides down from 0 to 100 as text leaves)
+  --------------------------------------------- */
+  const circle1YRaw = useTransform(
+    diagramProgress,
+    [0, 0.05, 0.45, 1], // Input timeline
+    [100, 0, 0, 70] // Output Y positions
+  );
+
+  const circle1Y = useSpring(circle1YRaw, {
+    stiffness: 90,
+    damping: 42,
+  });
+
+  /* ---------------------------------------------
+     Circle 2 Y-Motion Tracking
+     - Staggers slightly behind Circle 1 on exit
+     - Exit: 0.72 -> 0.92 (slides down from 0 to 120)
+  --------------------------------------------- */
+  const circle2YRaw = useTransform(
+    diagramProgress,
+    [0, 0.05, 0.45, 1], // Input timeline
+    [100, 0, 0, 130] // Output Y positions (slightly deeper travel for parallax)
+  );
+
+  const circle2Y = useSpring(circle2YRaw, {
+    stiffness: 90,
+    damping: 42,
   });
 
   /* ---------------------------------------------
@@ -86,15 +119,15 @@ export default function ProcessDiagram({
 
       <motion.div
         id="mission-circle-1"
-        className="absolute top-25 right-26 w-[145px] h-[145px] rounded-full bg-[#ff5757] opacity-60 z-0 blur-sm"
-        style={{ opacity: circle1Opacity }}
+        className="absolute top-25 right-26 w-[145px] h-[145px] rounded-full bg-[#ff6f61] z-0 blur-md"
+        style={{ opacity: circle1Opacity, y: circle1Y }}
       />
 
       <motion.div
         id="mission-circle-2"
         className="absolute right-5 mt-26 -translate-x-115 w-[130px] h-[123px] rounded-full 
                    bg-gradient-to-br from-[#ff5757] to-[#9e005d] opacity-60 z-0 blur-sm"
-        style={{ opacity: circle2Opacity }}
+        style={{ opacity: circle2Opacity, y: circle2Y }}
       />
 
       {/* ==========================
