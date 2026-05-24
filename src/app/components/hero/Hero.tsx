@@ -2,11 +2,16 @@ import HeroText from "./HeroText";
 import HeroCluster from "./heroCluster/HeroCluster";
 import CTAChevrons from "../ui/icons/CTAChevrons";
 import "./Hero.css";
-import { MotionValue, useTransform, useSpring, motion } from "framer-motion";
+import {
+  MotionValue,
+  useTransform,
+  useSpring,
+  motion,
+  Variants,
+} from "framer-motion";
 import "../../styles/components/button.css";
 import { useState } from "react";
 import { FadeSection } from "../wrappers/FadeSection";
-
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;
@@ -14,6 +19,7 @@ interface HeroProps {
 }
 
 export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
+  const [isHovered, setIsHovered] = useState(false);
   const pushSpaceRaw = useTransform(scrollYProgress, [0.04, 0.05], [0, 15]);
   const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.04, 0.08], [0, 11]);
 
@@ -25,6 +31,21 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
   const pushSpace = useSpring(pushSpaceRaw, tightSpring);
   const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
+
+  // Define the fade-in parameters for the double chevrons
+  const chevronVariants: Variants = {
+    idle: {
+      opacity: 0,
+    },
+    hover: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        delay: 0.55, // Adjust this decimal to perfectly match when your text finishes sliding up
+        ease: "easeOut",
+      },
+    },
+  };
 
   const handlePressDown = () => {
     // 1. Immediate physical feedback
@@ -73,10 +94,15 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
           <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
 
           <div className="inline-block relative ml-1 group">
-            <button
-              onMouseEnter={() => setIsHoveringCTA(true)}
+            <motion.button
+              animate={isHovered ? "hover" : "idle"}
+              onMouseEnter={() => {
+                setIsHoveringCTA(true);
+                setIsHovered(true);
+              }}
               onMouseLeave={() => {
                 setIsHoveringCTA(false);
+                setIsHovered(false);
                 if (isLaunching) setIsLaunching(false);
               }}
               onMouseDown={handlePressDown}
@@ -92,10 +118,17 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
               {/* Hover active text layer containing the GIF arrow */}
               <span className="text-lg btn-hover-content">
-                <span className="translate-x-5 leading-6">JUMP TO CONTACT</span>
-                <CTAChevrons />
+                <span className="translate-x-6 leading-6">JUMP TO CONTACT</span>
+
+                {/* 2. Link your motion.span to the chevronVariants */}
+                <motion.span
+                  variants={chevronVariants}
+                  className="display-inline-block translate-x-1" // Ensures cleaner layout rendering during opacity shifts
+                >
+                  <CTAChevrons />
+                </motion.span>
               </span>
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </FadeSection>

@@ -80,7 +80,7 @@ export default function Mission() {
   });
 
   // Start moving immediately (0) and finish mid-scroll (0.5)
-  const p2YRaw = useTransform(scrollYProgress, [0.3, 0.9], [195, 0]);
+  const p2YRaw = useTransform(scrollYProgress, [0.3, 0.9], [165, 0]);
   const p2Y = useSpring(p2YRaw, {
     stiffness: 80, // Match P1 stiffness
     damping: 28, // Match P1 damping

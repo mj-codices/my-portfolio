@@ -59,7 +59,7 @@ export default function AboutMe({
           --------------------------------------------- */}
 
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
-          <p className="text-lg w-120 leading-9 ml-7 mb-3 tracking-wide opacity-85">
+          <p className="text-lg w-120 leading-9 ml-7 mb-3 tracking-wide">
             I’m a full-stack software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
@@ -74,7 +74,7 @@ export default function AboutMe({
           --------------------------------------------- */}
 
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
-          <p className="text-lg w-120 leading-9 ml-7 tracking-wide opacity-85">
+          <p className="text-lg w-120 leading-9 ml-7 tracking-wide">
             When I’m not pushing pixels, you can find me jamming to{" "}
             {/* Wrap letters + logo together for a unified hover */}
             <motion.span

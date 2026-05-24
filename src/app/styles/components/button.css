@@ -22,14 +22,13 @@
   color: #191919; /* Text color */
 }
 
-/* 💡 FIX 1: Change to > child combinators so it ONLY moves the top-level layers */
 .button--calypso > span:first-child {
   display: block;
   position: relative;
   z-index: 10;
 }
 
-/* 💡 FIX 2: Change to > child combinators here as well */
+
 .button--calypso > span:last-child {
   display: block;
   position: absolute;
@@ -45,7 +44,7 @@
 /* ============================= */
 /*      Hover Animations          */
 /* ============================= */
-/* 💡 FIX 3: Target ONLY the direct top-level spans for the entry/exit paths */
+
 .button--calypso:hover > span:first-child {
   animation: MoveScaleUpInitial 0.3s forwards;
 }
@@ -54,7 +53,6 @@
   animation: MoveScaleUpEnd 0.3s forwards 0.3s; /* delay so it appears after first span moves */
 }
 
-/* ❌ REMOVED OR FIXED: The broken generic selector block has been tightened here: */
 .button--calypso:hover > span {
   animation:
     MoveScaleUpInitial 0.3s forwards,
@@ -114,28 +112,23 @@
 /* ============================================================
    CTA Hover Text GIF Integration Styles
    ============================================================ */
+
+
 .button--calypso .btn-hover-content {
-  display: flex !important; /* Converts container to layout row alignment */
-  align-items: center; /* Keeps text and the arrow mathematically centered */
-  justify-content: center; /* Forces structural balance within the button frame */
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 
   position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
-  transform: translateY(
-    100%
-  ); /* Keeps matching original keyframe starting track positioning */
+  /* Remove the translateY(100%) from here */
+  transform: translateY(-50%); /* Position it centered by default */
   opacity: 0;
   z-index: 5;
 }
 
-.btn-hover-gif {
-  width: 60px; /* Controls the custom target display width framework */
-  height: auto; /* Preserves clean proportional rendering ratios */
-  display: inline-block;
-  object-fit: contain;
-}
 
 /* ============================= */
 /*      Keyframes                */

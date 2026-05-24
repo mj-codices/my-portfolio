@@ -30,13 +30,13 @@ export default function ProcessDiagram({
     damping: 42,
   });
 
-  const clusterYRaw = useTransform(diagramProgress, [0.08, 0.3], [50, 0]);
+  const clusterYRaw = useTransform(diagramProgress, [0.03, 0.3], [60, 0]);
   const clusterY = useSpring(clusterYRaw, {
     stiffness: 75,
     damping: 28,
   });
 
-  const paraYRaw = useTransform(diagramProgress, [0.1, 0.3], [70, 0]);
+  const paraYRaw = useTransform(diagramProgress, [0.07, 0.3], [67, 0]);
   const paraY = useSpring(paraYRaw, {
     stiffness: 80,
     damping: 26, // Slightly higher damping for a silky settle
@@ -47,27 +47,10 @@ export default function ProcessDiagram({
    Cluster Heading & Icon Opacity
    - Pairs with clusterY (0.1 -> 0.3)
 --------------------------------------------- */
-  const clusterOpacityRaw = useTransform(diagramProgress, [0.08, 0.25], [0, 1]);
+  const clusterOpacityRaw = useTransform(diagramProgress, [0.03, 0.3], [0, 1]);
   const clusterOpacity = useSpring(clusterOpacityRaw, {
     stiffness: 90,
     damping: 22,
-  });
-
-  const paraOpacityRaw = useTransform(diagramProgress, [0.15, 0.35], [0, 1]);
-  const paraOpacity = useSpring(paraOpacityRaw, {
-    stiffness: 90,
-    damping: 22,
-  });
-
-  const containerOpacityRaw = useTransform(
-    diagramProgress,
-    [0.25, 0.4],
-    [0, 1]
-  );
-
-  const containerOpacity = useSpring(containerOpacityRaw, {
-    stiffness: 80,
-    damping: 25,
   });
 
   // Opacity: Fades in early (0 to 0.2), stays at 1, fades out late (0.75 to 0.95)
@@ -150,7 +133,7 @@ export default function ProcessDiagram({
           ========================== */}
 
         <motion.div>
-          <motion.div style={{ y: paraY, opacity: paraOpacity }}>
+          <motion.div style={{ y: paraY, opacity: clusterOpacity }}>
             <img
               className="absolute w-48 translate-x-17 translate-y-44"
               src="/decorations/dotted.svg"
@@ -170,7 +153,7 @@ export default function ProcessDiagram({
               </h3>
             </motion.div>
             <motion.p
-              style={{ y: paraY, opacity: paraOpacity }}
+              style={{ y: paraY, opacity: clusterOpacity }}
               className="w-50 pt-3 panel-para leading-6 opacity-85"
             >
               Defining project goals, user personas, and technical requirements.
@@ -189,7 +172,7 @@ export default function ProcessDiagram({
               </h3>
             </motion.div>
             <motion.p
-              style={{ y: paraY, opacity: paraOpacity }}
+              style={{ y: paraY, opacity: clusterOpacity }}
               className="w-45 pt-3 panel-para leading-6 text-end translate-x-8 opacity-85"
             >
               Writing clean, scalable code and architectural implementation.
@@ -206,7 +189,7 @@ export default function ProcessDiagram({
               <h3 className="text-lg text-[#b4b4b4] font-bold">Deployment</h3>
             </motion.div>
             <motion.p
-              style={{ y: paraY, opacity: paraOpacity }}
+              style={{ y: paraY, opacity: clusterOpacity }}
               className="w-50 pt-3 panel-para leading-6 opacity-85"
             >
               Cloud delivery, server monitoring, and continuous maintenance.

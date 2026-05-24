@@ -5,7 +5,7 @@ interface CTAChevronsProps {
 }
 
 export default function CTAChevrons({
-  className = "w-60 translate-x-2",
+  className = "w-65",
 }: CTAChevronsProps) {
   return (
     <motion.span className={`${className} display-block overflow-visible`}>
