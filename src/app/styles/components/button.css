@@ -150,3 +150,34 @@
     opacity: 1; /* fade in */
   }
 }
+
+/* Base Keyframes replicating your exact SMIL coordinate pulse */
+@keyframes pulseBottom {
+  0%, 11.7%, 100% { transform: translateY(0); }
+  52.9% { transform: translateY(40px); }
+}
+@keyframes pulseMiddle {
+  0%, 8.8%, 94.1%, 100% { transform: translateY(0); }
+  50% { transform: translateY(40px); }
+}
+@keyframes pulseTop {
+  0%, 5.8%, 88.2%, 100% { transform: translateY(0); }
+  47% { transform: translateY(40px); }
+}
+
+/* Trigger loops ONLY when the parent container finishes its entrance */
+/* Assuming .button--calypso is your parent class */
+.button--calypso:hover #chevron-bottom {
+  animation: pulseBottom 1.133s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.7s; /* 0.3s parent delay + 0.4s duration = 0.7s total entrance wait */
+}
+
+.button--calypso:hover #chevron-middle {
+  animation: pulseMiddle 1.133s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.7s;
+}
+
+.button--calypso:hover #chevron-top {
+  animation: pulseTop 1.133s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.7s;
+}

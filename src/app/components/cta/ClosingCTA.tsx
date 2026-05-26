@@ -125,7 +125,7 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
             src="icons/globe.gif"
             width={50}
             height={50}
-            className="opacity-20 mt-[-3px]"
+            className="opacity-40 mt-[-3px]"
             alt="Globe"
           />
           <LocationDisplay />
@@ -184,7 +184,7 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
         <div className="text-lg">
           <p className="opacity-60 text-lg tracking-tight">
             Design by{" "}
-            <span className="opacity-50 font-medium">Michael J. White</span>
+            <span className="opacity-60 font-medium">Michael J. White</span>
           </p>
         </div>
       </motion.div>

@@ -52,7 +52,7 @@ export default function ProcessDiagram({
   const circle1YRaw = useTransform(
     diagramProgress,
     [0, 0.05, 0.45, 1], // Input timeline
-    [100, 0, 0, 70] // Output Y positions
+    [100, 0, 0, 160] // Output Y positions
   );
 
   const circle1Y = useSpring(circle1YRaw, {
@@ -68,7 +68,7 @@ export default function ProcessDiagram({
   const circle2YRaw = useTransform(
     diagramProgress,
     [0, 0.05, 0.45, 1], // Input timeline
-    [100, 0, 0, 130] // Output Y positions (slightly deeper travel for parallax)
+    [100, 0, 0, 100] // Output Y positions (slightly deeper travel for parallax)
   );
 
   const circle2Y = useSpring(circle2YRaw, {

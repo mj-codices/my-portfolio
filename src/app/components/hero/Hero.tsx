@@ -33,20 +33,21 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
 
   // Define the fade-in parameters for the double chevrons
-  const chevronVariants: Variants = {
+  const chevronVariants = {
     idle: {
       opacity: 0,
+      y: -30, // Start 25px ABOVE its natural resting position in the flex row
     },
     hover: {
       opacity: 1,
+      y: 0, // Smoothly slide DOWN to its natural center alignment
       transition: {
-        duration: 0.5,
-        delay: 0.55, // Adjust this decimal to perfectly match when your text finishes sliding up
-        ease: "easeOut",
+        duration: .85,
+        delay: 0.36, // Matches your CSS delay so it triggers as the text finishes sliding up
+        ease: "easeInOut" as const,
       },
     },
   };
-
   const handlePressDown = () => {
     // 1. Immediate physical feedback
     setIsLaunching(true);
@@ -123,7 +124,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
                 {/* 2. Link your motion.span to the chevronVariants */}
                 <motion.span
                   variants={chevronVariants}
-                  className="display-inline-block translate-x-1" // Ensures cleaner layout rendering during opacity shifts
+                  className="inline-block translate-x-1" // Ensures cleaner layout rendering during opacity shifts
                 >
                   <CTAChevrons />
                 </motion.span>

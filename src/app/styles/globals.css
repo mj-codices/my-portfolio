@@ -61,10 +61,11 @@ body {
   }
 }
 
+/* OLD COLOR for Gradient Overlay: #07080d */
 .animated-bg {
   position: absolute;
   pointer-events: none;
-  background: radial-gradient(circle, #191919 0%, #07080d 100%);
+  background: radial-gradient(circle, #191919 0%, #010207 100%);
   overflow: hidden;
   z-index: 0;
   inset: 0;
