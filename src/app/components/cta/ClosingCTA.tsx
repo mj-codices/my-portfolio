@@ -4,10 +4,7 @@ import LiveTime from "../ui/status/LiveTime";
 import LocationDisplay from "../ui/status/LocationDisplay";
 import ExternalLinkIcon from "../ui/icons/ExternalLinkIcon";
 
-interface ClosingCTAProps {
-  speed?: number; // Optional prop
-}
-export default function ClosingCTA({ speed }: ClosingCTAProps) {
+export default function ClosingCTA() {
   const ref = useRef<HTMLDivElement | null>(null);
 
   /*
@@ -91,6 +88,7 @@ export default function ClosingCTA({ speed }: ClosingCTAProps) {
               }}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
+              {/* Uses CSS masking to generate a sharp, responsive gradient border */}
               <div
                 className="absolute flex items-center inset-0 rounded-full p-[2px] pointer-events-none"
                 style={{

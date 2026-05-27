@@ -17,7 +17,6 @@ export default function MissionStatement({
       {/* ---------------------------------------------
           Mission Text
           - Centered paragraph describing your mission
-          - Gradient text using bg-clip-text + text-transparent
           - Large red dot at the end for visual emphasis
       --------------------------------------------- */}
       <motion.p className="text-center leading-[58px] opacity-80">
@@ -31,7 +30,7 @@ export default function MissionStatement({
 
       {/* ---------------------------------------------
           Animated Border
-          - Uses Framer Motion to move the bottom border up/down
+          - Uses Framer Motion to move the bottom border up
           - Controlled by `pushUp` MotionValue from parent
           - Semi-transparent for subtle emphasis
       --------------------------------------------- */}

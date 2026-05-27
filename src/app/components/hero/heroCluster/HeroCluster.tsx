@@ -24,18 +24,29 @@ interface HeroClusterProps {
 // - Different motion ranges create depth (parallax-like effect)
 // ---------------------------
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
+  // --- PARALLAX / SCROLL MOTION ---
+  // Micro-parallax calculation to dislodge floating tiles slightly on initial scroll
   const topDislodgeRaw = useTransform(scrollYProgress, [0, 0.07], [0, -35]);
   const topY = useSpring(topDislodgeRaw, { stiffness: 300, damping: 40 });
 
+  // --- IDLE ORGANIC TIMING ---
   const time = useTime();
+
+  /*
+    Generates a continuous custom breathing scale curve.
+    - 3740ms cycle duration decouples it visually from standard CSS animations.
+    - Raising the absolute sine wave to a power of 1.5 forces the curve to spend
+      more time resting at the bottom scale value (1.0) and peak snappily at (1.03),
+      mimicking natural breathing behavior.
+  */
   const progress = useTransform(time, (t) => {
     const cycle = (t / 3740) % 1;
     return Math.pow(Math.sin(cycle * Math.PI), 1.5);
   });
   const iconScale = useTransform(progress, [0, 1], [1.03, 1]);
 
+  // Global exit kinetic launch mapping
   const launchRaw = useTransform(scrollYProgress, [0, 3.5], [0, -2000]);
-
   // 2. The Momentum Spring
   // This is where the 'momentum' comes from. A high stiffness with low damping
   // makes the entire Hero 'snap' and fly upward.
@@ -58,7 +69,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           />
         </div>
       </FadeSection>
-
+      {/* FOREGROUND ESCAPE VEHICLE (Launches everything inside upward) */}
       <motion.div style={{ y: launchY }}>
         <FadeSection>
           {/* Git icon tile */}
@@ -103,7 +114,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         <FadeSection>
           {/* Node tile (scroll-reactive) */}
           <motion.div
-            style={{ y: topY }} // Framer Motion handles the big "Launch" here
+            style={{ y: topY }}
             className="z-15 absolute bottom-60 left-13 w-[80px] h-[80px]"
           >
             <motion.div

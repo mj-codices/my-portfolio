@@ -90,10 +90,10 @@ export default function Mission() {
   const launchRaw = useTransform(scrollYProgress, [0.3, 0.8], [0, -120]); // Reduced distance for a subtler push
 
   const launchY = useSpring(launchRaw, {
-    stiffness: 140, // Much lower tension for a "gentle" feel
-    damping: 28, // Higher damping ratio to prevent any bouncy "boing"
-    mass: 0.45, // Standard weight gives it a natural sense of inertia
-    restDelta: 0.001, // More precision for a silky smooth stop
+    stiffness: 140, 
+    damping: 28, 
+    mass: 0.45, 
+    restDelta: 0.001, 
   });
 
   /* ---------------------------------------------

@@ -22,13 +22,6 @@ export default function HeroText({
 }: HeroTextProps) {
   return (
     <div className="shrink-para-wrapper max-w-lg">
-      {/* 
-        1. DRIVE MOVEMENT: 
-        Keep marginTop and marginBottom in style. 
-        Remove the 'transition' and 'viewport' props from THIS div. 
-        MotionValues handle their own "smoothness" via the useSpring 
-        you set up in the parent.
-      */}
       <motion.div
         style={{
           marginTop: pushSpace,

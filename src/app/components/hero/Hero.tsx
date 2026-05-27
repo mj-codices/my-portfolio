@@ -7,7 +7,6 @@ import {
   useTransform,
   useSpring,
   motion,
-  Variants,
 } from "framer-motion";
 import "../../styles/components/button.css";
 import { useState } from "react";
@@ -42,15 +41,11 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
       opacity: 1,
       y: 0, // Smoothly slide DOWN to its natural center alignment
       transition: {
-        duration: .85,
+        duration: 0.85,
         delay: 0.36, // Matches your CSS delay so it triggers as the text finishes sliding up
         ease: "easeInOut" as const,
       },
     },
-  };
-  const handlePressDown = () => {
-    // 1. Immediate physical feedback
-    setIsLaunching(true);
   };
 
   const handleRelease = () => {
@@ -59,16 +54,11 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
       top: document.documentElement.scrollHeight,
       behavior: "smooth",
     });
-
-    // Reset after transition
-    setTimeout(() => setIsLaunching(false), 1500);
   };
-  // States for hovering and the launch sequence
-  const [isLaunching, setIsLaunching] = useState(false);
 
   // 1. Create the Launch Transform
-  // We track from 0 (start) to your 0.04 trigger.
-  // Once it hits 0.04, the 'y' value will have moved to -100vh (completely off-screen)
+  // We track from 0 (start) to your 2.3 trigger.
+  // Once it hits 2.3, the 'y' value will have moved to -100vh (completely off-screen)
   const launchRaw = useTransform(scrollYProgress, [0, 2.3], [0, -2000]);
 
   const launchY = useSpring(launchRaw, {
@@ -104,9 +94,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               onMouseLeave={() => {
                 setIsHoveringCTA(false);
                 setIsHovered(false);
-                if (isLaunching) setIsLaunching(false);
               }}
-              onMouseDown={handlePressDown}
               onMouseUp={handleRelease}
               className="ml-1 px-3 py-5 bg-[var(--color-accent)]
              text-[var(--color-secondary)] rounded font-semibold

@@ -70,7 +70,6 @@ export default function AboutMe({
         {/* ---------------------------------------------
               Paragraph 2
               - Continues scroll motion (`p2Y`)
-              - `p2Ref` can be used for intersection/scroll triggers
           --------------------------------------------- */}
 
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
