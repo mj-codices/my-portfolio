@@ -1,24 +1,36 @@
-import { motion, MotionValue } from "framer-motion";
+import { motion, type MotionValue } from "framer-motion";
 import "./MissionStatement.css";
 
 type MissionStatementProps = {
+  /** High-velocity kinetic displacement value applied directly to the border's margin-top layout tracking grid */
   pushUp: MotionValue<number>;
+  
+  /** Dynamic scaling multiplier driving the master section container footprint dimensions */
   missionScale: MotionValue<number>;
-
-  // motion value controlling vertical spacing of the bottom border
 };
 
+/**
+ * MissionStatement Component
+ * * A high-visibility typography section that tracks scroll-driven interpolation states.
+ * Consumes continuous parent motion values to dynamically alter system scale 
+ * properties and element structural layout offsets simultaneously.
+ */
 export default function MissionStatement({
   pushUp,
   missionScale,
 }: MissionStatementProps) {
   return (
-    <motion.div style={{ scale: missionScale }} >
+    /* MASTER TRANSFORMS CONTAINER
+       Consumes the missionScale MotionValue. Applying scale here handles the sizing 
+       calculations at the GPU compositor tier, keeping animations completely fluid.
+    */
+    <motion.div style={{ scale: missionScale }}>
+      
       {/* ---------------------------------------------
-          Mission Text
-          - Centered paragraph describing your mission
-          - Large red dot at the end for visual emphasis
-      --------------------------------------------- */}
+          MISSION TYPOGRAPHY BLOCK
+          - Centers the layout narrative with custom tracking line heights.
+          - Ends with an inline red emphasis dot to anchors visual focus.
+          --------------------------------------------- */}
       <motion.p className="text-center leading-[58px] opacity-80">
         My mission is to craft pixel-perfect web experiences where clarity in
         design and strength in architecture unite to create lasting, meaningful
@@ -29,11 +41,9 @@ export default function MissionStatement({
       </motion.p>
 
       {/* ---------------------------------------------
-          Animated Border
-          - Uses Framer Motion to move the bottom border up
-          - Controlled by `pushUp` MotionValue from parent
-          - Semi-transparent for subtle emphasis
-      --------------------------------------------- */}
+          REACTIVE LAYOUT SEPARATOR BORDER
+          - Note: This element maps the pushUp MotionValue directly to `marginTop`.
+          --------------------------------------------- */}
       <motion.div
         style={{ marginTop: pushUp }}
         className="border border-b opacity-20 mission-border"

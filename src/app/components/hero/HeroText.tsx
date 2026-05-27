@@ -1,42 +1,45 @@
 import { motion, MotionValue } from "framer-motion";
 
 type HeroTextProps = {
-  pushSpace: MotionValue<number>; // dynamic top spacing (scroll-driven)
-  pushSpaceBtm: MotionValue<number>; // dynamic bottom spacing (scroll-driven)
+  /** Dynamic tracking unit pushing top vertical margins based on early scroll steps */
+  pushSpace: MotionValue<number>;
+  /** Dynamic tracking unit pushing bottom vertical margins based on early scroll steps */
+  pushSpaceBtm: MotionValue<number>;
 };
 
-// ---------------------------
+// -----------------------------------------------------------------
 // HeroText
-// ---------------------------
+// -----------------------------------------------------------------
 // Purpose:
-// Renders the intro paragraph in the hero section with
-// scroll-driven spacing and fade-in animation.
+// Renders the primary introduction description block in the hero section
+// featuring dynamic, scroll-linked vertical padding expansion properties.
 //
 // Behavior:
-// - Uses MotionValues to dynamically push spacing above/below text
-// - Fades in when entering viewport
-// ---------------------------
-export default function HeroText({
-  pushSpace,
-  pushSpaceBtm,
-}: HeroTextProps) {
+// - Consumes spring-wrapped MotionValues to smoothly translate letter
+//   and block layouts downstream as the user initiates scroll path inputs.
+// - Note: The intro text fade-in sequence is fully managed by the parent
+//   layout wrapper (FadeSection), not directly inside this subcomponent.
+// -----------------------------------------------------------------
+export default function HeroText({ pushSpace, pushSpaceBtm }: HeroTextProps) {
   return (
     <div className="shrink-para-wrapper max-w-lg">
+      {/* Scroll-Linked Margin Spacer: 
+        Transforms real-time window tracking parameters directly into 
+        layout separation variables above and below the paragraph block.
+      */}
       <motion.div
         style={{
           marginTop: pushSpace,
           marginBottom: pushSpaceBtm,
         }}
       >
-        <motion.div
-       
-        >
+        <div>
           <p className="text-lg leading-[2.3rem] tracking-[.06rem] pb-10">
             Hello! I’m <span className="text-white">Michael J. White</span>{" "}
             (most people call me Julian). I build thoughtful, scalable, and
             production-ready web apps.
           </p>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );

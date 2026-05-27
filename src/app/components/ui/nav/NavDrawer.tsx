@@ -1,25 +1,29 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import NavIndicator from "./NavIndicator";
 import "./NavIcon.css";
 
-// ------------------------------
-// Motion variants for drawer menu items
-// ------------------------------
+/**
+ * Macro List Entrance Variants
+ * Handles cascading stagger timings down to children components when the drawer mounts.
+ */
 const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.125, // stagger each menu item
-      delayChildren: 0.25, // delay first item
+      staggerChildren: 0.125, // Staggers the arrival sequence of individual row anchors
+      delayChildren: 0.25, // Injects a deliberate pause allowing the background panel to arrive first
     },
   },
 };
 
-// ------------------------------
-// Individual nav item entrance animation
-// ------------------------------
+/**
+ * Individual Row Entrance Variants
+ * Employs an aggressive spring push to snap items horizontally into layout constraints.
+ */
 const itemVariants = {
   hidden: {
     opacity: 0,
@@ -42,36 +46,29 @@ const itemVariants = {
   },
 };
 
-// ------------------------------
-// FLOAT animation (idle motion)
-// ------------------------------
-const floatVariants = {
-  float: (i: number) => ({
-    y: [0, -4, 0],
-    x: [0, i % 2 === 0 ? 2 : -2, 0],
-    transition: {
-      duration: 3.5 + i * 0.6,
-      repeat: Infinity,
-      ease: "easeInOut" as const,
-    },
-  }),
-};
-
-// ------------------------------
-// Props for NavDrawer
-// ------------------------------
 type DrawerProps = {
+  /** Flag driving visibility parameters of the drawer module container */
   open: boolean;
+  /** Callback execution firing on click interception to collapse visible panel footprints */
   onClose: () => void;
 };
 
+/**
+ * NavDrawer Component
+ * * Primary navigation canvas controller for the portfolio. Orchestrates full-screen
+ * entry animations, intercepts page scrolling mechanics via Lenis engine listeners,
+ * and handles ultra-smooth programmatic layout jumps utilizing a custom ease curve.
+ */
 export function NavDrawer({ open, onClose }: DrawerProps) {
-  // Tracks which nav item is hovered
+  // Local state pipeline indicating which individual link index has focus
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  /* ---------------------------------------------
-     LENIS & CSS SCROLL LOCK INTERCEPTOR
-  --------------------------------------------- */
+  /**
+   * LENIS & CSS SCROLL LOCK INTERCEPTOR
+   * * Monitors modal presence states to toggle programmatic document scroll barriers.
+   * Prevents double-scrolling bugs by locking background viewport tracking while
+   * the menu sits active, gracefully re-initializing default settings on destruction.
+   */
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
@@ -79,59 +76,63 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
     if (open) {
       html.classList.add("no-scroll");
       body.classList.add("no-scroll");
-      if (window.lenis) window.lenis.stop();
+      if (window.lenis) window.lenis.stop(); // Ceases Lenis loop event handlers entirely
     } else {
       html.classList.remove("no-scroll");
       body.classList.remove("no-scroll");
       if (window.lenis) window.lenis.start();
     }
 
+    // Safety Cleanup Lifecycle Rule
     return () => {
       html.classList.remove("no-scroll");
       body.classList.remove("no-scroll");
-      if (window.lenis) window.lenis.start();
+      if (window.lenis) window.lenis.start(); // Guaranteed fallback recovery state
     };
   }, [open]);
 
-  /* ---------------------------------------------
-     NEW: LENIS ANCHOR SCROLL CLICK HANDLER
-  --------------------------------------------- */
+  /**
+   * LENIS ANCHOR SCROLL CLICK HANDLER
+   * * Programmatically navigates the global scroll viewport layout stream.
+   * Integrates an exponential base-2 easing function curve `f(t) = 1 - 2^(-10t)`
+   * to mimic luxury, slow-decelerating cinematic transitions.
+   */
   const handleNavLinkClick = (label: string) => {
     // 1. Instantly wake up the Lenis engine loop so it can accept scroll inputs immediately
     if (window.lenis) {
       window.lenis.start();
     }
 
-    // 2. Trigger your state update to slide the drawer out of view
+    // 2. Trigger state update to slide the drawer out of view
     onClose();
 
     const lowerLabel = label.toLowerCase();
 
-    // 3. Orchestrate the silky-smooth transition
+    // 3. Orchestrate smooth transition paths
     if (window.lenis) {
       if (lowerLabel === "start") {
-        // Scroll to absolute topmost pixel coordinate boundary
+        // Absolute top layout bounds jump
         window.lenis.scrollTo(0, {
           duration: 1.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       } else if (lowerLabel === "contact") {
-        // SCROLL TO ABSOLUTE BOTTOM: Lenis accepts the 'bottom' keyword natively!
+        // Absolute bottom layout bounds jump
         window.lenis.scrollTo("bottom", {
-          duration: 1.5, // Giving long vertical journeys a slightly longer, luxurious time to slide
+          duration: 1.5, // Extended travel time allocated for long page sweeps
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       } else {
-        // Dynamic fallback targeting standard section components (#stack, #work)
+        // Target element string mapping fallback pointer selection matches (#stack, #work)
         const targetId = `#${lowerLabel}`;
         window.lenis.scrollTo(targetId, {
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          offset: -100,
+          offset: -100, // Offset allowance preserving breathing room under fixed layouts
         });
       }
     } else {
-      // 4. Solid native fallback chains if Lenis hasn't booted up yet
+      // 4. Native Browser Engine Fallbacks (Used if Lenis instances are unmounted/loading)
       if (lowerLabel === "start") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (lowerLabel === "contact") {
@@ -148,9 +149,9 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
   return (
     <div>
-      {/* --------------------------
-          Overlay behind drawer
-          -------------------------- */}
+      {/* Dimming Backing Backdrop Layer:
+        Fades in structural dark blocks behind the navdrawer overlay boundary panel area. 
+      */}
       <motion.div
         className="fixed inset-0 bg-black z-40"
         initial={{ opacity: 0 }}
@@ -160,9 +161,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         onClick={onClose}
       />
 
-      {/* --------------------------
-          Drawer container
-          -------------------------- */}
+      {/* Main Panel Sliding Flyout Layer */}
       <motion.aside
         className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-60 overflow-hidden"
         initial={{ x: "100%" }}
@@ -172,9 +171,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           ease: "easeOut",
         }}
       >
-        {/* --------------------------
-            Large background circle
-            -------------------------- */}
+        {/* Giant Decorative Circle Mask:
+          Scales dynamically relative to structural menu opening sequences 
+          to present an elegant curving aesthetic container envelope framework look.
+        */}
         <motion.div
           className="absolute bg-[#0d0c0c] top-[-33rem] left-2 rounded-full"
           style={{ width: 2000, height: 2000 }}
@@ -187,9 +187,7 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           }}
         />
 
-        {/* --------------------------
-            Drawer menu items
-            -------------------------- */}
+        {/* Dynamic Mapping Stream Menu Container */}
         <motion.nav
           className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3 nudge-menu-md "
           initial="hidden"
@@ -206,119 +204,56 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 transition={{ type: "tween", duration: 0.2 }}
                 onHoverStart={() => setHoveredIndex(i)}
                 onHoverEnd={() => setHoveredIndex(null)}
-                // CONNECT THE SCROLL ACTION HANDLER HERE
                 onClick={() => handleNavLinkClick(label)}
               >
-                {/* FLOAT LAYER */}
-                <motion.div
-                  className="relative flex items-center justify-center"
-                  custom={i}
-                  variants={{
-                    float: floatVariants.float(i),
-                  }}
-                  animate="float"
-                >
-                  {/* HOVER LAYER */}
-                  <motion.div
-                    className="relative flex items-center justify-center"
-                    animate={{
-                      scale: hoveredIndex === i ? 2 : 1,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 620,
-                      damping: 26,
-                    }}
-                  >
-                    {/* Circle */}
-                    <Image
-                      src={"/ui/nav/navCircle.svg"}
-                      width={20}
-                      height={20}
-                      alt="circle"
-                    />
-
-                    {/* ARROW VIEWPORT CONTAINER (With your new diagonal sliding arrow logic) */}
-                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full">
-                      <motion.div
-                        className="absolute flex items-center justify-center w-full h-full"
-                        initial={{ opacity: 0, x: -8, y: 8, scale: 0.5 }}
-                        animate={{
-                          x: hoveredIndex === i ? 0 : -8,
-                          y: hoveredIndex === i ? 0 : 8,
-                          scale: hoveredIndex === i ? 1 : 0.7,
-                          opacity: hoveredIndex === i ? [0, 0, 1] : 0,
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 200,
-                          damping: 18,
-                          delay: hoveredIndex === i ? 0.04 : 0,
-                          opacity: {
-                            duration: hoveredIndex === i ? 0.32 : 0.1,
-                            ease: "easeOut",
-                          },
-                        }}
-                      >
-                        <Image
-                          src="/icons/arrow.svg"
-                          width={8}
-                          height={8}
-                          alt="arrow"
-                          className="rotate-320"
-                        />
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </motion.div>
+                {/* Clean Abstracted Indicator Subcomponent Block */}
+                <NavIndicator index={i} isActive={hoveredIndex === i} />
                 {label}
               </motion.li>
             ))}
           </ul>
         </motion.nav>
 
-        {/* --------------------------
-            Icons bottom-right
-            -------------------------- */}
-        <motion.div
-          className="absolute bottom-8 right-10"
-          whileHover={{ scale: 1.25, opacity: 1 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/mj-codices"
+        {/* Global External Link Platforms Anchor Footer Panel */}
+        <div className="absolute bottom-8 right-10 flex gap-5 items-center">
+          <motion.div
+            whileHover={{ scale: 1.25, opacity: 1 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Image
-              src="/icons/giticon.svg"
-              width={40}
-              height={40}
-              alt="Github logo"
-              className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
-            />
-          </a>
-        </motion.div>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/mj-codices"
+            >
+              <Image
+                src="/icons/giticon.svg"
+                width={40}
+                height={40}
+                alt="Github project portal resource link"
+                className="opacity-50 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
+              />
+            </a>
+          </motion.div>
 
-        <motion.div
-          className="absolute bottom-[2.35rem] right-25"
-          whileHover={{ scale: 1.15, opacity: 1 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.instagram.com/casa_junbubby"
+          <motion.div
+            whileHover={{ scale: 1.15, opacity: 1 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Image
-              src="/icons/instagram.svg"
-              width={29}
-              height={29}
-              alt="Instagram logo"
-              className="opacity-47 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
-            />
-          </a>
-        </motion.div>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.instagram.com/casa_junbubby"
+            >
+              <Image
+                src="/icons/instagram.svg"
+                width={29}
+                height={29}
+                alt="Instagram profile media platform link"
+                className="opacity-47 hover:opacity-100 transition duration-200 ease-in cursor-pointer"
+              />
+            </a>
+          </motion.div>
+        </div>
       </motion.aside>
     </div>
   );

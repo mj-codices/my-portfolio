@@ -1,25 +1,44 @@
+"use client";
+
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { useRef } from "react";
 import SkillTile from "./SkillTile";
 import { skillStack } from "../../data/skillStack";
 
-export default function SkillStack({}) {
-  const ref = useRef(null);
+/**
+ * SkillStack Component
+ * * Renders a horizontally-stretching skill matrix. It uses complex, sequential
+ * scroll-linked triggers to step through nested data groups (Frontend, Backend, etc.).
+ * * Instead of triggering simple intersection entry states, it actively calculates
+ * the cumulative density of items across array boundaries to maintain a continuous,
+ * un-broken stagger animation sequence across the entire section.
+ */
+export default function SkillStack() {
+  // Primary container target for capturing macro scroll progression coordinates
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const globalDelay = 0.02; // tweak this
+  // Global fine-tuning modifier to delay the absolute start of the sequence
+  const globalDelay = 0.02;
 
-  // Track scroll progress relative to this section
+  /**
+   * Section Scroll Tracking:
+   * Maps scroll context from the moment the element enters the bottom 80%
+   * of the viewport until it clears out past the top 20%.
+   */
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 80%", "end 20%"], // trigger animations slightly before fully visible
+    offset: ["start 80%", "end 20%"],
   });
 
-  // Timing constants for tile animation
-  const tileStartBase = 0.001; // start slightly earlier than viewport trigger
-  const tileDuration = 0.08; // how fast each tile animates in
-  const staggerStep = 0.045; // space between consecutive tiles
+  /**
+   * Scroll-Timeline Footprint Consts:
+   * Expressed as tiny decimal slices of the global normalized `scrollYProgress` [0, 1].
+   */
+  const tileStartBase = 0.001; // Tiny head-start offset so pixels aren't choked at bounds
+  const tileDuration = 0.08; // Length of scroll-space dedicated to an individual fade/lift
+  const staggerStep = 0.045; // The scroll-interval offset between consecutive card reveals
 
-  // Define skill sections
+  // Structured iteration manifest containing data layers and alignment offsets
   const sections = [
     { title: "front-end", data: skillStack.frontend, offset: "pl-0" },
     { title: "back-end", data: skillStack.backend, offset: "pl-7" },
@@ -27,27 +46,28 @@ export default function SkillStack({}) {
     { title: "tools", data: skillStack.tools, offset: "pl-28" },
   ];
 
-  // This tells Framer:
-  // From 0% to 80% scroll progress, stay at 1 (100% opacity).
-  // From 80% to 100% scroll progress, fade down to 0.
+  /**
+   * Section Exit - Outbound Opacity:
+   * Holds standard value distribution until 75% scroll depth is hit,
+   * then drops dramatically to create a clean, out-of-focus background fade.
+   */
   const fadeOut = useTransform(scrollYProgress, [0.75, 1], [1, 0.1]);
-
   const fadeOutSmooth = useSpring(fadeOut, {
     stiffness: 130,
     damping: 30,
   });
 
-  // 1. Sync the trigger window to the final 20% of the section
-  // We'll use -100px for a noticeable but 'premium' lift.
+  /**
+   * Section Exit - Weightless Launch:
+   * Drives an upward structural shift over the terminal 25% of the viewport scroll.
+   * Low stiffness and ultra-light mass simulate a drifting, weightless exit velocity
+   * to eliminate sudden, jarring directional snapping when scrolling backward.
+   */
   const launchRaw = useTransform(scrollYProgress, [0.75, 1], [0, -150]);
-
-  // 2. The Launch Spring
-  // Since you wanted to avoid the 'tug' when scrolling back, we'll keep
-  // the stiffness low. This makes it feel like it's drifting away.
   const launchY = useSpring(launchRaw, {
-    stiffness: 50, // Lowered for a more 'weightless' feel
-    damping: 10, // High enough to prevent the spring from 'bouncing'
-    mass: .3,
+    stiffness: 50,
+    damping: 10,
+    mass: 0.3,
     restDelta: 0.01,
   });
 
@@ -55,38 +75,46 @@ export default function SkillStack({}) {
     <motion.div
       style={{
         opacity: fadeOutSmooth,
-        y: launchY, // The magic happens here
+        y: launchY,
       }}
     >
       <section ref={ref} id="stack" className="w-[150vw] px-50">
-        {/* Section heading */}
+        {/* Section Heading Banner Block */}
         <motion.div className="relative flex">
           <img
             className="spin-slow w-12 h-auto mr-9 -translate-y-5"
-            src={"/decorations/aster.svg"}
-          ></img>
+            src="/decorations/aster.svg"
+            alt="decorative asterisk"
+          />
           <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
             <span className="text-[#a3a2a2] opacity-100">my</span> stack
           </h2>
         </motion.div>
+
+        {/* Global Structural Sections Stack */}
         <div className="flex flex-col gap-25">
           {sections.map((section, sectionIndex) => {
-            // Compute when this section's animations start
-            const sectionGap = 0.02; // breathing room between sections
+            // Buffer spacing coefficient to create visual breathing room between sections
+            const sectionGap = 0.02;
 
+            /**
+             * Cumulative Array Math:
+             * Counts the absolute quantity of items present in all preceding arrays.
+             * This ensures that Section 2's stagger timing starts EXACTLY where Section 1's
+             * final item finished animating, rather than resetting back to zero.
+             */
             const tilesBefore = sections
               .slice(0, sectionIndex)
               .reduce((acc, s) => acc + s.data.length, 0);
 
+            // Establishes the exact entry keyframe anchor point for this specific section block
             const sectionStart =
               tileStartBase +
               globalDelay +
               tilesBefore * staggerStep +
-              sectionIndex * sectionGap; // 👈 THIS creates spacing between sections
+              sectionIndex * sectionGap;
 
             const titleDelay = 0.002 + sectionIndex * 0.005;
-
-            // Animate section title opacity + vertical slide
             const titleStart = sectionStart + titleDelay;
             const titleEnd = titleStart + 0.1;
 
@@ -96,6 +124,12 @@ export default function SkillStack({}) {
               [0, 1]
             );
 
+            /**
+             * Quintic Ease-Out Transform Function:
+             * Mathematically interpolates raw linear numbers into an exponential curve:
+             * f(v) = 1 - (1 - v)^5. This produces a premium, decelerating entrance speed
+             * directly calculated from the scroll velocity.
+             */
             const titleEased = useTransform(
               titleRaw,
               (v) => 1 - Math.pow(1 - v, 5)
@@ -105,21 +139,22 @@ export default function SkillStack({}) {
 
             return (
               <div key={section.title} className="flex">
-                {/* Section title */}
+                {/* Categorical Section Title Presenter */}
                 <motion.div style={{ opacity: titleEased, y: titleY }}>
                   <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
                     {section.title}
                   </h3>
                 </motion.div>
 
-                {/* Skill tiles */}
+                {/* Grid Wrapper Grid Layout Block */}
                 <div className="pl-30 -translate-y-1">
                   <div
                     className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
                   >
                     {section.data.map((skill, index) => {
-                      // Calculate start + end for tile animation
-                      const tileDelay = 0.02; // delay after title
+                      const tileDelay = 0.02; // Static buffer offset injected immediately post-title reveal
+
+                      // Targets the unique scroll progress window allocated for this exact tile
                       const start =
                         sectionStart +
                         titleDelay +
@@ -127,13 +162,18 @@ export default function SkillStack({}) {
                         index * staggerStep;
                       const end = start + tileDuration;
 
-                      // Opacity + vertical slide per tile
                       const raw = useTransform(
                         scrollYProgress,
                         [start, end],
                         [0, 1]
                       );
 
+                      /**
+                       * Cubic Ease-Out Curve:
+                       * f(v) = 1 - (1 - v)^3. Softens the arrival deceleration curve
+                       * of individual child nodes to make their snap feel slightly crisper
+                       * than the macro section header text.
+                       */
                       const eased = useTransform(
                         raw,
                         (v) => 1 - Math.pow(1 - v, 3)
@@ -150,6 +190,7 @@ export default function SkillStack({}) {
                             y: tileY,
                           }}
                         >
+                          {/* Atomic Presentational Component */}
                           <SkillTile {...skill} />
                         </motion.div>
                       );

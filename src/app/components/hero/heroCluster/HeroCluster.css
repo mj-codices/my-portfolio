@@ -83,8 +83,19 @@
   will-change: transform;
 }
 
-/* --- Circle 2 (offset timing for variation) --- */
 #circle-2 {
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+
+  animation:
+    floatY 10s ease-in-out infinite,
+    floatX 17s ease-in-out infinite,
+    breathe 8s ease-in-out infinite;
+
+  will-change: transform;
+}
+
+/* --- Circle 2 (offset timing for variation) --- */
+#circle-3 {
   transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
 
   animation:
@@ -92,8 +103,26 @@
     floatX-wide 17s ease-in-out infinite,
     breathe-soft 9s ease-in-out infinite;
 
-  /* 
-    Negative delays intentionally desynchronize motion cycles
+  /* Negative delays intentionally desynchronize motion cycles
+    so elements never appear mirrored or procedurally identical.
+  */
+  animation-delay:
+    -6s,
+    -13s,
+    -4s;
+
+  will-change: transform;
+}
+
+#circle-4 {
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+
+  animation:
+    floatY-soft 11s ease-in-out infinite,
+    floatX-wide 17s ease-in-out infinite,
+    breathe-soft 9s ease-in-out infinite;
+
+  /* Negative delays intentionally desynchronize motion cycles
     so elements never appear mirrored or procedurally identical.
   */
   animation-delay:
@@ -120,6 +149,11 @@
 
   animation: squareFloatY 16s ease-in-out infinite;
 
+  /* NOTE ON TRACK DELAYS: 
+    Only the first delay (-6s) is active because this element is configured
+    with a single animation track (squareFloatY). The extra parameters are 
+    reserved for future horizontal, rotation, or scale additions.
+  */
   animation-delay:
     -6s,
     -11s,
@@ -136,6 +170,7 @@
 
   animation: squareFloatY-smooth 12s ease-in-out infinite;
 
+  /* Only the initial delay target is bound to the single active animation loop */
   animation-delay:
     -2s,
     -4s,
@@ -160,11 +195,6 @@
    rather than simple decorative movement.
 ========================================================= */
 
-#square-5 {
-  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
-  will-change: transform;
-}
-
 /* --- Individual animation assignments --- */
 
 #square-3 {
@@ -180,14 +210,14 @@
     -3s,
     -1s;
 
-  /* 
-    Subtle perspective transforms create depth separation
-    without becoming visually distracting or overtly 3D.
+  /* PERFORMANCE NOTE: Self-contained perspective metrics are assigned 
+    locally to tilt this individual matrix coordinate frame in 3D.
   */
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
     rotateX(10deg) rotateY(-30deg);
   transform-style: preserve-3d;
   perspective: 600px;
+  will-change: transform;
 }
 
 #square-4 {
@@ -207,6 +237,7 @@
     rotateX(20deg) rotateY(-8deg) rotateZ(5deg);
   transform-style: preserve-3d;
   perspective: 600px;
+  will-change: transform;
 }
 
 #square-5 {
@@ -221,10 +252,13 @@
     -7s,
     -2s,
     -4s;
+
+  /* CONSOLIDATED DECLARATION BLOCK */
+  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
+  will-change: transform;
 }
 
-/* 
-  Foreground motion values intentionally differ per element.
+/* Foreground motion values intentionally differ per element.
 
   Shared timing across all foreground elements caused the
   cluster to feel robotic and visually repetitive.
@@ -237,8 +271,7 @@
    SHARED ANIMATION PATTERNS
 ========================================================= */
 
-/* 
-  Motion amplitudes remain intentionally restrained.
+/* Motion amplitudes remain intentionally restrained.
 
   Larger translation ranges made the cluster feel disconnected
   from the surrounding UI and visually too "floaty".
@@ -318,8 +351,7 @@
   }
 }
 
-/* 
-  Foreground motion remains isolated from background motion
+/* Foreground motion remains isolated from background motion
   for finer compositional control and future interactivity.
 */
 
