@@ -77,7 +77,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
       opacity: 1,
       y: 0, // Smoothly drops down into standard layout line-height tracking bounds
       transition: {
-        duration: 0.85,
+        duration: 0.75,
         delay: 0.36,
         ease: "easeInOut" as const,
       },
