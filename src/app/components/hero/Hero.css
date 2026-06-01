@@ -58,7 +58,7 @@
   47% {
 
     transform: translateX(-50%) translateY(2.5px) scaleY(0.9);
-    opacity: 0.65;
+    opacity: 0.75;
   }
 }
 
@@ -73,7 +73,7 @@
   }
   47% {
     transform: translateY(40px);
-    opacity: 0.36;
+    opacity: 0.40;
   }
 }
 
@@ -88,7 +88,7 @@
   }
   50% {
     transform: translateY(40px);
-    opacity: 0.56;
+    opacity: 0.60;
   }
 }
 
@@ -102,6 +102,6 @@
   }
   52.9% {
     transform: translateY(40px);
-    opacity: 0.76;
+    opacity: 0.80;
   }
 }
