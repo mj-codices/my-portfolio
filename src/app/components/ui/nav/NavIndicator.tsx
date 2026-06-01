@@ -88,16 +88,16 @@ export default function NavIndicator({ index, isActive }: NavIndicatorProps) {
             animate={{
               x: isActive ? 0 : -8,
               y: isActive ? 0 : 8,
-              scale: isActive ? 1 : 0.7,
+              scale: isActive ? 1 : 0.65,
               opacity: isActive ? [0, 0, 1] : 0, // Injected mid-point zero delays fade until slide is underway
             }}
             transition={{
               type: "spring",
-              stiffness: 200,
+              stiffness: 220,
               damping: 18,
-              delay: isActive ? 0.35 : 0, // Micro-delay allows the parent container circle scale to initiate first
+              delay: isActive ? 0.43 : 0, // Micro-delay allows the parent container circle scale to initiate first
               opacity: {
-                duration: isActive ? 0.49 : 0.1,
+                duration: isActive ? 0.5 : 0.1,
                 ease: "easeOut",
               },
             }}
