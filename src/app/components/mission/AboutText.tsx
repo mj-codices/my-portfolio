@@ -1,36 +1,20 @@
-import { motion, type MotionValue, type Variants } from "framer-motion";
-import logo from "../../assets/images/aphex.png";
+import { motion, type MotionValue } from "framer-motion";
 
 type AboutTextProps = {
-  /** Vertically displaces the layout heading node during scroll progression milestones */
+  /** Map-interpolated vertical offset stream driving the core section header translation */
   headingY: MotionValue<number>;
 
-  /** Displacement trajectory applied directly to the body narrative container 1 */
+  /** Kinetic displacement trajectory applied to the primary narrative block to establish baseline scroll speed */
   p1Y: MotionValue<number>;
 
-  /** Continuation displacement trajectory applied to container 2 to simulate trailing separation */
+  /** Independent trailing vertical offset trajectory applied to paragraph 2 to produce a parallax separation effect */
   p2Y: MotionValue<number>;
 
-  /** Master opacity alpha-multiplier mapped across scroll visibility thresholds */
+  /** Master alpha-channel opacity map synchronized directly across targeted layout visibility thresholds */
   p1Opacity: MotionValue<number>;
 
-  /** Layout element DOM node target tracker used to register visibility checkpoints */
+  /** Element bounding-box anchor used by the scroll container to calculate contextual viewport intersection milestones */
   p1Ref: React.RefObject<HTMLDivElement | null>;
-};
-
-const text = "Aphex Twin".split("");
-
-/** Kinetic text wave translation configuration custom-mapped to character index nodes */
-const waveVariants: Variants = {
-  initial: { y: 0 },
-  hover: (i: number) => ({
-    y: [0, -6, 0],
-    transition: {
-      delay: i * 0.04, // Generates sequential cascading ripple displacement
-      duration: 0.4,
-      ease: "easeInOut",
-    },
-  }),
 };
 
 export default function AboutMe({
@@ -44,9 +28,9 @@ export default function AboutMe({
     <div className="mt-5 flex relative">
       <div className="ml-15 relative z-10 pt-10">
         {/* ===========================================================
-            SECTION HEADING
-            - Translates along vertical tracking path headingY.
-            - Features custom CSS rotation matrix driving continuous spin.
+            1. TYPOGRAPHIC ANCHOR & ACCENT
+            - Driven by headingY spatial interpolation stream.
+            - Asterisk uses a hardware-accelerated CSS composite layer rotation matrix (.spin-slow).
             =========================================================== */}
         <motion.div
           className="relative flex -translate-x-15"
@@ -63,8 +47,9 @@ export default function AboutMe({
         </motion.div>
 
         {/* ===========================================================
-            PARAGRAPH NARRATIVE TIER 1
-            - Synchronizes vertical offset (p1Y) and visibility fading (p1Opacity).
+            2. NARRATIVE BLOCK PRIMARY (VELOCITY FIELD A)
+            - Synchronizes independent vertical offset (p1Y) with viewport-linked opacity fade (p1Opacity).
+            - Hosts the DOM reference node (p1Ref) to stream layout metrics to the global scroll engine.
             =========================================================== */}
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
           <p className="text-lg w-120 leading-9 ml-7 mb-3 tracking-wide">
@@ -76,60 +61,15 @@ export default function AboutMe({
         </motion.div>
 
         {/* ===========================================================
-            PARAGRAPH NARRATIVE TIER 2 (EASTER EGG HOVER MODULE)
-            - Continues kinetic tracking flow via independent offset y bounds.
-            - Shares root narrative opacity values to preserve visual continuity.
+            3. NARRATIVE BLOCK SECONDARY (VELOCITY FIELD B - PARALLAX TRAIL)
+            - Tracks along p2Y to produce a dynamic, fluid separation from the text above.
+            - Inherits root layout alpha channels to enforce uniform visual exit thresholds.
             =========================================================== */}
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
           <p className="text-lg w-120 leading-9 ml-7 tracking-wide">
-            When I’m not pushing pixels, you can find me jamming to{" "}
-            {/* HOVER HIT-BOX BOUNDARY CAPTURE BLOCK
-                Wraps hidden graphic configurations and character mapping 
-                together inside a unified gesture detection grid.
-            */}
-            <motion.span
-              className="inline-flex items-center relative cursor-none"
-              initial="initial"
-              whileHover="hover"
-            >
-              {/* HIDDEN BRAND ASSET VECTOR
-                  - Uses high-tension spring trajectories to break from hiding bounds.
-                  - FIXED: Replaced invalid 'top: 4/5' string syntax with explicit 
-                    80% position configuration to restore cross-browser anchoring.
-              */}
-              <motion.img
-                src={logo.src}
-                alt="Logo"
-                className="w-12 h-auto absolute -left-48 top-[80%] -translate-y-1/4 pointer-events-none"
-                initial={{ opacity: 0, x: 0, y: 0 }}
-                variants={{
-                  hover: {
-                    opacity: 0.9,
-                    x: 10,
-                    y: -2,
-                    transition: {
-                      type: "spring",
-                      stiffness: 120,
-                      damping: 15,
-                    },
-                  },
-                }}
-              />
-
-              {/* STAGGERED CHARACTER WAVE MAP */}
-              {text.map((char, i) => (
-                <motion.span
-                  key={i}
-                  custom={i}
-                  variants={waveVariants}
-                  className="inline-block font-bold text-white opacity-90"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </motion.span>
-            , cheering for my hometown Lakers, or camping along the Pacific
-            Coast with my wife and our dog.
+            When I’m not pushing pixels, you can find me jamming to Aphex Twin,
+            cheering for my hometown Lakers, or camping along the Pacific Coast
+            with my wife and our dog.
           </p>
         </motion.div>
       </div>

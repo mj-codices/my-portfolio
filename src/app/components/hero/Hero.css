@@ -1,14 +1,107 @@
 .hero-heading {
-  /* Direct color control - No variables to get in the way */
   background: linear-gradient(to right, #ff5757 100%);
-
   -webkit-background-clip: text;
   background-clip: text;
-
   -webkit-text-fill-color: transparent;
   color: transparent;
-
-  /* Ensures the background doesn't repeat if the text wraps */
   background-repeat: no-repeat;
 }
 
+/* "SCROLL" text label below the mouse - STATIC BASELINE */
+#mouseTextCTA {
+  position: absolute;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ================================================================
+   TIMING CALIBRATION: PERFECT CONSOLIDATED 1.3s MATRIX
+================================================================ */
+
+/* Text Loop */
+.button--calypso:hover #mouseTextCTA {
+  animation: pulseTextWithChevrons 1.3s infinite
+    cubic-bezier(0.333, 0, 0.667, 1);
+  /* CALIBRATED: 0.6s handles the perfect handoff from the parent stretch */
+  animation-delay: 0.6s;
+}
+
+/* Chevron Loops */
+.button--calypso:hover #chevron-top {
+  animation: pulseTop 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s to sync with text downbeat */
+}
+
+.button--calypso:hover #chevron-middle {
+  animation: pulseMiddle 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s */
+}
+
+.button--calypso:hover #chevron-bottom {
+  animation: pulseBottom 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s */
+}
+
+/* ================================================================
+   KEYFRAME MATRIX (Properties aligned for clean hardware rendering)
+================================================================ */
+
+/* 1. The Text Track */
+@keyframes pulseTextWithChevrons {
+  0%,
+  5.8%,
+  88.2%,
+  100% {
+    /* FIXED: Restored perfect property order hierarchy */
+    transform: translateX(-50%) translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  47% {
+
+    transform: translateX(-50%) translateY(2.5px) scaleY(0.9);
+    opacity: 0.65;
+  }
+}
+
+/* 2. The Top Chevron Track (Matches the text phase) */
+@keyframes pulseTop {
+  0%,
+  5.8%,
+  88.2%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  47% {
+    transform: translateY(40px);
+    opacity: 0.36;
+  }
+}
+
+/* 3. The Middle Chevron Track */
+@keyframes pulseMiddle {
+  0%,
+  8.8%,
+  94.1%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(40px);
+    opacity: 0.56;
+  }
+}
+
+/* 4. The Bottom Chevron Track */
+@keyframes pulseBottom {
+  0%,
+  11.7%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  52.9% {
+    transform: translateY(40px);
+    opacity: 0.76;
+  }
+}

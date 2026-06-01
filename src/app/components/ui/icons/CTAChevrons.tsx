@@ -4,9 +4,19 @@ interface CTAChevronsProps {
   className?: string;
 }
 
-export default function CTAChevrons({ className = "w-65" }: CTAChevronsProps) {
+export default function CTAChevrons({
+  className = "w-24 mr-1",
+}: CTAChevronsProps) {
   return (
-    <motion.span className={`${className} display-block overflow-visible cta-chevron-wrapper`}>
+    <motion.span
+      /* DOCUMENTATION UPDATE:
+        This wrapper exposes the raw DOM nodes and IDs (#chevron-top, etc.) to the 
+        global CSS pipeline. The infinite staggered loops are driven entirely by 
+        Hero.css under a 0.8s calibrated delay, bypassing JavaScript inline style 
+        overrides to maintain strict hardware-accelerated thread performance.
+      */
+      className={`${className} block overflow-visible cta-chevron-wrapper`}
+    >
       <svg
         fill="none"
         height="100%"
@@ -14,7 +24,7 @@ export default function CTAChevrons({ className = "w-65" }: CTAChevronsProps) {
         viewBox="0 0 500 500"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* We removed the <animateTransform> tags and rely on the IDs for CSS movement */}
+        {/* BOTTOM CHEVRON: Driven by pulseBottom keyframes in Hero.css */}
         <g id="chevron-bottom">
           <g transform="translate(250,324)">
             <g transform="scale(1,1) translate(-132.596,-101.955)">
@@ -30,7 +40,8 @@ export default function CTAChevrons({ className = "w-65" }: CTAChevronsProps) {
             </g>
           </g>
         </g>
-        
+
+        {/* MIDDLE CHEVRON: Driven by pulseMiddle keyframes in Hero.css */}
         <g opacity="0.8" id="chevron-middle">
           <g transform="translate(250,251)">
             <g transform="scale(1,1) translate(-72.596,-41.955)">
@@ -47,6 +58,7 @@ export default function CTAChevrons({ className = "w-65" }: CTAChevronsProps) {
           </g>
         </g>
 
+        {/* TOP CHEVRON: Driven by pulseTop keyframes in Hero.css */}
         <g opacity="0.5" id="chevron-top">
           <g transform="translate(250,178)">
             <g transform="scale(1,1) translate(-72.596,-41.955)">

@@ -14,8 +14,8 @@ const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.125, // Staggers the arrival sequence of individual row anchors
-      delayChildren: 0.25, // Injects a deliberate pause allowing the background panel to arrive first
+      staggerChildren: 0.09, // Staggers the arrival sequence of individual row anchors
+      delayChildren: 0.30, // Injects a deliberate pause allowing the background panel to arrive first
     },
   },
 };
@@ -35,12 +35,9 @@ const itemVariants = {
     transition: {
       x: {
         type: "spring" as const,
-        stiffness: 420,
-        damping: 36,
+        stiffness: 400,
+        damping: 45,
         mass: 0.8,
-      },
-      opacity: {
-        duration: 0.35,
       },
     },
   },

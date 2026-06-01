@@ -15,77 +15,56 @@ import "../../styles/components/button.css";
 import "./Hero.css";
 
 interface HeroProps {
-  /** The scroll progress tracking value mapped across the global viewport (0 to 1) */
   scrollYProgress: MotionValue<number>;
-  /** Bubble hook to notify parent layout systems to scale or morph the custom cursor matrix */
   setIsHoveringCTA: (value: boolean) => void;
 }
 
-/**
- * Hero Component
- * * The flagship entrance area of the portfolio. Displays typography layout matrices,
- * manages smooth spring-interpolated letter expansion loops based on early scroll thresholds,
- * and handles a high-velocity viewport launch transition when deep-linking down to content bounds.
- */
 export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   /* ----------------------------------------------------------------
      SCROLL-LINKED TYPOGRAPHIC SPACING INTERPOLATIONS
-     Spreads letter and word spacing as the user initiates their scroll path.
-     Using split offsets handles independent movement speeds across different text rows.
   ---------------------------------------------------------------- */
   const pushSpaceRaw = useTransform(scrollYProgress, [0.04, 0.05], [0, 15]);
   const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.04, 0.08], [0, 11]);
 
-  // High-frequency responsive spring loop to prevent jagged layout stepping on rapid scrolls
-  const tightSpring = {
-    stiffness: 400,
-    damping: 35,
-    restDelta: 0.001,
-  };
-
+  const tightSpring = { stiffness: 400, damping: 35, restDelta: 0.001 };
   const pushSpace = useSpring(pushSpaceRaw, tightSpring);
   const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
 
   /* ----------------------------------------------------------------
      HIGH-VELOCITY SECTION LAUNCH VIEWPORT MATRIX
-     Tracks early scroll progress. Once it crosses the threshold trigger bounds, 
-     the entire container wrapper launches vertically off-screen to create a clean exit.
   ---------------------------------------------------------------- */
-  // CHANGED: Converted from absolute pixels (-2000) to relative viewport height (-100vh)
-  // to guarantee complete cross-device coverage on high-density 4K displays.
   const launchRaw = useTransform(scrollYProgress, [0, 2.3], ["0vh", "-100vh"]);
-
   const launchY = useSpring(launchRaw, {
-    stiffness: 800, // Aggressive tension curve for snappier acceleration look
-    damping: 40, // Balanced deceleration factor to eliminate end-point bounce structural jitters
-    mass: 0.65, // Lightweight setting to allow instantaneous kinetic response
-    restDelta: 0.01, // Cuts background animation thread calculations immediately upon clearing view
+    stiffness: 800,
+    damping: 40,
+    mass: 0.65,
+    restDelta: 0.01,
   });
 
   /**
-   * Micro-interaction Variants for CTA Button Inner Chevrons
-   * Slides the chevrons down into view on hover while simultaneously fading them in.
+   * INITIAL ENTRANCE ORCHESTRATION (Framer Motion)
+   * Manages the one-time top-down slide & fade transition of the chevron container.
+   * NOTE: The 0.36s delay triggers the Framer Motion entrance mid-way through
+   * the parent container's 0.5s CSS stretch entrance, layering the reveals.
    */
   const chevronVariants = {
     idle: {
       opacity: 0,
-      y: -30, // Positioned 30px up inside the overflow mask boundary
+      y: -30,
     },
     hover: {
       opacity: 1,
-      y: 0, // Smoothly drops down into standard layout line-height tracking bounds
+      y: 0,
       transition: {
         duration: 0.75,
-        delay: 0.36,
+        delay: 0.36, // The anchor point for your synchronization delay
         ease: "easeInOut" as const,
       },
     },
   };
-  /**
-   * Triggers a programmatic smooth layout sweep down to the base contact section form bounds.
-   */
+
   const handleRelease = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -96,7 +75,6 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   return (
     <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
       <FadeSection>
-        {/* Core Animated Frame Canvas Layer */}
         <motion.div
           style={{ y: launchY }}
           className="mt-[-3rem] flex-1 pl-35 lg:pl-45 remove-padding shrink-con max-[1060px]:flex-none max-[1060px]:text-center text-left z-10"
@@ -126,22 +104,36 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
               }}
               onMouseUp={handleRelease}
               className="ml-1 px-3 py-5 bg-[var(--color-accent)]
-             text-[var(--color-secondary)] rounded font-semibold
-             text-lg tracking-wide cursor-pointer
-             button button--calypso 
-             max-[1060px]:mx-auto max-[1060px]:block z-10"
+ text-[var(--color-secondary)] rounded font-semibold
+ text-lg tracking-wide cursor-pointer
+ button button--calypso 
+ max-[1060px]:mx-auto max-[1060px]:block z-10"
             >
               {/* Layout Layer 1: Baseline Idle Presentation Text */}
               <span>LET'S CONNECT</span>
 
-              {/* Layout Layer 2: Active Hover Slide Overlay Stream */}
+              {/* ===========================================================
+                  LAYOUT LAYER 2: HYBRID HOVER OVERLAY STREAM
+                  - Outer Wrapper (.btn-hover-content): Runs the one-time 0.5s 
+                    CSS stretch entrance triggered via button.css.
+                  - Text Node (#mouseTextCTA): Inherits a 0.8s handoff delay 
+                    to begin its infinite, dampened CSS cinch loop (Hero.css).
+                  - Chevron Container (<motion.span>): Uses Framer Motion variants 
+                    to handle the initial fade-in/drop entrance layout reveal.
+                  =========================================================== */}
               <span className="text-lg btn-hover-content">
-                <span className="translate-x-5 leading-6">JUMP TO CONTACT</span>
+                {/* Prevents internal frame collisions with your CSS */}
+                <span
+                  id="mouseTextCTA"
+                  className="translate-x-16 leading-6 mt-[-.1rem]"
+                >
+                  JUMP TO CONTACT
+                </span>
 
                 {/* Animated Inner Kinetic Indicator Icon Vector */}
                 <motion.span
                   variants={chevronVariants}
-                  className="inline-block translate-x-1"
+                  className="inline-block translate-x-13"
                 >
                   <CTAChevrons />
                 </motion.span>
@@ -151,7 +143,6 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
         </motion.div>
       </FadeSection>
 
-      {/* Side-Car Graphical Visual Asset Cluster Canvas Layer */}
       <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
         <HeroCluster scrollYProgress={scrollYProgress} />
       </div>

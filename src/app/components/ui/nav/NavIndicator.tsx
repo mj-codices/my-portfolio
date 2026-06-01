@@ -84,7 +84,7 @@ export default function NavIndicator({ index, isActive }: NavIndicatorProps) {
           */}
           <motion.div
             className="absolute flex items-center justify-center w-full h-full"
-            initial={{ opacity: 0, x: -8, y: 8, scale: 0.5 }}
+            initial={{ opacity: 0, x: -10, y: 10, scale: 0.5 }}
             animate={{
               x: isActive ? 0 : -8,
               y: isActive ? 0 : 8,
@@ -95,9 +95,9 @@ export default function NavIndicator({ index, isActive }: NavIndicatorProps) {
               type: "spring",
               stiffness: 200,
               damping: 18,
-              delay: isActive ? 0.04 : 0, // Micro-delay allows the parent container circle scale to initiate first
+              delay: isActive ? 0.35 : 0, // Micro-delay allows the parent container circle scale to initiate first
               opacity: {
-                duration: isActive ? 0.32 : 0.1,
+                duration: isActive ? 0.49 : 0.1,
                 ease: "easeOut",
               },
             }}

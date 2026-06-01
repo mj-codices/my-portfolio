@@ -36,24 +36,29 @@ export default function ProcessDiagram({
   });
 
   /* --- HEADER TRANSLATION TIMELINE --- */
-  const headingPYRaw = useTransform(scrollYProgress, [0.3, 0.9], [70, 0]);
+  const headingPYRaw = useTransform(scrollYProgress, [0.15, 1], [60, 0]);
   const headingPY = useSpring(headingPYRaw, {
     stiffness: 90,
     damping: 42,
   });
 
-  /* --- PANEL ENTRY VERTICAL SWEEPS --- */
-  const clusterYRaw = useTransform(diagramProgress, [0.03, 0.3], [60, 0]);
+/* --- PROCESS DIAGRAM: KINETIC GAP-CLOSING ENGINE --- */
+  
+  // Cluster: Enters later, travels a shorter distance, and locks in tightly
+  const clusterYRaw = useTransform(diagramProgress, [0, 0.35], [60, 0]);
   const clusterY = useSpring(clusterYRaw, {
-    stiffness: 75,
-    damping: 28,
+    stiffness: 100, // Crisper snap to grid
+    damping: 24,
   });
 
-  const paraYRaw = useTransform(diagramProgress, [0.07, 0.3], [77, 0]);
+  // Paragraph: Enters slightly earlier, but shares the exact same 0.3 finish line.
+  // Traveling 90px over this window forces it to move faster than the cluster,
+  // creating the visual "catch-up" illusion that collapses the structural gap.
+  const paraYRaw = useTransform(diagramProgress, [0, 0.35], [85, 0]);
   const paraY = useSpring(paraYRaw, {
-    stiffness: 80,
-    damping: 26, // Damped for a softer, trailing gravity settle effect
-    mass: 0.7, // Lightened body allows rapid layout acceleration curves
+    stiffness: 75,   // Slightly softer stiffness allows the trailing absorption look
+    damping: 25,   // Prevents harsh oscillating bounces
+    mass: 0.8,
   });
 
   /* ----------------------------------------------------------------
@@ -92,7 +97,7 @@ export default function ProcessDiagram({
   /* Panel Element Opacity Mapping
      - Tracks smoothly across the initial entry cluster range (0.03 -> 0.3)
   */
-  const clusterOpacityRaw = useTransform(diagramProgress, [0.03, 0.3], [0, 1]);
+  const clusterOpacityRaw = useTransform(diagramProgress, [0, 0.35], [0, 1]);
   const clusterOpacity = useSpring(clusterOpacityRaw, {
     stiffness: 90,
     damping: 22,
