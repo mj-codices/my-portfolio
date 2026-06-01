@@ -95,9 +95,9 @@ export default function NavIndicator({ index, isActive }: NavIndicatorProps) {
               type: "spring",
               stiffness: 220,
               damping: 18,
-              delay: isActive ? 0.43 : 0, // Micro-delay allows the parent container circle scale to initiate first
+              delay: isActive ? 0.44 : 0, // Micro-delay allows the parent container circle scale to initiate first
               opacity: {
-                duration: isActive ? 0.5 : 0.1,
+                duration: isActive ? 0.62 : 0.1,
                 ease: "easeOut",
               },
             }}
