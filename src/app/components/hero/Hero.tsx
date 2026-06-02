@@ -77,12 +77,12 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
       <FadeSection>
         <motion.div
           style={{ y: launchY }}
-          className="mt-[-3rem] flex-1 pl-35 lg:pl-45 remove-padding shrink-con max-[1060px]:flex-none max-[1060px]:text-center text-left z-10"
+          className="absolute right-1/2 top-1/4 mx-15 mt-[-1rem] remove-padding shrink-con text-left z-10"
         >
           {/* Main Presentational Header */}
           <h1 className="text-7xl shrink-heading font-bold mt-15 uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
-            <span className="block hero-heading">Full-stack</span>
-            <span className="block max-[1060px]:pl-0 pl-4 brightness-130">
+            <span className="block hero-heading whitespace-nowrap">Full-stack</span>
+            <span className="block pl-4 brightness-130">
               Developer
             </span>
           </h1>
@@ -107,7 +107,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
  text-[var(--color-secondary)] rounded font-semibold
  text-lg tracking-wide cursor-pointer
  button button--calypso 
- max-[1060px]:mx-auto max-[1060px]:block z-10"
+ mx-auto block z-10"
             >
               {/* Layout Layer 1: Baseline Idle Presentation Text */}
               <span>LET'S CONNECT</span>
@@ -143,7 +143,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
         </motion.div>
       </FadeSection>
 
-      <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
+      <div className="absolute left-1/2 top-1/2">
         <HeroCluster scrollYProgress={scrollYProgress} />
       </div>
     </section>
