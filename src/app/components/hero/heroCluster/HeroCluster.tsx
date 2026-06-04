@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import {
   useTime,
   motion,
@@ -8,6 +9,7 @@ import {
 } from "framer-motion";
 import "./HeroCluster.css";
 import { FadeSection } from "../../wrappers/FadeSection";
+import React from "react";
 
 interface HeroClusterProps {
   /** Global scroll tracking sequence reference used to drive kinetic exit and entry animations */
@@ -22,6 +24,20 @@ interface HeroClusterProps {
  * wrappers to slide interactive elements out of frame while maintaining background depth isolation.
  */
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
+    const [isStacked, setIsStacked] = useState(false);
+
+  // Dynamic Viewport Listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsStacked(window.innerWidth <= 1132);
+    };
+
+    // Run on mount to check initial size
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   /* ----------------------------------------------------------------
      PARALLAX / SCROLL MOTION
      Dislodges targeted vector nodes relative to initial scroll bounds 
@@ -68,7 +84,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           BACKGROUND AMBIENCE (LOW-TIER DEPTH - STATIC)
           Static blurred backplates providing ambient color fields.
           ----------------------------------------------------------- */}
-      <FadeSection>
+      <FadeSection disabled={isStacked}>
         <div className="blur-xs">
           <div
             id="square-1"
@@ -81,11 +97,11 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           ESCAPE LAYER MATRIX 1: Tracks Git and Node elements
           =========================================================== */}
       <motion.div style={{ y: launchY }}>
-        <FadeSection>
+        <FadeSection disabled={isStacked}>
           {/* Git Icon Asset Block */}
           <div
             id="square-3"
-            className="gitGlow z-15 absolute top-15 left-8 w-[80px] h-[80px] 
+            className="gitGlow z-15 absolute top-15 left-8  w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] 
              backdrop-blur-md rounded-xl relative overflow-visible"
             style={{
               backgroundColor: "rgba(50, 50, 43, 0.02)",
@@ -118,11 +134,11 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           </div>
         </FadeSection>
 
-        <FadeSection>
+        <FadeSection disabled={isStacked}>
           {/* Node JS Asset Block */}
           <motion.div
             style={{ y: topY }}
-            className="z-15 absolute bottom-60 left-13 w-[80px] h-[80px]"
+            className="z-15 absolute bottom-60 left-13 w-[70px] h-[70px] sm:w-[80px] sm:h-[80px]"
           >
             <motion.div
               id="square-4"
@@ -164,7 +180,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           CHROMATIC VISUAL ACCENTS (STATIC LAYER SANDWICHED BETWEEN TILES)
           These are placed outside the motion.div streams so they stay locked in place.
           ----------------------------------------------------------- */}
-      <FadeSection>
+      <FadeSection disabled={isStacked}>
         <div className="blur-xs">
           <div
             id="circle-1"
@@ -172,7 +188,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           />
         </div>
       </FadeSection>
-      <FadeSection>
+      <FadeSection disabled={isStacked}>
         <div className="blur-lg">
           <div
             id="circle-2"
@@ -190,12 +206,12 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         {/* Core Focal Element: React Tile (Consumes mathematical breathing scales) */}
         <motion.div
           id="square-6"
-          className="z-15 absolute left-30 top-10 w-[150px] h-[150px] rounded-xl rotate-7 backdrop-blur-sm relative"
+          className="z-15 absolute left-30 top-10 w-[140px] h-[140px] sm:w-[150px] sm:h-[150px] rounded-xl rotate-7 backdrop-blur-sm relative"
           style={{
             scale: iconScale,
           }}
         >
-          <FadeSection>
+          <FadeSection disabled={isStacked}>
             <div
               className="absolute inset-0 rounded-xl pointer-events-none"
               style={{
@@ -211,7 +227,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
             />
           </FadeSection>
 
-          <FadeSection>
+          <FadeSection disabled={isStacked}>
             <div className="flex items-center justify-center w-full h-full p-5">
               <Image
                 src={"/decorations/react.svg"}
@@ -224,14 +240,14 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         </motion.div>
 
         {/* Vector Alpha-Mask Vector Block */}
-        <FadeSection>
+        <FadeSection disabled={isStacked}>
           <motion.div
             style={{ y: topY }}
             className="z-15 absolute bottom-45 right-[-9rem]"
           >
             <motion.div
               id="square-5"
-              className="w-[80px] h-[80px] backdrop-blur-xl rounded-xl rotate-350 relative overflow-visible"
+              className="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] backdrop-blur-xl rounded-xl rotate-350 relative overflow-visible"
               style={{
                 backgroundColor: "#32322b99AA",
               }}
@@ -279,7 +295,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       </motion.div>
 
       {/* Ambient Midground Shadow Elements (STATIC BACKGROUNDS) */}
-      <FadeSection>
+      <FadeSection disabled={isStacked}>
         <div className="blur-[3px]">
           <div
             id="circle-3"
@@ -287,7 +303,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           />
         </div>
       </FadeSection>
-      <FadeSection>
+      <FadeSection disabled={isStacked}>
         <div className="blur-[3px]">
           <div
             id="circle-4"

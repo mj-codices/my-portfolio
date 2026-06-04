@@ -65,7 +65,7 @@ export default function Home() {
   Fades out once Mission section enters viewport.
 */}
         <div
-          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 ${
+          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 max-[1132px]:hidden ${
             showIndicator && !isHoveringCTA ? "opacity-15" : "opacity-0"
           }`}
         >

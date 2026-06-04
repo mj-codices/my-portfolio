@@ -105,3 +105,10 @@
     opacity: 0.80;
   }
 }
+
+.container {
+  display: flex;
+
+  align-items: center;    /* Centers vertically */
+  height: 100vh;          /* Required vertical height to center in the viewport */
+}

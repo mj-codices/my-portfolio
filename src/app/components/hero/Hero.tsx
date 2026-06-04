@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   type MotionValue,
   useTransform,
@@ -21,6 +21,20 @@ interface HeroProps {
 
 export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isStacked, setIsStacked] = useState(false);
+
+  // Dynamic Viewport Listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsStacked(window.innerWidth <= 1132);
+    };
+
+    // Run on mount to check initial size
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /* ----------------------------------------------------------------
      SCROLL-LINKED TYPOGRAPHIC SPACING INTERPOLATIONS
@@ -73,25 +87,29 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   };
 
   return (
-    <section className="relative w-full h-screen flex items-center justify-start overflow-hidden">
-      <FadeSection>
+    <section className="relative w-full h-screen flex items-center max-[1132px]:justify-center justify-start overflow-hidden">
+      <FadeSection disabled={isStacked}>
         <motion.div
           style={{ y: launchY }}
-          className="absolute right-1/2 top-1/4 mx-15 mt-[-1rem] remove-padding shrink-con text-left z-10"
+          className="max-[1132px]:relative absolute max-[1132px]:left-43 max-[1132px]:translate-y-48 right-1/2 top-1/4 max-[1231px]:translate-x-8 mx-15 mt-[-1rem] text-left z-5"
         >
           {/* Main Presentational Header */}
-          <h1 className="text-7xl shrink-heading font-bold mt-15 uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
-            <span className="block hero-heading whitespace-nowrap">Full-stack</span>
-            <span className="block pl-4 brightness-130">
-              Developer
+          <h1 className="max-[1132px]:text-6xl text-7xl shrink-heading font-bold mt-15 max-[1132px]:text-center uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
+            <span className="block hero-heading whitespace-nowrap">
+              Full-stack
             </span>
+            <span className="block pl-4 brightness-130">Developer</span>
           </h1>
 
           {/* Abstracted Subtitle Typographic Module */}
-          <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
+          <HeroText
+            pushSpace={pushSpace}
+            pushSpaceBtm={pushSpaceBtm}
+            isStacked={isStacked}
+          />
 
           {/* Interactive Button CTA Hub */}
-          <div className="inline-block relative ml-1 group">
+          <div className="inline-block relative group ml-3 max-[1132px]:ml-0">
             <motion.button
               animate={isHovered ? "hover" : "idle"}
               onMouseEnter={() => {
@@ -103,14 +121,14 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
                 setIsHovered(false);
               }}
               onMouseUp={handleRelease}
-              className="ml-1 px-3 py-5 bg-[var(--color-accent)]
+              className="px-3 py-5 bg-[var(--color-accent)]
  text-[var(--color-secondary)] rounded font-semibold
- text-lg tracking-wide cursor-pointer
+ max-[1132px]:text-base text-lg tracking-wide cursor-pointer
  button button--calypso 
- mx-auto block z-10"
+ max-[1132px]:mx-44 block z-10"
             >
               {/* Layout Layer 1: Baseline Idle Presentation Text */}
-              <span>LET'S CONNECT</span>
+              <span className="whitespace-nowrap">LET'S CONNECT</span>
 
               {/* ===========================================================
                   LAYOUT LAYER 2: HYBRID HOVER OVERLAY STREAM
@@ -121,7 +139,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
                   - Chevron Container (<motion.span>): Uses Framer Motion variants 
                     to handle the initial fade-in/drop entrance layout reveal.
                   =========================================================== */}
-              <span className="text-lg btn-hover-content">
+              <span className="max-[1132px]:text-base text-lg btn-hover-content">
                 {/* Prevents internal frame collisions with your CSS */}
                 <span
                   id="mouseTextCTA"
@@ -143,7 +161,7 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
         </motion.div>
       </FadeSection>
 
-      <div className="absolute left-1/2 top-1/2">
+      <div className="max-[1132px]:relative absolute max-[1132px]:top-[-7rem] max-[1132px]:left-[-22rem] left-1/2 top-1/2  max-[1231px]:-translate-x-10 ">
         <HeroCluster scrollYProgress={scrollYProgress} />
       </div>
     </section>

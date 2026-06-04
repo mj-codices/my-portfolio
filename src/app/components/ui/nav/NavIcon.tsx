@@ -29,10 +29,9 @@ export default function Menu({ open, onToggle }: MenuProps) {
         <input type="checkbox" checked={open} onChange={onToggle} />
         {/* SVG Hamburger icon with gradient styling */}
         <svg
-          className="cursor-pointer pointer-events-none opacity-70"
+          className="cursor-pointer pointer-events-none opacity-70 max-[1132px]:w-25 max-[1132px]:h-25 w-28 h-28"
           viewBox="0 0 100 100"
-          width="105"
-          height="105"
+       
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
