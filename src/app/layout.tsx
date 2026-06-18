@@ -28,7 +28,9 @@ export default function RootLayout({
             {/* Navigation shell — wraps all route content */}
             <NavShell>{children}</NavShell>
             {/* Global progress bar — reflects scroll position */}
+            <div className="max-[500px]:hidden">
             <ProgBar></ProgBar>
+            </div>
           </AppShell>
         </LenisProvider>
       </body>

@@ -30,7 +30,7 @@ export default function ProgBar() {
 
   return (
     <div>
-      <div className="fixed right-8 bottom-1/3 -translate-y-20 w-[.5rem] h-28 rounded-lg backdrop-blur-md overflow-hidden z-10 overflow-hidden">
+      <div className="fixed landscape-margin-prog right-8 bottom-1/3 -translate-y-20 w-[.5rem] h-28 rounded-lg backdrop-blur-md overflow-hidden z-10 overflow-hidden">
         {/* Scroll-progress indicator */}
         <motion.div
           className="rounded w-full h-full origin-top"
@@ -41,7 +41,7 @@ export default function ProgBar() {
         />
       </div>
       <div
-        className="w-[.7rem] h-[7.23rem] fixed right-[30.5px] bottom-1/3 -translate-y-[78.4px] rounded-lg pointer-events-none z-50"
+        className="w-[.7rem] h-[7.23rem] fixed right-[30.5px] bottom-1/3 landscape-margin-prog -translate-y-[78.4px] rounded-lg pointer-events-none z-50"
         style={{
           /* This padding defines the thickness of your border 'crown' */
           padding: "1.2px",

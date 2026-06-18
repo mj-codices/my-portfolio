@@ -26,6 +26,14 @@ interface HeroClusterProps {
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
     const [isStacked, setIsStacked] = useState(false);
 
+    const heroInputRange = isStacked
+  ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
+  : [0, 0.35, 0.5, 0.65]; // Desktop scroll tracking
+
+const heroOutputRange = isStacked
+  ? [1, 1, .8, 0.2]     
+  : [1, 1, 1, 0.2];    
+
   // Dynamic Viewport Listener
   useEffect(() => {
     const handleResize = () => {
@@ -79,12 +87,12 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
   });
 
   return (
-    <div className="flex relative mx-25">
+    <div className="flex relative mx-23 landscape nest-layout max-[400px]:invisible">
       {/* -----------------------------------------------------------
           BACKGROUND AMBIENCE (LOW-TIER DEPTH - STATIC)
           Static blurred backplates providing ambient color fields.
           ----------------------------------------------------------- */}
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <div className="blur-xs">
           <div
             id="square-1"
@@ -97,7 +105,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           ESCAPE LAYER MATRIX 1: Tracks Git and Node elements
           =========================================================== */}
       <motion.div style={{ y: launchY }}>
-        <FadeSection disabled={isStacked}>
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
           {/* Git Icon Asset Block */}
           <div
             id="square-3"
@@ -134,7 +142,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           </div>
         </FadeSection>
 
-        <FadeSection disabled={isStacked}>
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
           {/* Node JS Asset Block */}
           <motion.div
             style={{ y: topY }}
@@ -180,7 +188,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           CHROMATIC VISUAL ACCENTS (STATIC LAYER SANDWICHED BETWEEN TILES)
           These are placed outside the motion.div streams so they stay locked in place.
           ----------------------------------------------------------- */}
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <div className="blur-xs">
           <div
             id="circle-1"
@@ -188,7 +196,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           />
         </div>
       </FadeSection>
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <div className="blur-lg">
           <div
             id="circle-2"
@@ -211,7 +219,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
             scale: iconScale,
           }}
         >
-          <FadeSection disabled={isStacked}>
+          <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
             <div
               className="absolute inset-0 rounded-xl pointer-events-none"
               style={{
@@ -227,7 +235,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
             />
           </FadeSection>
 
-          <FadeSection disabled={isStacked}>
+          <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
             <div className="flex items-center justify-center w-full h-full p-5">
               <Image
                 src={"/decorations/react.svg"}
@@ -240,7 +248,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
         </motion.div>
 
         {/* Vector Alpha-Mask Vector Block */}
-        <FadeSection disabled={isStacked}>
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
           <motion.div
             style={{ y: topY }}
             className="z-15 absolute bottom-45 right-[-9rem]"
@@ -295,7 +303,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
       </motion.div>
 
       {/* Ambient Midground Shadow Elements (STATIC BACKGROUNDS) */}
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <div className="blur-[3px]">
           <div
             id="circle-3"
@@ -303,7 +311,7 @@ export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
           />
         </div>
       </FadeSection>
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <div className="blur-[3px]">
           <div
             id="circle-4"

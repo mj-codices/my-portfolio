@@ -35,7 +35,14 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
+const heroInputRange = isStacked
+  ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
+  : [0, 0.35, 0.5, 0.7]; // Desktop scroll tracking
 
+const heroOutputRange = isStacked
+  ? [1, 1, .8, 0.2]       // Stacked mobile opacity (still fades completely to 0)
+  : [1, 1, 1, 0.2];    // Solid on load, dips to 50%, hits a floor of 20% (0.2)
   /* ----------------------------------------------------------------
      SCROLL-LINKED TYPOGRAPHIC SPACING INTERPOLATIONS
   ---------------------------------------------------------------- */
@@ -88,17 +95,17 @@ export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
 
   return (
     <section className="relative w-full h-screen flex items-center max-[1132px]:justify-center justify-start overflow-hidden">
-      <FadeSection disabled={isStacked}>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
         <motion.div
           style={{ y: launchY }}
-          className="max-[1132px]:relative absolute max-[1132px]:left-43 max-[1132px]:translate-y-48 right-1/2 top-1/4 max-[1231px]:translate-x-8 mx-15 mt-[-1rem] text-left z-5"
+          className="landscape-margin nest-layout-margin max-[400px]:mt-[-20rem] max-[1132px]:relative absolute max-[1132px]:left-41 max-[1132px]:translate-y-48 right-1/2 top-1/4 max-[1231px]:translate-x-8 mx-15 mt-[-1rem] text-left z-5"
         >
           {/* Main Presentational Header */}
-          <h1 className="max-[1132px]:text-6xl text-7xl shrink-heading font-bold mt-15 max-[1132px]:text-center uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
+          <h1 className="max-[500px]:text-5xl max-[1132px]:text-6xl text-7xl shrink-heading font-bold mt-15 max-[1132px]:text-center uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
             <span className="block hero-heading whitespace-nowrap">
               Full-stack
             </span>
-            <span className="block pl-4 brightness-130">Developer</span>
+            <span className="block max-[500px]:pl-0 pl-2 brightness-130">Developer</span>
           </h1>
 
           {/* Abstracted Subtitle Typographic Module */}

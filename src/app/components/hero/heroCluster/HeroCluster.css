@@ -398,3 +398,19 @@
     --pr: 2deg;
   }
 }
+
+
+@media screen and (max-height: 430px) {
+  .landscape {
+    visibility: hidden;
+  }
+  .landscape-margin {
+    margin-top: -10rem;
+  }
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .nest-layout {
+    visibility: hidden;
+  }
+}

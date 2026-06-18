@@ -23,7 +23,7 @@ type HeroTextProps = {
 // -----------------------------------------------------------------
 export default function HeroText({ pushSpace, pushSpaceBtm, isStacked }: HeroTextProps) {
   return (
-    <div className="max-w-md pl-15 sm:pl-0 sm:max-w-lg justify-center">
+    <div className="max-w-md mx-17 max-[500px]:mx-25 sm:mx-0 sm:max-w-lg">
       {/* Scroll-Linked Margin Spacer: 
         Transforms real-time window tracking parameters directly into 
         layout separation variables above and below the paragraph block.
@@ -35,7 +35,7 @@ export default function HeroText({ pushSpace, pushSpaceBtm, isStacked }: HeroTex
         }}
       >
         <div>
-          <p className="text-base sm:text-lg max-[1132px]:leading-[1.8rem] leading-[2.3rem] tracking-[.06rem] max-[1132px]:pb-7 pb-10 max-[1132px]:text-center mt-[-1rem] sm:mt-0">
+          <p className="text-base sm:text-lg max-[400px]:pt-3 max-[400px]:pb-10 max-[400px]:leading-[2.5rem] max-[1132px]:leading-[1.8rem] leading-[2.3rem] tracking-[.06rem] max-[1132px]:pb-7 pb-10 max-[1132px]:text-center mt-[-1rem] sm:mt-0">
             Hello! I’m <span className="text-white">Michael J. White</span>{" "}
             (most people call me Julian). I build thoughtful, scalable, and
             production-ready web apps.

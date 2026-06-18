@@ -154,3 +154,10 @@ body {
 .spin-slow {
   animation: slowSpin 12s linear infinite;
 }
+
+
+@media screen and (max-height: 430px) {
+  .landscape-margin-prog {
+    translate: 0 4rem;
+  }
+}
