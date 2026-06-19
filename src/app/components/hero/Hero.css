@@ -1,33 +1,126 @@
-/* ===============================
-   Hero Heading Styles
-   =============================== */
-
-/* Gradient text styling for first line */
-.gradient-text {
-  display: inline-block;
-
-  background: linear-gradient(90deg, #ff5757, #9e005d);
-
+.hero-heading {
+  background: linear-gradient(to right, #ff5757 100%);
   -webkit-background-clip: text;
   background-clip: text;
-
-  color: transparent;
   -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-repeat: no-repeat;
 }
 
-/* Base state for animated text characters */
-.text-anim span {
-  color: inherit;
-  background: none;
-  opacity: 0; /* start hidden */
-
-  /* smooth fade-in (delay is applied inline per letter) */
-  transition:
-    opacity 0.55s ease,
-    filter 0.55s ease;
+/* "SCROLL" text label below the mouse - STATIC BASELINE */
+#mouseTextCTA {
+  position: absolute;
+  transform: translateX(-50%) translateY(0);
 }
 
-/* Active animation state (triggered via React state) */
-.text-anim.animate span {
-  opacity: 1; /* reveal letters */
+/* ================================================================
+   TIMING CALIBRATION: PERFECT CONSOLIDATED 1.3s MATRIX
+================================================================ */
+
+/* Text Loop */
+.button--calypso:hover #mouseTextCTA {
+  animation: pulseTextWithChevrons 1.3s infinite
+    cubic-bezier(0.333, 0, 0.667, 1);
+  /* CALIBRATED: 0.6s handles the perfect handoff from the parent stretch */
+  animation-delay: 0.6s;
+}
+
+/* Chevron Loops */
+.button--calypso:hover #chevron-top {
+  animation: pulseTop 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s to sync with text downbeat */
+}
+
+.button--calypso:hover #chevron-middle {
+  animation: pulseMiddle 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s */
+}
+
+.button--calypso:hover #chevron-bottom {
+  animation: pulseBottom 1.3s infinite cubic-bezier(0.333, 0, 0.667, 1);
+  animation-delay: 0.6s; /* FIXED: Shifted from 0.7s */
+}
+
+/* ================================================================
+   KEYFRAME MATRIX (Properties aligned for clean hardware rendering)
+================================================================ */
+
+/* 1. The Text Track */
+@keyframes pulseTextWithChevrons {
+  0%,
+  5.8%,
+  88.2%,
+  100% {
+    /* FIXED: Restored perfect property order hierarchy */
+    transform: translateX(-50%) translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  47% {
+
+    transform: translateX(-50%) translateY(.5px) scaleY(0.9);
+    opacity: 0.75;
+  }
+}
+
+/* 2. The Top Chevron Track (Matches the text phase) */
+@keyframes pulseTop {
+  0%,
+  5.8%,
+  88.2%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  47% {
+    transform: translateY(40px);
+    opacity: 0.40;
+  }
+}
+
+/* 3. The Middle Chevron Track */
+@keyframes pulseMiddle {
+  0%,
+  8.8%,
+  94.1%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(40px);
+    opacity: 0.60;
+  }
+}
+
+/* 4. The Bottom Chevron Track */
+@keyframes pulseBottom {
+  0%,
+  11.7%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  52.9% {
+    transform: translateY(40px);
+    opacity: 0.80;
+  }
+}
+
+.container {
+  display: flex;
+
+  align-items: center;    /* Centers vertically */
+  height: 100vh;          /* Required vertical height to center in the viewport */
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+    .nest-layout-margin {
+    margin-top: -20rem;
+  }
+}
+
+@media screen and (max-height: 430px) {
+  .landscape-margin {
+    margin-top: -24rem;
+  }
 }

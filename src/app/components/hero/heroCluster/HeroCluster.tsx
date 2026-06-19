@@ -1,156 +1,324 @@
 import Image from "next/image";
-import { motion, MotionValue, useTransform } from "framer-motion";
+import { useState, useEffect } from "react";
+import {
+  useTime,
+  motion,
+  useTransform,
+  useSpring,
+  type MotionValue,
+} from "framer-motion";
 import "./HeroCluster.css";
+import { FadeSection } from "../../wrappers/FadeSection";
+import React from "react";
 
 interface HeroClusterProps {
+  /** Global scroll tracking sequence reference used to drive kinetic exit and entry animations */
   scrollYProgress: MotionValue<number>;
 }
 
-// ---------------------------
-// HeroCluster
-// ---------------------------
-// Purpose:
-// Decorative cluster of floating UI elements/icons in the hero section.
-//
-// Behavior:
-// - Elements are positioned absolutely to form a "floating cluster"
-// - Subtle vertical motion is driven by scroll progress
-// - Different motion ranges create depth (parallax-like effect)
-// ---------------------------
+/**
+ * HeroCluster Component
+ * * A high-performance, multilayered 3D visual cluster for the landing area.
+ * Blends custom mathematical breathing curves ($f(t) = \sin(t)^{1.5}$), independent
+ * scroll-linked micro-parallax displacement tiers, and twin high-tension spring launch
+ * wrappers to slide interactive elements out of frame while maintaining background depth isolation.
+ */
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
+    const [isStacked, setIsStacked] = useState(false);
 
-  // ---------------------------
-  // Scroll-driven spacing (primary motion)
-  // Used for larger, more noticeable elements
-  // ---------------------------
-  const pushSpace = useTransform(
-    scrollYProgress,
-    [0.75, 0.95], // begin movement near end of hero scroll
-    [0, 40],
-  );
+    const heroInputRange = isStacked
+  ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
+  : [0, 0.35, 0.5, 0.65]; // Desktop scroll tracking
 
-  const pushSpaceBtm = useTransform(
-    scrollYProgress,
-    [0.75, 0.95],
-    [0, 55],
-  );
+const heroOutputRange = isStacked
+  ? [1, 1, .8, 0.2]     
+  : [1, 1, 1, 0.2];    
 
-  // ---------------------------
-  // Secondary motion (subtle / smaller elements)
-  // Starts earlier and moves less distance
-  // ---------------------------
-  const pushSpaceShort = useTransform(scrollYProgress, [0, 1], [-30, 0]);
-  const pushSpaceBtmShort = useTransform(scrollYProgress, [0, 1], [-40, 0]);
+  // Dynamic Viewport Listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsStacked(window.innerWidth <= 1132);
+    };
+
+    // Run on mount to check initial size
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  /* ----------------------------------------------------------------
+     PARALLAX / SCROLL MOTION
+     Dislodges targeted vector nodes relative to initial scroll bounds 
+     to establish multi-layered depths.
+  ---------------------------------------------------------------- */
+  const topDislodgeRaw = useTransform(scrollYProgress, [0, 0.07], [0, -35]);
+  const topY = useSpring(topDislodgeRaw, { stiffness: 300, damping: 40 });
+
+  /* ----------------------------------------------------------------
+     IDLE ORGANIC BREATHING WAVE
+     Uses system time loops to establish an asynchronous breathing cycle.
+  ---------------------------------------------------------------- */
+  const time = useTime();
+
+  /*
+    Generates a continuous custom breathing scale curve.
+    - 3740ms cycle duration decouples it visually from standard CSS animations.
+    - Raising the absolute sine wave to a power of 1.5 forces the curve to spend
+      more time resting at the bottom scale value (1.0) and peak snappily at (1.03),
+      mimicking natural breathing behavior.
+  */
+  const progress = useTransform(time, (t) => {
+    const cycle = (t / 3740) % 1;
+    return Math.pow(Math.sin(cycle * Math.PI), 1.5);
+  });
+  const iconScale = useTransform(progress, [0, 1], [1.03, 1]);
+
+  /* ----------------------------------------------------------------
+     KINETIC EXIT LAUNCH VEHICLE
+     Transforms micro-scroll milestones into extreme structural translations.
+  ---------------------------------------------------------------- */
+  const launchRaw = useTransform(scrollYProgress, [0, 3.5], [0, -2000]);
+
+  const launchY = useSpring(launchRaw, {
+    stiffness: 1000, // Extreme tension parameters driving instant lift velocity
+    damping: 50, // Prevents positional jittering at the tail end of calculation loops
+    mass: 0.5, // Lighter mass allows immediate kinetic engine acceleration responses
+    restDelta: 0.01, // Halts memory calculation cycles the moment properties clear screen bounds
+  });
 
   return (
-    <div className="flex relative mx-25">
+    <div className="flex relative mx-23 landscape nest-layout max-[400px]:invisible">
+      {/* -----------------------------------------------------------
+          BACKGROUND AMBIENCE (LOW-TIER DEPTH - STATIC)
+          Static blurred backplates providing ambient color fields.
+          ----------------------------------------------------------- */}
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <div className="blur-xs">
+          <div
+            id="square-1"
+            className="z-5 absolute top-12 left-[-2rem] bg-[#545454] opacity-20 backdrop-blur-sm w-[50px] h-[50px] rounded-xl rotate-14"
+          />
+        </div>
+      </FadeSection>
 
-      {/* ---------------------------
-          Background decorative shapes (blurred)
-          --------------------------- */}
-      <div className="blur-xs">
-        <div
-          id="square-1"
-          className="z-5 absolute top-12 left-[-2rem] bg-[#545454] opacity-20 backdrop-blur-sm w-[50px] h-[50px] rounded-xl rotate-14"
-        />
-      </div>
+      {/* ===========================================================
+          ESCAPE LAYER MATRIX 1: Tracks Git and Node elements
+          =========================================================== */}
+      <motion.div style={{ y: launchY }}>
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+          {/* Git Icon Asset Block */}
+          <div
+            id="square-3"
+            className="gitGlow z-15 absolute top-15 left-8  w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] 
+             backdrop-blur-md rounded-xl relative overflow-visible"
+            style={{
+              backgroundColor: "rgba(50, 50, 43, 0.02)",
+            }}
+          >
+            {/* Vector Mask Rim Highlight Rim Layer */}
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none"
+              style={{
+                padding: ".8px",
+                background:
+                  "linear-gradient(45deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.03))",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMaskComposite: "xor",
+                maskComposite: "exclude",
+              }}
+            />
 
-      {/* Git icon tile */}
-      <div
-        id="square-3"
-        className="z-15 absolute top-15 left-8 bg-[#32322b44] backdrop-blur-md w-[80px] h-[80px] rounded-xl border-[1px] border-white/4 p-2 overflow-hidden"
-      >
-        <Image width={70} height={70} src={"/decorations/git.svg"} alt="git icon" />
-      </div>
+            <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+              <Image
+                width={70}
+                height={70}
+                src={"/decorations/git.svg"}
+                alt="Git engineering resource logo"
+                className="opacity-90"
+              />
+            </div>
+          </div>
+        </FadeSection>
 
-      {/* VS Code tile (scroll-reactive) */}
-      <motion.div
-        id="square-4"
-        className="z-15 absolute bottom-20 left-20 bg-[#54545411] backdrop-blur-md w-[80px] h-[80px] rounded-xl rotate-5 border-solid border-[.8px] border-white/7 p-3 rotate-x-40 rotate-z-40 overflow-hidden"
-        style={{
-          marginTop: pushSpace,
-          marginBottom: pushSpaceBtm,
-        }}
-      >
-        <Image
-          width={70}
-          height={70}
-          alt="vs code logo"
-          src={"/decorations/vscode.svg"}
-          className="opacity-85"
-        />
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+          {/* Node JS Asset Block */}
+          <motion.div
+            style={{ y: topY }}
+            className="z-15 absolute bottom-60 left-13 w-[70px] h-[70px] sm:w-[80px] sm:h-[80px]"
+          >
+            <motion.div
+              id="square-4"
+              className="w-full h-full backdrop-blur-md rounded-xl rotate-5 rotate-x-40 rotate-z-40 relative overflow-visible"
+              style={{
+                backgroundColor: "rgba(84, 84, 84, 0.06)",
+                transformStyle: "preserve-3d",
+              }}
+            >
+              <div
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  padding: "1px",
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1))",
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+
+              <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+                <Image
+                  width={70}
+                  height={70}
+                  alt="Node JS platform identity visual asset"
+                  src={"/decorations/node.svg"}
+                  className="opacity-85"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        </FadeSection>
       </motion.div>
 
-      {/* Accent circle */}
-      <div className="blur-xs">
-        <div
-          id="circle-1"
-          className="z-5 absolute left-47 bottom-8 bg-[#FF6F61] rounded-full w-[20px] h-[20px]"
-        />
-      </div>
+      {/* -----------------------------------------------------------
+          CHROMATIC VISUAL ACCENTS (STATIC LAYER SANDWICHED BETWEEN TILES)
+          These are placed outside the motion.div streams so they stay locked in place.
+          ----------------------------------------------------------- */}
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <div className="blur-xs">
+          <div
+            id="circle-1"
+            className="z-5 absolute left-27 bottom-5 bg-[#FF6F61] rounded-full w-[20px] h-[20px]"
+          />
+        </div>
+      </FadeSection>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <div className="blur-lg">
+          <div
+            id="circle-2"
+            className="z-5 absolute left-25 top-20 bg-[#FF6F61] rounded-full w-[30px] h-[30px]"
+          />
+        </div>
+      </FadeSection>
 
-      {/* React tile (larger focal element) */}
-      <div
-        id="square-6"
-        className="z-15 absolute left-50 top-10 bg-[#54545411] backdrop-blur-sm w-[150px] h-[150px] rounded-xl rotate-7 border-solid border-[.7px] border-white/10 p-5 overflow-hidden"
-      >
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
-        <Image
-          src={"/decorations/react.svg"}
-          width={130}
-          height={130}
-          alt="react logo"
-        />
-      </div>
+      {/* ===========================================================
+          ESCAPE LAYER MATRIX 2: Tracks React and Code elements
+          Splitting this block allows the static background circles above
+          to remain anchored without layout disruption.
+          =========================================================== */}
+      <motion.div style={{ y: launchY }}>
+        {/* Core Focal Element: React Tile (Consumes mathematical breathing scales) */}
+        <motion.div
+          id="square-6"
+          className="z-15 absolute left-30 top-10 w-[140px] h-[140px] sm:w-[150px] sm:h-[150px] rounded-xl rotate-7 backdrop-blur-sm relative"
+          style={{
+            scale: iconScale,
+          }}
+        >
+          <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none"
+              style={{
+                padding: "1px",
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 50%, rgba(255,255,255,0.15))",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMaskComposite: "xor",
+                maskComposite: "exclude",
+              }}
+            />
+          </FadeSection>
 
-      {/* Small interactive tile (faster motion) */}
-      <motion.div
-        id="square-2"
-        className="z-20 absolute left-68 top-45 bg-[#54545433] backdrop-blur-lg w-[50px] h-[50px] rounded-xl rotate-3 border-solid border-[.5px] border-white/7 p-2"
-        style={{
-          marginTop: pushSpaceShort,
-          marginBottom: pushSpaceBtmShort
-        }}
-      >
-        <Image
-          src={"/decorations/play.svg"}
-          width={50}
-          height={50}
-          alt="play button"
-        />
+          <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+            <div className="flex items-center justify-center w-full h-full p-5">
+              <Image
+                src={"/decorations/react.svg"}
+                width={130}
+                height={130}
+                alt="React engine development framework identifier"
+              />
+            </div>
+          </FadeSection>
+        </motion.div>
+
+        {/* Vector Alpha-Mask Vector Block */}
+        <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+          <motion.div
+            style={{ y: topY }}
+            className="z-15 absolute bottom-45 right-[-9rem]"
+          >
+            <motion.div
+              id="square-5"
+              className="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] backdrop-blur-xl rounded-xl rotate-350 relative overflow-visible"
+              style={{
+                backgroundColor: "#32322b99AA",
+              }}
+            >
+              {/* LAYER 1: GRADIENT BORDER RING
+      Uses a composite exclusion mask to punch out the center area (content-box).
+      This leaves a clean, hardware-accelerated 1px perimeter ring that displays 
+      the linear gradient without bleeding into the backdrop-blurred center.
+  */}
+              <div
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  padding: "1px",
+                  background:
+                    "linear-gradient(225deg, rgba(255,255,255,0.5), rgba(255,255,255,0.01) 60%, rgba(255,255,255,0.03))",
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+
+              <div className="relative z-10 w-full h-full p-3">
+                {/* LAYER 2: VECTOR GLYPH MASK
+        Tailwind's arbitrary mask utilities automatically output cross-browser 
+        standard and webkit prefixes to cleanly stamp the code.svg geometry out 
+        of the underlying vibrant background gradient.
+    */}
+                <div
+                  className="
+                    w-full h-full
+                    bg-gradient-to-tr from-[#ff5757] to-[#9e005d]
+                    mask-[url('/decorations/code.svg')] mask-center mask-no-repeat mask-contain
+                    [-webkit-mask-image:url('/decorations/code.svg')]
+                    [-webkit-mask-position:center]
+                    [-webkit-mask-repeat:no-repeat]
+                    [-webkit-mask-size:contain]
+                  "
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        </FadeSection>
       </motion.div>
 
-      {/* Code tile with gradient mask */}
-      <motion.div
-        id="square-5"
-        className="z-15 absolute bottom-5 left-80 w-[80px] h-[80px] bg-[#32322b44] backdrop-blur-md rounded-xl rotate-350 border-solid border-[1px] border-white/4 p-3 overflow-hidden"
-        style={{
-          marginTop: pushSpace,
-          marginBottom: pushSpaceBtm,
-        }}
-      >
-        {/* Gradient masked icon */}
-        <div
-          className="
-            w-full h-full
-            bg-gradient-to-tr from-[#ff5757] to-[#9e005d]
-            mask-[url('/decorations/code.svg')] mask-center mask-no-repeat mask-contain
-            [-webkit-mask-image:url('/decorations/code.svg')]
-            [-webkit-mask-position:center]
-            [-webkit-mask-repeat:no-repeat]
-            [-webkit-mask-size:contain]
-          "
-        />
-        <div className="top-mask absolute w-[10rem] h-[14rem] top-[-.8rem] left-2 rotate-353 opacity-40" />
-      </motion.div>
-
-      {/* Background accent circle */}
-      <div className="blur-[3px]">
-        <div
-          id="circle-2"
-          className="z-5 absolute top-5 left-110 bg-[#545454] opacity-20 backdrop-blur-md rounded-full w-[30px] h-[30px]"
-        />
-      </div>
+      {/* Ambient Midground Shadow Elements (STATIC BACKGROUNDS) */}
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <div className="blur-[3px]">
+          <div
+            id="circle-3"
+            className="z-5 absolute top-5 left-50 bg-[#545454] opacity-20 backdrop-blur-md rounded-full w-[30px] h-[30px]"
+          />
+        </div>
+      </FadeSection>
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <div className="blur-[3px]">
+          <div
+            id="circle-4"
+            className="z-5 absolute top-55 right-20 bg-black opacity-30 backdrop-blur-lg rounded-full w-[30px] h-[30px]"
+          />
+        </div>
+      </FadeSection>
     </div>
   );
 }

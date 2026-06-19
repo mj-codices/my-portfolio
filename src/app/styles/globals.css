@@ -1,54 +1,63 @@
 @import "tailwindcss";
 
-/* ============================= */
-/*      CSS Variables / Theme     */
-/* ============================= */
+/* ==========================================================================
+   CENTRALIZED SYSTEM VARIABLES (:root)
+   Tailwind v4 natively scans standard custom properties. Any variable prefixed
+   with '--color-*' or '--font-*' is automatically made available as a native
+   utility utility class without needing an explicit @theme directive.
+   ========================================================================== */
 :root {
-  /* Primary colors */
+  /* System Base Palette Tokens (Exposes: bg-primary, text-secondary, etc.) */
   --color-primary: #21272b;
   --color-secondary: #191919;
   --color-tertiary: #545454;
 
-  /* Accent color */
+  /* Vibrant Accent Tokens (Exposes: bg-accent, text-ambient-accent, etc.) */
   --color-accent: #ff5757;
   --color-ambient-accent: #ff6f61;
-
-  /* Text colors */
-  --color-text-primary: #b4b4b4;
   --color-gradient-accent: #9e005d;
 
-  /* Fonts */
+  /* Typography Narrative Scales */
+  --color-text-primary: #b4b4b4;
+
+  /* Master System Font Hook (Exposes: font-inter) */
   --font-inter: "Inter", sans-serif;
 
-  /* Prevent scroll “bounce” on iOS / overscroll */
+  /* Prevent kinetic bounce/overscroll physics on mobile viewports */
   overscroll-behavior: none;
 }
 
-/* ============================= */
-/*      Global Element Styles     */
-/* ============================= */
+/* ==========================================================================
+   GLOBAL ROOT ELEMENT SYSTEM RESETS
+   ========================================================================== */
 html {
   scroll-behavior: smooth;
-  ::-webkit-scrollbar {
-    display: none;
-  }
+  background-color: var(--color-secondary);
+}
+
+/* Structural scroll track mitigation */
+html ::-webkit-scrollbar {
+  display: none;
 }
 
 body {
   height: 100%;
-  font-family: var(--font-inter);
+  font-family: var(--font-inter); /* Locked down to Inter globally */
   margin: 0;
   padding: 0;
-
   color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ============================= */
-/*        Animated Background     */
-/* ============================= */
+.no-scroll {
+  overflow: hidden;
+  padding-right: var(--removed-body-scrollbar-width, 0px); 
+}
 
-/* Rotate animation used for floating background balls */
-@keyframes move {
+/* ==========================================================================
+   AMBIENT BACKGROUND ENGINE (ORBITAL GENERATIVE BLUR)
+   ========================================================================== */
+@keyframes ambientOrbit {
   100% {
     transform: translate3d(0, 0, 1px) rotate(360deg);
   }
@@ -56,8 +65,8 @@ body {
 
 .animated-bg {
   position: absolute;
-  pointer-events: none; /* Background should not block clicks */
-  background: radial-gradient(circle, #191919 0%, #090a0f 100%);
+  pointer-events: none;
+  background: radial-gradient(circle, #191919 0%, #010207 100%);
   overflow: hidden;
   z-index: 0;
   inset: 0;
@@ -69,87 +78,86 @@ body {
   height: 20vmin;
   border-radius: 50%;
   backface-visibility: hidden;
-  animation: move linear infinite;
+  animation: ambientOrbit linear infinite;
 }
 
-/* Alternate ball colors for variety */
 .ball:nth-child(odd) {
   color: #000000;
 }
 
 .ball:nth-child(even) {
-  color: #ff6f61;
+  color: var(--color-ambient-accent);
 }
 
-/* Individual ball positioning and animation settings */
+/* Individual spatial canvas alignment grids */
 .ball:nth-child(1) {
-  top: 77%;
-  left: 88%;
-  animation-duration: 40s;
-  animation-delay: -3s;
+  top: 77%; left: 88%;
+  animation-duration: 40s; animation-delay: -3s;
   transform-origin: 16vw -2vh;
-  box-shadow: 40vmin 0 5.703076368487546vmin currentColor;
+  box-shadow: 40vmin 0 5.7vmin currentColor;
 }
 .ball:nth-child(2) {
-  top: 42%;
-  left: 2%;
-  animation-duration: 53s;
-  animation-delay: -29s;
+  top: 42%; left: 2%;
+  animation-duration: 53s; animation-delay: -29s;
   transform-origin: -19vw 21vh;
-  box-shadow: -40vmin 0 5.17594621519026vmin currentColor;
+  box-shadow: -40vmin 0 5.1vmin currentColor;
 }
 .ball:nth-child(3) {
-  top: 28%;
-  left: 18%;
-  animation-duration: 49s;
-  animation-delay: -8s;
+  top: 28%; left: 18%;
+  animation-duration: 49s; animation-delay: -8s;
   transform-origin: -22vw 3vh;
-  box-shadow: 40vmin 0 5.248179047256236vmin currentColor;
+  box-shadow: 40vmin 0 5.2vmin currentColor;
 }
 .ball:nth-child(4) {
-  top: 50%;
-  left: 79%;
-  animation-duration: 26s;
-  animation-delay: -21s;
+  top: 50%; left: 79%;
+  animation-duration: 26s; animation-delay: -21s;
   transform-origin: -17vw -6vh;
-  box-shadow: 40vmin 0 5.279749632220298vmin currentColor;
+  box-shadow: 40vmin 0 5.2vmin currentColor;
 }
 .ball:nth-child(5) {
-  top: 46%;
-  left: 15%;
-  animation-duration: 36s;
-  animation-delay: -40s;
+  top: 46%; left: 15%;
+  animation-duration: 36s; animation-delay: -40s;
   transform-origin: 4vw 0vh;
-  box-shadow: -40vmin 0 5.964309466052033vmin currentColor;
+  box-shadow: -40vmin 0 5.9vmin currentColor;
 }
 .ball:nth-child(6) {
-  top: 77%;
-  left: 16%;
-  animation-duration: 31s;
-  animation-delay: -10s;
+  top: 77%; left: 16%;
+  animation-duration: 31s; animation-delay: -10s;
   transform-origin: 18vw 4vh;
-  box-shadow: 40vmin 0 5.178483653434181vmin currentColor;
+  box-shadow: 40vmin 0 5.1vmin currentColor;
 }
 .ball:nth-child(7) {
-  top: 22%;
-  left: 17%;
-  animation-duration: 55s;
-  animation-delay: -6s;
+  top: 22%; left: 17%;
+  animation-duration: 55s; animation-delay: -6s;
   transform-origin: 1vw -23vh;
-  box-shadow: -40vmin 0 5.703026794398318vmin currentColor;
+  box-shadow: -40vmin 0 5.7vmin currentColor;
 }
 .ball:nth-child(8) {
-  top: 41%;
-  left: 47%;
-  animation-duration: 43s;
-  animation-delay: -28s;
+  top: 41%; left: 47%;
+  animation-duration: 43s; animation-delay: -28s;
   transform-origin: 25vw -3vh;
-  box-shadow: 40vmin 0 5.196265905749415vmin currentColor;
+  box-shadow: 40vmin 0 5.1vmin currentColor;
 }
 
-/* ============================= */
-/*      Layout / Section Spacing  */
-/* ============================= */
+/* ==========================================================================
+   LAYOUT MODULE STRUCTURES & DECORATIVE MATRICES
+   ========================================================================= */
 .section:not(.fade-wrapper) {
   padding-block: clamp(120px, 14vh, 200px);
+}
+
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-slow {
+  animation: slowSpin 12s linear infinite;
+}
+
+
+@media screen and (max-height: 430px) {
+  .landscape-margin-prog {
+    translate: 0 4rem;
+  }
 }

@@ -1,7 +1,6 @@
 /* ===============================
    Hamburger Menu Styles
    =============================== */
-
 /* Base menu container */
 .menu {
   position: fixed;
@@ -17,6 +16,25 @@
 /* SVG container for menu lines */
 .menu svg {
   display: block;
+  /* 1. IDLE STATE: Stretched out wider than normal by default */
+  transform: scaleX(1.05) scaleY(1.2);
+
+  /* A slightly springy cubic-bezier makes the hover pop beautifully */
+  transition:
+    transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.55s ease;
+}
+
+/* 2. HOVER STATE: Shrinks inward back to its base pristine size */
+.menu:hover svg {
+  transform: scaleX(1) scaleY(1);
+  opacity: .95 !important; /* Forces full opacity clarity on hover */
+}
+
+/* 3. CHECKED STATE: Keep it locked at base proportions when open */
+.menu input:checked + svg {
+  /* Keeps the 'X' cross perfectly symmetrical when the menu drawer is actively open */
+  transform: scale(1) !important;
 }
 
 /* Base styling for menu lines */
@@ -34,7 +52,7 @@
   stroke-dasharray: var(--length) var(--total-length);
   stroke-dashoffset: var(--offset);
 
-  transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 /* -------------------------------

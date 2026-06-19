@@ -1,49 +1,46 @@
 import { motion, MotionValue } from "framer-motion";
 
 type HeroTextProps = {
-  pushSpace: MotionValue<number>; // dynamic top spacing (scroll-driven)
-  pushSpaceBtm: MotionValue<number>; // dynamic bottom spacing (scroll-driven)
+  /** Dynamic tracking unit pushing top vertical margins based on early scroll steps */
+  pushSpace: MotionValue<number>;
+  /** Dynamic tracking unit pushing bottom vertical margins based on early scroll steps */
+  pushSpaceBtm: MotionValue<number>;
+  isStacked: boolean;
 };
 
-// ---------------------------
+// -----------------------------------------------------------------
 // HeroText
-// ---------------------------
+// -----------------------------------------------------------------
 // Purpose:
-// Renders the intro paragraph in the hero section with
-// scroll-driven spacing and fade-in animation.
+// Renders the primary introduction description block in the hero section
+// featuring dynamic, scroll-linked vertical padding expansion properties.
 //
 // Behavior:
-// - Uses MotionValues to dynamically push spacing above/below text
-// - Fades in when entering viewport
-// ---------------------------
-export default function HeroText({ pushSpace, pushSpaceBtm }: HeroTextProps) {
+// - Consumes spring-wrapped MotionValues to smoothly translate letter
+//   and block layouts downstream as the user initiates scroll path inputs.
+// - Note: The intro text fade-in sequence is fully managed by the parent
+//   layout wrapper (FadeSection), not directly inside this subcomponent.
+// -----------------------------------------------------------------
+export default function HeroText({ pushSpace, pushSpaceBtm, isStacked }: HeroTextProps) {
   return (
-    <div className="shrink-para-wrapper mb-10 max-w-lg">
-      {/* Wrapper that adjusts vertical spacing based on scroll */}
+    <div className="max-w-md mx-17 max-[500px]:mx-25 sm:mx-0 sm:max-w-lg">
+      {/* Scroll-Linked Margin Spacer: 
+        Transforms real-time window tracking parameters directly into 
+        layout separation variables above and below the paragraph block.
+      */}
       <motion.div
-        style={{
-          marginTop: pushSpace,
-          marginBottom: pushSpaceBtm,
+     style={{
+          marginTop: isStacked ? 0 : pushSpace,
+          marginBottom: isStacked ? 0 : pushSpaceBtm,
         }}
-        transition={{
-          duration: 1,
-          ease: [0.22, 1, 0.36, 1], // smooth ease-out curve
-          delay: 0,
-        }}
-        viewport={{ once: false, amount: 0.4 }} // triggers when ~40% in view
       >
-        {/* Fade-in animation for text */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="text-lg leading-[2.3rem] tracking-[.06rem]">
-            Hello! I’m <span className="text-white">Michael White</span> (most
-            people call me Julian). I build thoughtful, scalable, and
+        <div>
+          <p className="text-base sm:text-lg max-[400px]:pt-3 max-[400px]:pb-10 max-[400px]:leading-[2.5rem] max-[1132px]:leading-[1.8rem] leading-[2.3rem] tracking-[.06rem] max-[1132px]:pb-7 pb-10 max-[1132px]:text-center mt-[-1rem] sm:mt-0">
+            Hello! I’m <span className="text-white">Michael J. White</span>{" "}
+            (most people call me Julian). I build thoughtful, scalable, and
             production-ready web apps.
           </p>
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );

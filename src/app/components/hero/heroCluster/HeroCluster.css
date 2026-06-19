@@ -1,6 +1,16 @@
 /* =========================================================
    ANIMATION SYSTEM (CSS Houdini Custom Properties)
-   Enables smooth interpolation of transform values
+
+   CSS custom properties are registered through Houdini so
+   transform values can interpolate smoothly during keyframe
+   animation instead of snapping between states.
+
+   Separate variable groups exist for:
+   - background motion layers (--x, --y, --s, --r)
+   - foreground / interactive layers (--px, --py, --ps, --pr)
+
+   This separation prevents animation systems from competing
+   with each other and allows independent motion tuning.
 ========================================================= */
 
 @property --x {
@@ -47,14 +57,35 @@
 
 /* =========================================================
    BACKGROUND ELEMENTS
-   Subtle ambient motion (float + drift + breathe)
+
+   Ambient motion layer intended to feel atmospheric rather
+   than attention-grabbing.
+
+   Motion combines:
+   - vertical drift
+   - horizontal drift
+   - subtle scale breathing
+
+   Independent durations and negative delays intentionally
+   prevent elements from synchronizing, which creates a more
+   natural and less mechanical composition.
 ========================================================= */
 
 /* --- Circle 1 --- */
 #circle-1 {
   transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
 
-  /* Layered motion: vertical + horizontal + scale */
+  animation:
+    floatY 10s ease-in-out infinite,
+    floatX 17s ease-in-out infinite,
+    breathe 8s ease-in-out infinite;
+
+  will-change: transform;
+}
+
+#circle-2 {
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+
   animation:
     floatY 10s ease-in-out infinite,
     floatX 17s ease-in-out infinite,
@@ -64,7 +95,7 @@
 }
 
 /* --- Circle 2 (offset timing for variation) --- */
-#circle-2 {
+#circle-3 {
   transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
 
   animation:
@@ -72,7 +103,28 @@
     floatX-wide 17s ease-in-out infinite,
     breathe-soft 9s ease-in-out infinite;
 
-  /* Prevent synchronized motion */
+  /* Negative delays intentionally desynchronize motion cycles
+    so elements never appear mirrored or procedurally identical.
+  */
+  animation-delay:
+    -6s,
+    -13s,
+    -4s;
+
+  will-change: transform;
+}
+
+#circle-4 {
+  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+
+  animation:
+    floatY-soft 11s ease-in-out infinite,
+    floatX-wide 17s ease-in-out infinite,
+    breathe-soft 9s ease-in-out infinite;
+
+  /* Negative delays intentionally desynchronize motion cycles
+    so elements never appear mirrored or procedurally identical.
+  */
   animation-delay:
     -6s,
     -13s,
@@ -83,19 +135,25 @@
 
 /* =========================================================
    BACKGROUND SQUARES
-   Adds rotation (sway) for more dimensional motion
+
+   Transitional depth layer between background ambience
+   and foreground UI motion.
+
+   Rotation sway adds dimensionality so shapes feel less flat
+   against the overall scene composition.
 ========================================================= */
 
 #square-1 {
   transform: translateX(var(--x)) translateY(var(--y)) rotate(var(--r))
     scale(var(--s));
 
-  animation:
-    squareFloatY 16s ease-in-out infinite,
-    squareFloatX 24s ease-in-out infinite,
-    squareSway 18s ease-in-out infinite,
-    squareBreathe 13s ease-in-out infinite;
+  animation: squareFloatY 16s ease-in-out infinite;
 
+  /* NOTE ON TRACK DELAYS: 
+    Only the first delay (-6s) is active because this element is configured
+    with a single animation track (squareFloatY). The extra parameters are 
+    reserved for future horizontal, rotation, or scale additions.
+  */
   animation-delay:
     -6s,
     -11s,
@@ -110,12 +168,9 @@
   transform: translateX(var(--px)) translateY(var(--py)) rotate(var(--pr))
     scale(var(--ps));
 
-  animation:
-    playFloatY 5.5s ease-in-out infinite,
-    playFloatX 8s ease-in-out infinite,
-    playBreathe 3s ease-in-out infinite,
-    playSway 9.5s ease-in-out infinite;
+  animation: squareFloatY-smooth 12s ease-in-out infinite;
 
+  /* Only the initial delay target is bound to the single active animation loop */
   animation-delay:
     -2s,
     -4s,
@@ -127,63 +182,100 @@
 
 /* =========================================================
    FOREGROUND ELEMENTS (UI LAYER)
-   Independent animations + subtle 3D transforms
-========================================================= */
 
-#square-3,
-#square-4,
-#square-5,
-#square-6 {
-  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
-  will-change: transform;
-}
+   Foreground motion is intentionally more pronounced and
+   dimensional than background motion to establish hierarchy.
+
+   These elements use:
+   - layered motion stacks
+   - subtle perspective transforms
+   - independent timing systems
+
+   This creates a "floating interface cluster" feeling
+   rather than simple decorative movement.
+========================================================= */
 
 /* --- Individual animation assignments --- */
 
 #square-3 {
   animation:
-    fgFloat3 17s ease-in-out infinite,
-    fgFloatX3 11s ease-in-out infinite,
-    fgSway3 15s ease-in-out infinite,
-    fgBreathe3 9s ease-in-out infinite;
+    fgFloatY 9.5s ease-in-out infinite,
+    fgFloatX 14s ease-in-out infinite,
+    fgSway 12s ease-in-out infinite,
+    fgBreathe 7s ease-in-out infinite;
 
   animation-delay:
     -2s,
-    -5s,
+    -6s,
     -3s,
     -1s;
 
-  /* Subtle 3D tilt for depth */
+  /* PERFORMANCE NOTE: Self-contained perspective metrics are assigned 
+    locally to tilt this individual matrix coordinate frame in 3D.
+  */
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
     rotateX(10deg) rotateY(-30deg);
   transform-style: preserve-3d;
   perspective: 600px;
+  will-change: transform;
 }
 
 #square-4 {
   animation:
-    fgFloat4 14s ease-in-out infinite,
-    fgFloatX4 12s ease-in-out infinite,
-    fgSway4 16s ease-in-out infinite,
-    fgBreathe4 10s ease-in-out infinite;
+    fgFloatY 7.5s ease-in-out infinite,
+    fgFloatX 11s ease-in-out infinite,
+    fgSway 10s ease-in-out infinite,
+    fgBreathe 6s ease-in-out infinite;
 
   animation-delay:
-    -8s,
-    -3s,
-    -6s,
-    -2s;
+    -5s,
+    -2s,
+    -4s,
+    -1s;
 
   transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
     rotateX(20deg) rotateY(-8deg) rotateZ(5deg);
   transform-style: preserve-3d;
   perspective: 600px;
+  will-change: transform;
 }
 
-/* (square-5 and square-6 follow same pattern...) */
+#square-5 {
+  animation:
+    fgFloatY 8.5s ease-in-out infinite,
+    fgFloatX 13s ease-in-out infinite,
+    fgSway 11s ease-in-out infinite,
+    fgBreathe 6.5s ease-in-out infinite;
+
+  animation-delay:
+    -3s,
+    -7s,
+    -2s,
+    -4s;
+
+  /* CONSOLIDATED DECLARATION BLOCK */
+  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
+  will-change: transform;
+}
+
+/* Foreground motion values intentionally differ per element.
+
+  Shared timing across all foreground elements caused the
+  cluster to feel robotic and visually repetitive.
+
+  Slightly offset durations maintain cohesion while preserving
+  organic movement variation.
+*/
 
 /* =========================================================
    SHARED ANIMATION PATTERNS
 ========================================================= */
+
+/* Motion amplitudes remain intentionally restrained.
+
+  Larger translation ranges made the cluster feel disconnected
+  from the surrounding UI and visually too "floaty".
+*/
 
 /* Vertical float */
 @keyframes floatY {
@@ -204,17 +296,6 @@
   }
   50% {
     --x: 10px;
-  }
-}
-
-/* Scale breathing */
-@keyframes breathe {
-  0%,
-  100% {
-    --s: 1;
-  }
-  50% {
-    --s: 1.04;
   }
 }
 
@@ -239,16 +320,6 @@
   }
 }
 
-@keyframes breathe-soft {
-  0%,
-  100% {
-    --s: 1;
-  }
-  50% {
-    --s: 1.025;
-  }
-}
-
 /* Square motion */
 @keyframes squareFloatY {
   0%,
@@ -259,6 +330,7 @@
     --y: -8px;
   }
 }
+
 @keyframes squareFloatX {
   0%,
   100% {
@@ -268,24 +340,77 @@
     --x: 6px;
   }
 }
-@keyframes squareSway {
+
+@keyframes squareFloatY-smooth {
   0%,
   100% {
-    --r: -10deg;
+    --py: 0px;
   }
   50% {
-    --r: 10deg;
-  }
-}
-@keyframes squareBreathe {
-  0%,
-  100% {
-    --s: 1;
-  }
-  50% {
-    --s: 1.015;
+    --py: -20px;
   }
 }
 
-/* Foreground motion (kept separate for control) */
-/* NOTE: These are intentionally unique per element for organic motion */
+/* Foreground motion remains isolated from background motion
+  for finer compositional control and future interactivity.
+*/
+
+/* Foreground Y float (main motion) */
+@keyframes fgFloatY {
+  0%,
+  100% {
+    --py: 0px;
+  }
+  50% {
+    --py: -12px;
+  }
+}
+
+/* Subtle horizontal drift */
+@keyframes fgFloatX {
+  0%,
+  100% {
+    --px: 0px;
+  }
+  50% {
+    --px: 6px;
+  }
+}
+
+/* Gentle breathing */
+@keyframes fgBreathe {
+  0%,
+  100% {
+    --ps: 1;
+  }
+  50% {
+    --ps: 1.025;
+  }
+}
+
+/* Subtle rotation sway */
+@keyframes fgSway {
+  0%,
+  100% {
+    --pr: -2deg;
+  }
+  50% {
+    --pr: 2deg;
+  }
+}
+
+
+@media screen and (max-height: 430px) {
+  .landscape {
+    visibility: hidden;
+  }
+  .landscape-margin {
+    margin-top: -10rem;
+  }
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .nest-layout {
+    visibility: hidden;
+  }
+}

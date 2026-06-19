@@ -6,7 +6,8 @@ import ScrollIndicator from "./components/ui/nav/ScrollIndicator";
 import Hero from "./components/hero/Hero";
 import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
-import { FadeSection } from "./components/wrappers/FadeSection";
+import ClosingCTA from "./components/cta/ClosingCTA";
+import SelectedWork from "./components/work/SelectedWork";
 
 // Home page orchestrates scroll-driven storytelling between sections.
 // Controls:
@@ -25,6 +26,8 @@ export default function Home() {
   // Global page scroll progress (0 → 1 across entire page)
   // Used to drive Hero animations
   const { scrollYProgress } = useScroll();
+
+  const [isHoveringCTA, setIsHoveringCTA] = useState(false);
 
   // 2️⃣ Observer setup
   useEffect(() => {
@@ -52,24 +55,21 @@ export default function Home() {
     <div className="relative">
       {/* Hero section (scroll-driven via global scrollYProgress) */}
       <div className="hero relative">
-        {/* 
-  FadeSection provides localized scroll progress for entrance animations.
-  It wraps Hero to control when it fades into view independently of global scroll.
-*/}
-        <FadeSection>
-          {(scrollYProgress) => <Hero scrollYProgress={scrollYProgress} />}
-        </FadeSection>
+        <Hero
+          scrollYProgress={scrollYProgress}
+          setIsHoveringCTA={setIsHoveringCTA}
+        />
 
         {/* 
   Scroll indicator (only visible during Hero).
   Fades out once Mission section enters viewport.
 */}
         <div
-          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 ${
-            showIndicator ? "opacity-30" : "opacity-0"
+          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 max-[1132px]:hidden ${
+            showIndicator && !isHoveringCTA ? "opacity-15" : "opacity-0"
           }`}
         >
-          <ScrollIndicator></ScrollIndicator>
+          <ScrollIndicator />
         </div>
       </div>
       {/* Mission section (used as trigger point for scroll indicator visibility) */}
@@ -82,6 +82,16 @@ export default function Home() {
       <div>
         <SkillStack />
       </div>
+      {/* Divider for SkillStack Section */}
+      <div className="w-auto h-[300px]"></div>
+      <div>
+        <SelectedWork />
+      </div>
+      {/* Divider for Selected Work Section */}
+      <div className="w-auto h-[140px]"></div>
+      <section className="w-auto h-[400px]">
+        <ClosingCTA />
+      </section>
     </div>
   );
 }

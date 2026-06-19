@@ -1,53 +1,35 @@
-/* ---------------------------------------------
-   SLOW SPIN ANIMATION
-   Used for elements that need a gentle continuous rotation
---------------------------------------------- */
-@keyframes slowSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spin-slow {
-  animation: slowSpin 12s linear infinite;
-}
-
-/* ---------------------------------------------
+/* ----------------------------------------------------------------
    TOP MASK GRADIENT
-   Adds a subtle gradient overlay for visual separation/fade effect
---------------------------------------------- */
+   Establishes a subtle vertical lighting/fade boundary overlay.
+   - Transparent toward top (0deg) to preserve layout backgrounds.
+   - Note: Hex color mix handles subtle amber warmth glow at bounding footers.
+---------------------------------------------------------------- */
 .top-mask {
   background: linear-gradient(
     0deg,
     rgba(42, 123, 155, 0) 83%,
-    /* transparent toward top */ rgba(255, 181, 97, 0.12) 100%
-      /* slight color fade at bottom */
+    rgba(255, 181, 97, 0.12) 100-percent
   );
 }
 
-/* ---------------------------------------------
-   PANEL TEXT
-   Sets font size for process panel descriptions
---------------------------------------------- */
+/* --- PROCESS PANEL TYPOGRAPHY DESCRIPTIONS --- */
 .panel-para {
-  font-size: 11px;
+  font-size: 15px;
 }
 
-/* ---------------------------------------------
+/* ----------------------------------------------------------------
    CHEVRON CONVEYOR ANIMATION
-   Makes the 3 chevrons move left → right in a loop with staggered delays
---------------------------------------------- */
+   Drives an infinite horizontal carousel effect across structural indicators.
+   - Uses absolute centering matrices offset smoothly by keyframe translations.
+   - Staggered delays are configured inside component markup files.
+---------------------------------------------------------------- */
 .chev {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0; /* start invisible */
+  opacity: 0; /* Keeps components hidden outside active performance keyframe frames */
 }
 
-/* Individual chevron animation delays */
 .chev-1 {
   animation: chevron-conveyor 3s ease-in-out infinite;
 }
@@ -60,7 +42,6 @@
   animation-delay: 2s;
 }
 
-/* Chevron movement and fade keyframes */
 @keyframes chevron-conveyor {
   0% {
     transform: translateX(-10px) translateY(-50%);
@@ -84,94 +65,250 @@
   }
 }
 
-/* ---------------------------------------------
-   FLOATING AND BREATHING ANIMATIONS FOR MISSION CIRCLES
-   Combines vertical/horizontal floating and subtle scaling
---------------------------------------------- */
-@keyframes missionFloatY {
-  0% {
-    --y: 0px;
+/* ----------------------------------------------------------------
+   DYNAMIC COMPOUND MOTION ENGINE (BACKGROUNDParallax)
+   To prevent un-registered custom property layout freezing, transforms 
+   are applied directly to custom variables using runtime math calculations.
+---------------------------------------------------------------- */
+
+@keyframes dynamicFloatY {
+  0%,
+  100% {
+    transform: translateY(0px);
   }
   50% {
-    --y: -14px;
-  } /* float upward */
-  100% {
-    --y: 0px;
-  } /* return */
+    transform: translateY(calc(var(--y-dist) * -1));
+  } /* Scales motion using distance variables */
 }
 
-@keyframes missionFloatX {
-  0% {
-    --x: 0px;
+@keyframes dynamicFloatX {
+  0%,
+  100% {
+    transform: translateX(0px);
   }
   50% {
-    --x: 8px;
-  } /* float right */
-  100% {
-    --x: 0px;
-  } /* return */
+    transform: translateX(var(--x-dist));
+  }
 }
 
-@keyframes missionBreathe {
-  0% {
-    --s: 1;
+@keyframes dynamicBreathe {
+  0%,
+  100% {
+    transform: scale(var(--scale-min));
   }
   50% {
-    --s: 1.05;
-  } /* slight scale-up */
-  100% {
-    --s: 1;
-  } /* return to normal */
+    transform: scale(var(--scale-max));
+  }
 }
 
-/* ---------------------------------------------
-   INDIVIDUAL CIRCLE ANIMATIONS
-   Each circle has independent delays for more natural motion
---------------------------------------------- */
+/* ----------------------------------------------------------------
+   INDIVIDUAL BACKGROUND ELEMENTS
+   Utilizes animation composition configurations to isolate tracking paths 
+   and timing frames on separate composite threads.
+---------------------------------------------------------------- */
+
 #mission-circle-1 {
-  --x: 0px;
-  --y: 0px;
-  --s: 1;
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  /* --- MOVEMENT DISTANCE VARIABLES --- */
+  --x-dist: 45px;
+  --y-dist: 55px;
+  --scale-min: 0.85;
+  --scale-max: 1.15;
+
+  /* COMPOSITION ENGINE: 
+     Combines independent keyframes using CSS animation composition logic. 
+     Negative delay offsets stagger execution states to mask initial loading states.
+  */
   animation:
-    missionFloatY 12s ease-in-out infinite,
-    missionFloatX 18s ease-in-out infinite,
-    missionBreathe 10s ease-in-out infinite;
+    dynamicFloatY 8s ease-in-out infinite,
+    dynamicFloatX 13s ease-in-out infinite,
+    dynamicBreathe 7s ease-in-out infinite;
   animation-delay:
     -4s,
     -7s,
-    -2s; /* Y, X, scale offsets */
-  will-change: transform; /* optimize performance */
+    -2s;
+  animation-composition: add; /* Required to stack sequential transform operations accurately */
+  will-change: transform;
 }
 
 #mission-circle-2 {
-  --x: 0px;
-  --y: 0px;
-  --s: 1;
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  /* --- AMPLIFIED DEPTH PARALLAX VARIABLES --- */
+  --x-dist: 60px;
+  --y-dist: 70px;
+  --scale-min: 0.8;
+  --scale-max: 1.2;
+
   animation:
-    missionFloatY 12s ease-in-out infinite,
-    missionFloatX 18s ease-in-out infinite,
-    missionBreathe 10s ease-in-out infinite;
+    dynamicFloatY 7.5s ease-in-out infinite,
+    dynamicFloatX 11s ease-in-out infinite,
+    dynamicBreathe 6.5s ease-in-out infinite;
   animation-delay:
     -2s,
     -6s,
-    -4s; /* Y, X, scale offsets */
+    -4s;
+  animation-composition: add;
   will-change: transform;
 }
 
 #mission-circle-3 {
-  --x: 0px;
-  --y: 0px;
-  --s: 1;
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
+  /* --- SUBTLE COMPACT TRANSITION VARIANT --- */
+  --x-dist: 35px;
+  --y-dist: 45px;
+  --scale-min: 0.9;
+  --scale-max: 1.1;
+
   animation:
-    missionFloatY 12s ease-in-out infinite,
-    missionFloatX 18s ease-in-out infinite,
-    missionBreathe 10s ease-in-out infinite;
+    dynamicFloatY 9s ease-in-out infinite,
+    dynamicFloatX 14s ease-in-out infinite,
+    dynamicBreathe 8.5s ease-in-out infinite;
   animation-delay:
     -8s,
     -3s,
-    -5s; /* Y, X, scale offsets */
+    -5s;
+  animation-composition: add;
+  will-change: transform;
+}
+/* ----------------------------------------------------------------
+   TOP MASK GRADIENT
+   Establishes a subtle vertical lighting/fade boundary overlay.
+   - Transparent toward top (0deg) to preserve layout backgrounds.
+   - Note: Hex color mix handles subtle amber warmth glow at bounding footers.
+---------------------------------------------------------------- */
+.top-mask {
+  background: linear-gradient(
+    0deg,
+    rgba(42, 123, 155, 0) 83%,
+    rgba(255, 181, 97, 0.12) 100%
+  );
+}
+
+/* --- PROCESS PANEL TYPOGRAPHY DESCRIPTIONS --- */
+.panel-para {
+  font-size: 15px;
+}
+
+/* ----------------------------------------------------------------
+   CHEVRON CONVEYOR ANIMATION
+   Drives an infinite horizontal carousel effect across structural indicators.
+   - Uses absolute centering matrices offset smoothly by keyframe translations.
+   - Staggered delays are configured inside component markup files.
+---------------------------------------------------------------- */
+.chev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0; /* Keeps components hidden outside active performance keyframe frames */
+}
+
+.chev-1 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+}
+.chev-2 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.chev-3 {
+  animation: chevron-conveyor 3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+@keyframes chevron-conveyor {
+  0% {
+    transform: translateX(-10px) translateY(-50%);
+    opacity: 0;
+  }
+  25% {
+    transform: translateX(0px) translateY(-50%);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(12px) translateY(-50%);
+    opacity: 1;
+  }
+  85% {
+    transform: translateX(24px) translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(24px) translateY(-50%);
+    opacity: 0;
+  }
+}
+
+/* ----------------------------------------------------------------
+   DYNAMIC COMPOUND MOTION ENGINE (BACKGROUNDParallax)
+   To prevent un-registered custom property layout freezing, transforms 
+   are applied directly to custom variables using runtime math calculations.
+---------------------------------------------------------------- */
+
+@keyframes dynamicFloatY {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(calc(var(--y-dist) * -1)); } 
+}
+
+@keyframes dynamicFloatX {
+  0%, 100% { transform: translateX(0px); }
+  50% { transform: translateX(var(--x-dist)); }
+}
+
+@keyframes dynamicBreathe {
+  0%, 100% { transform: scale(var(--scale-min)); }
+  50% { transform: scale(var(--scale-max)); }
+}
+
+/* ----------------------------------------------------------------
+   INDIVIDUAL BACKGROUND ELEMENTS
+   Utilizes animation composition configurations to isolate tracking paths 
+   and timing frames on separate composite threads.
+---------------------------------------------------------------- */
+
+#mission-circle-1 {
+  /* --- SUBTLE DRIFT PARAMETERS --- */
+  --x-dist: 18px;     /* Reduced travel distance from 45px */
+  --y-dist: 22px;     /* Reduced travel distance from 55px */
+  --scale-min: 0.95;  /* Tightened breathing loop from 0.85 */
+  --scale-max: 1.05;  /* Tightened breathing loop from 1.15 */
+
+  /* VELOCITY TIMING REST REFACTOR:
+     Significantly increased durations to slow down motion speed into a 
+     hyper-smooth, calm ambient drift.
+  */
+  animation:
+    dynamicFloatY 14s ease-in-out infinite,  /* Slowed down from 8s */
+    dynamicFloatX 22s ease-in-out infinite,  /* Slowed down from 13s */
+    dynamicBreathe 12s ease-in-out infinite; /* Slowed down from 7s */
+  animation-delay: -6s, -11s, -4s;
+  animation-composition: add; 
+  will-change: transform;
+}
+
+#mission-circle-2 {
+  /* --- SUBTLE DEPTH PARALLAX VARIABLES --- */
+  --x-dist: 24px;     /* Reduced travel distance from 60px */
+  --y-dist: 28px;     /* Reduced travel distance from 70px */
+  --scale-min: 0.94;  /* Tightened breathing loop from 0.8 */
+  --scale-max: 1.06;  /* Tightened breathing loop from 1.2 */
+
+  animation:
+    dynamicFloatY 13s ease-in-out infinite,  /* Slowed down from 7.5s */
+    dynamicFloatX 19s ease-in-out infinite,  /* Slowed down from 11s */
+    dynamicBreathe 11s ease-in-out infinite; /* Slowed down from 6.5s */
+  animation-delay: -3s, -9s, -5s;
+  animation-composition: add;
+  will-change: transform;
+}
+
+#mission-circle-3 {
+  /* --- SUBTLE MINIMALIST VARIANT --- */
+  --x-dist: 14px;     /* Reduced travel distance from 35px */
+  --y-dist: 18px;     /* Reduced travel distance from 45px */
+  --scale-min: 0.97;  /* Tightened breathing loop from 0.9 */
+  --scale-max: 1.03;  /* Tightened breathing loop from 1.1 */
+
+  animation:
+    dynamicFloatY 16s ease-in-out infinite,  /* Slowed down from 9s */
+    dynamicFloatX 25s ease-in-out infinite,  /* Slowed down from 14s */
+    dynamicBreathe 15s ease-in-out infinite; /* Slowed down from 8.5s */
+  animation-delay: -10s, -5s, -7s;
+  animation-composition: add;
   will-change: transform;
 }

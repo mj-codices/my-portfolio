@@ -1,70 +1,175 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  type MotionValue,
+  useTransform,
+  useSpring,
+  motion,
+} from "framer-motion";
 import HeroText from "./HeroText";
 import HeroCluster from "./heroCluster/HeroCluster";
-import "./Hero.css";
+import CTAChevrons from "../ui/icons/CTAChevrons";
 import { FadeSection } from "../wrappers/FadeSection";
-import { MotionValue, useTransform } from "framer-motion";
 import "../../styles/components/button.css";
+import "./Hero.css";
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;
+  setIsHoveringCTA: (value: boolean) => void;
 }
 
-export default function Hero({ scrollYProgress }: HeroProps) {
-  /* ------------------------------
-     Transform values for HeroText spacing
-     Adjusted based on scroll progress
-  ------------------------------- */
-  const pushSpace = useTransform(scrollYProgress, [0.55, 0.65], [0, 40]);
-  const pushSpaceBtm = useTransform(scrollYProgress, [0.58, 0.68], [0, 55]);
+export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isStacked, setIsStacked] = useState(false);
+
+  // Dynamic Viewport Listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsStacked(window.innerWidth <= 1132);
+    };
+
+    // Run on mount to check initial size
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
+const heroInputRange = isStacked
+  ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
+  : [0, 0.35, 0.5, 0.7]; // Desktop scroll tracking
+
+const heroOutputRange = isStacked
+  ? [1, 1, .8, 0.2]       // Stacked mobile opacity (still fades completely to 0)
+  : [1, 1, 1, 0.2];    // Solid on load, dips to 50%, hits a floor of 20% (0.2)
+  /* ----------------------------------------------------------------
+     SCROLL-LINKED TYPOGRAPHIC SPACING INTERPOLATIONS
+  ---------------------------------------------------------------- */
+  const pushSpaceRaw = useTransform(scrollYProgress, [0.04, 0.05], [0, 15]);
+  const pushSpaceBtmRaw = useTransform(scrollYProgress, [0.04, 0.08], [0, 11]);
+
+  const tightSpring = { stiffness: 400, damping: 35, restDelta: 0.001 };
+  const pushSpace = useSpring(pushSpaceRaw, tightSpring);
+  const pushSpaceBtm = useSpring(pushSpaceBtmRaw, tightSpring);
+
+  /* ----------------------------------------------------------------
+     HIGH-VELOCITY SECTION LAUNCH VIEWPORT MATRIX
+  ---------------------------------------------------------------- */
+  const launchRaw = useTransform(scrollYProgress, [0, 2.3], ["0vh", "-100vh"]);
+  const launchY = useSpring(launchRaw, {
+    stiffness: 800,
+    damping: 40,
+    mass: 0.65,
+    restDelta: 0.01,
+  });
+
+  /**
+   * INITIAL ENTRANCE ORCHESTRATION (Framer Motion)
+   * Manages the one-time top-down slide & fade transition of the chevron container.
+   * NOTE: The 0.36s delay triggers the Framer Motion entrance mid-way through
+   * the parent container's 0.5s CSS stretch entrance, layering the reveals.
+   */
+  const chevronVariants = {
+    idle: {
+      opacity: 0,
+      y: -30,
+    },
+    hover: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.75,
+        delay: 0.36, // The anchor point for your synchronization delay
+        ease: "easeInOut" as const,
+      },
+    },
+  };
+
+  const handleRelease = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <section
-      className="relative w-full h-screen flex items-center justify-start
-                 overflow-x-hidden overflow-y-hidden"
-    >
-      {/* ==========================
-          LEFT SIDE: HERO TEXT CONTENT
-      ========================== */}
-      <div
-        className="mt-[-3rem] flex-1 pl-35 lg:pl-45 remove-padding shrink-con
-                      max-[1060px]:flex-none max-[1060px]:text-center text-left z-10"
-      >
-        {/* Heading */}
-        <h1 className="text-7xl shrink-heading font-bold mt-15 mb-6 uppercase leading-[3.9rem] tracking-[-.2rem]">
-          <span className="block gradient-text">Full-stack</span>
-
-          <span className="block text-white max-[1060px]:pl-0 pl-4">
-            Developer
-          </span>
-        </h1>
-
-        {/* Animated Hero Text */}
-
-        <HeroText pushSpace={pushSpace} pushSpaceBtm={pushSpaceBtm} />
-
-        {/* Animated CTA Button */}
-
-        <button
-          className="ml-1 px-4 py-5 bg-[var(--color-accent)]
-                             text-[var(--color-secondary)] rounded font-semibold
-                             text-lg tracking-wide cursor-pointer
-                             button button--calypso
-                             max-[1060px]:mx-auto max-[1060px]:block"
+    <section className="relative w-full h-screen flex items-center max-[1132px]:justify-center justify-start overflow-hidden">
+      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+        <motion.div
+          style={{ y: launchY }}
+          className="landscape-margin nest-layout-margin max-[400px]:mt-[-20rem] max-[1132px]:relative absolute max-[1132px]:left-41 max-[1132px]:translate-y-48 right-1/2 top-1/4 max-[1231px]:translate-x-8 mx-15 mt-[-1rem] text-left z-5"
         >
-          <span>LET'S CONNECT</span>
-          <span>SEND A MESSAGE</span>
-        </button>
-      </div>
+          {/* Main Presentational Header */}
+          <h1 className="max-[500px]:text-5xl max-[1132px]:text-6xl text-7xl shrink-heading font-bold mt-15 max-[1132px]:text-center uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
+            <span className="block hero-heading whitespace-nowrap">
+              Full-stack
+            </span>
+            <span className="block max-[500px]:pl-0 pl-2 brightness-130">Developer</span>
+          </h1>
 
-      {/* ==========================
-          RIGHT SIDE: HERO CLUSTER VISUALS
-      ========================== */}
-      <div className="absolute left-1/2 top-1/2 max-[1060px]:hidden">
-        <FadeSection>
-          {(scrollYProgress) => (
-            <HeroCluster scrollYProgress={scrollYProgress} />
-          )}
-        </FadeSection>
+          {/* Abstracted Subtitle Typographic Module */}
+          <HeroText
+            pushSpace={pushSpace}
+            pushSpaceBtm={pushSpaceBtm}
+            isStacked={isStacked}
+          />
+
+          {/* Interactive Button CTA Hub */}
+          <div className="inline-block relative group ml-3 max-[1132px]:ml-0">
+            <motion.button
+              animate={isHovered ? "hover" : "idle"}
+              onMouseEnter={() => {
+                setIsHoveringCTA(true);
+                setIsHovered(true);
+              }}
+              onMouseLeave={() => {
+                setIsHoveringCTA(false);
+                setIsHovered(false);
+              }}
+              onMouseUp={handleRelease}
+              className="px-3 py-5 bg-[var(--color-accent)]
+ text-[var(--color-secondary)] rounded font-semibold
+ max-[1132px]:text-base text-lg tracking-wide cursor-pointer
+ button button--calypso 
+ max-[1132px]:mx-44 block z-10"
+            >
+              {/* Layout Layer 1: Baseline Idle Presentation Text */}
+              <span className="whitespace-nowrap">LET'S CONNECT</span>
+
+              {/* ===========================================================
+                  LAYOUT LAYER 2: HYBRID HOVER OVERLAY STREAM
+                  - Outer Wrapper (.btn-hover-content): Runs the one-time 0.5s 
+                    CSS stretch entrance triggered via button.css.
+                  - Text Node (#mouseTextCTA): Inherits a 0.8s handoff delay 
+                    to begin its infinite, dampened CSS cinch loop (Hero.css).
+                  - Chevron Container (<motion.span>): Uses Framer Motion variants 
+                    to handle the initial fade-in/drop entrance layout reveal.
+                  =========================================================== */}
+              <span className="max-[1132px]:text-base text-lg btn-hover-content">
+                {/* Prevents internal frame collisions with your CSS */}
+                <span
+                  id="mouseTextCTA"
+                  className="translate-x-16 leading-6 mt-[-.1rem]"
+                >
+                  JUMP TO CONTACT
+                </span>
+
+                {/* Animated Inner Kinetic Indicator Icon Vector */}
+                <motion.span
+                  variants={chevronVariants}
+                  className="inline-block translate-x-13"
+                >
+                  <CTAChevrons />
+                </motion.span>
+              </span>
+            </motion.button>
+          </div>
+        </motion.div>
+      </FadeSection>
+
+      <div className="max-[1132px]:relative absolute max-[1132px]:top-[-7rem] max-[1132px]:left-[-22rem] left-1/2 top-1/2  max-[1231px]:-translate-x-10 ">
+        <HeroCluster scrollYProgress={scrollYProgress} />
       </div>
     </section>
   );

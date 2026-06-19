@@ -1,63 +1,15 @@
-/* ============================= */
-/*      Base Button Styles       */
-/* ============================= */
+/* ============================================================
+   Base Button Styles
+   ============================================================ */
 .button {
   pointer-events: auto; /* Enable click events */
   cursor: pointer; /* Show pointer on hover */
   background: #ff5757; /* Primary accent color */
   border: none;
   transition: transform 0.3s ease-in-out; /* Scale effect on active press */
-
   font-family: inherit;
-
   position: relative; /* Needed for pseudo-elements and internal spans */
   display: inline-block;
-}
-
-/* ============================= */
-/*      Calypso Variant          */
-/* ============================= */
-.button--calypso {
-  overflow: hidden; /* Clip overflowing animation elements */
-  color: #191919; /* Text color */
-}
-
-/* Front text span stays above background animations */
-.button--calypso span:first-child {
-  display: block;
-  position: relative;
-  z-index: 10;
-}
-
-/* Back text span used for hover animation */
-.button--calypso span:last-child {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  transform: translateY(100%); /* Start off below the button */
-  opacity: 0;
-  z-index: 5;
-}
-
-/* ============================= */
-/*      Hover Animations          */
-/* ============================= */
-.button--calypso:hover span:first-child {
-  animation: MoveScaleUpInitial 0.3s forwards;
-}
-
-.button--calypso:hover span:last-child {
-  animation: MoveScaleUpEnd 0.3s forwards 0.3s; /* delay so it appears after first span moves */
-}
-
-.button--calypso:hover span {
-  /* Combine both animations for consistency */
-  animation:
-    MoveScaleUpInitial 0.3s forwards,
-    MoveScaleUpEnd 0.3s forwards 0.3s;
 }
 
 /* Active / click press scaling */
@@ -65,9 +17,60 @@
   transform: scale(0.96);
 }
 
-/* ============================= */
-/*      Pseudo-elements          */
-/* ============================= */
+/* ============================================================
+   Calypso Variant & Layout Matrix
+   ============================================================ */
+.button--calypso {
+  overflow: hidden; /* Clip overflowing animation elements */
+  color: #191919; /* Text color */
+}
+
+/* Message 1: Default baseline text state */
+.button--calypso > span:first-child {
+  display: block;
+  position: relative;
+  z-index: 10;
+}
+
+/* Message 2 Flex Wrapper: Controls positioning and entry physics */
+.button--calypso .btn-hover-content {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%); /* Center vertically by default */
+  opacity: 0;
+  z-index: 5;
+}
+
+/* ============================================================
+   Hover Animations (Phase 1 & Phase 2 Entrance Orchestration)
+   ============================================================ */
+
+/* * PHASE 1: Message 1 (LET'S CONNECT)
+ * Instantly executes an accelerated vertical stretch and upward frame clearance.
+ */
+.button--calypso:hover > span:first-child {
+  animation: MoveScaleUpInitial 0.3s forwards;
+}
+
+/* * PHASE 2: Message 2 Container (.btn-hover-content)
+ * Delays 0.3s for Phase 1 to clear. Executes a slow-motion, high-distortion vertical stretch.
+ * * NOTE: Handoff to Phase 3 (The infinite breathing loop inside #mouseTextCTA / Hero.css) 
+ * triggers precisely at 0.8s (0.3s delay + 0.5s duration).
+ */
+.button--calypso:hover .btn-hover-content {
+  animation: CalypsoStretchEntrance 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards
+    0.3s;
+  transform-origin: 50% 100%; /* Crucial: Forces stretch distortion upwards from baseline */
+}
+
+/* ============================================================
+   Pseudo-elements (Background Hover Mechanics)
+   ============================================================ */
 .button::before,
 .button::after {
   position: absolute;
@@ -80,53 +83,59 @@
 /* Background “blob” effect on hover */
 .button--calypso::before {
   content: "";
-  background: #ffff;
+  background: #ede6e6;
   width: 120%;
   height: 0;
   padding-bottom: 120%;
   top: -110%;
   left: -10%;
   border-radius: 70%;
-  transform: translate3d(0, 68%, 0) scale3d(0, 0, 0); /* start scaled down */
+  transform: translate3d(0, 68%, 0) scale3d(0, 0, 0); /* Start scaled down */
 }
 
 .button--calypso:hover::before {
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1); /* scale blob to cover button */
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1); /* Scale blob to cover button */
   transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
 }
 
-/* Second pseudo-element for additional hover effect */
+/* Second pseudo-element for additional hover effect depth */
 .button--calypso::after {
   content: "";
-  background: #ffff;
-  transform: translate3d(0, -100%, 0); /* start above button */
+  background: #ede6e6;
+  transform: translate3d(0, -100%, 0); /* Start above button bounding box */
   transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
 }
 
 .button--calypso:hover::after {
-  transform: translate3d(0, 0, 0); /* move into view */
-  transition-duration: 0.05s; /* quick final movement */
-  transition-delay: 0.4s; /* wait for before pseudo-element to finish */
+  transform: translate3d(0, 0, 0); /* Snap directly into layout frame view */
+  transition-duration: 0.05s; /* Snappy termination snap */
+  transition-delay: 0.4s; /* Hold execution until primary blob completes */
   transition-timing-function: linear;
 }
 
-/* ============================= */
-/*      Keyframes                */
-/* ============================= */
+/* ============================================================
+   Keyframes
+   ============================================================ */
+
+/* Message 1 Upward Dispatcher Matrix */
 @keyframes MoveScaleUpInitial {
   to {
-    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1); /* move up and stretch */
-    opacity: 0; /* fade out */
+    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+    opacity: 0;
   }
 }
 
-@keyframes MoveScaleUpEnd {
+/* * Message 2 Arrival Matrix
+ * Clones native 3D matrix warp by beginning heavily stretched (scale3d 2.5), 
+ * safely landing coordinates at -50% to honor parent layout constraints.
+ */
+@keyframes CalypsoStretchEntrance {
   from {
-    transform: translateY(100%); /* start below button */
+    transform: translate3d(0, 100%, 0) scale3d(1, 2.5, 1);
     opacity: 0;
   }
   to {
-    transform: translateY(-50%); /* move to vertical center */
-    opacity: 1; /* fade in */
+    transform: translate3d(0, -50%, 0) scale3d(1, 1, 1);
+    opacity: 1;
   }
 }
