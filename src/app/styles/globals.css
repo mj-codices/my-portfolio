@@ -28,6 +28,16 @@
 }
 
 /* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   Mobile-first: unprefixed utilities target the stacked (mobile/tablet)
+   layout, `desk:` restores the side-by-side desktop composition.
+   1133px is where the two-column hero has enough room to breathe.
+   ========================================================================== */
+@theme {
+  --breakpoint-desk: 70.8125rem; /* 1133px */
+}
+
+/* ==========================================================================
    GLOBAL ROOT ELEMENT SYSTEM RESETS
    ========================================================================== */
 html {

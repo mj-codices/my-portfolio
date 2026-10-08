@@ -87,7 +87,7 @@ const heroOutputRange = isStacked
   });
 
   return (
-    <div className="flex relative mx-23 landscape nest-layout max-[400px]:invisible">
+    <div className="flex right-2 relative desk:right-0 desk:mx-23">
       {/* -----------------------------------------------------------
           BACKGROUND AMBIENCE (LOW-TIER DEPTH - STATIC)
           Static blurred backplates providing ambient color fields.

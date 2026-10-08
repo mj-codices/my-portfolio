@@ -94,18 +94,37 @@ const heroOutputRange = isStacked
   };
 
   return (
-    <section className="relative w-full h-screen flex items-center max-[1132px]:justify-center justify-start overflow-hidden">
-      <FadeSection inputRange={heroInputRange} outputRange={heroOutputRange}>
+    // Mobile-first: tiles stack above the text in normal flow.
+    // At `desk:` both blocks are pulled out of flow into the two-column layout.
+    <section className="relative w-full min-h-screen desk:h-screen flex flex-col desk:flex-row items-center justify-center desk:justify-start pt-25 pb-12 desk:p-0 overflow-hidden">
+      {/* Tile cluster: a fixed-size box on tablets so the text below has a real
+          footprint to stack against. The inner wrapper centers the cluster's
+          visual mass (~400×430px, offset from its layout box by the absolute
+          tiles). Hidden on phones and short (landscape) viewports so the
+          headline leads. */}
+      <div className="relative w-full max-sm:hidden [@media(max-height:500px)]:hidden h-[24rem] desk:absolute desk:left-1/2 desk:top-1/2 desk:w-auto desk:h-auto desk:max-[1231px]:-translate-x-10">
+        <div className="absolute left-1/2 top-1/2 -translate-x-[165px] -translate-y-[30px] origin-[165px_30px] scale-90 desk:static desk:translate-none desk:scale-100">
+          <HeroCluster scrollYProgress={scrollYProgress} />
+        </div>
+      </div>
+
+      <FadeSection
+        inputRange={heroInputRange}
+        outputRange={heroOutputRange}
+        className="w-full desk:w-auto"
+      >
         <motion.div
           style={{ y: launchY }}
-          className="landscape-margin nest-layout-margin max-[400px]:mt-[-20rem] max-[1132px]:relative absolute max-[1132px]:left-41 max-[1132px]:translate-y-48 right-1/2 top-1/4 max-[1231px]:translate-x-8 mx-15 mt-[-1rem] text-left z-5"
+          className="relative flex flex-col items-start text-left px-8 sm:px-10 sm:pl-15 sm:max-w-lg sm:mx-auto desk:block desk:absolute desk:right-1/2 desk:top-1/4 desk:max-[1231px]:translate-x-8 desk:mx-15 desk:mt-[-1rem] desk:max-w-none z-5"
         >
-          {/* Main Presentational Header */}
-          <h1 className="max-[500px]:text-5xl max-[1132px]:text-6xl text-7xl shrink-heading font-bold mt-15 max-[1132px]:text-center uppercase -translate-y-6 leading-[3.9rem] tracking-[-.2rem]">
+          {/* Main Presentational Header
+              Below `desk`, size tracks viewport width so "FULL-STACK" (nowrap)
+              fills narrow phones without overflowing, capping at desktop's 7xl. */}
+          <h1 className="text-[clamp(2.75rem,14vw,4.5rem)] desk:text-7xl font-bold desk:mt-15 uppercase desk:-translate-y-6 leading-[.87] desk:leading-[3.9rem] tracking-[-.2rem]">
             <span className="block hero-heading whitespace-nowrap">
               Full-stack
             </span>
-            <span className="block max-[500px]:pl-0 pl-2 brightness-130">Developer</span>
+            <span className="block pl-[.11em] desk:pl-2 brightness-130">Developer</span>
           </h1>
 
           {/* Abstracted Subtitle Typographic Module */}
@@ -116,7 +135,7 @@ const heroOutputRange = isStacked
           />
 
           {/* Interactive Button CTA Hub */}
-          <div className="inline-block relative group ml-3 max-[1132px]:ml-0">
+          <div className="inline-block relative group desk:ml-3">
             <motion.button
               animate={isHovered ? "hover" : "idle"}
               onMouseEnter={() => {
@@ -130,9 +149,8 @@ const heroOutputRange = isStacked
               onMouseUp={handleRelease}
               className="px-3 py-5 bg-[var(--color-accent)]
  text-[var(--color-secondary)] rounded font-semibold
- max-[1132px]:text-base text-lg tracking-wide cursor-pointer
- button button--calypso 
- max-[1132px]:mx-44 block z-10"
+ text-base desk:text-lg tracking-wide cursor-pointer
+ button button--calypso block z-10"
             >
               {/* Layout Layer 1: Baseline Idle Presentation Text */}
               <span className="whitespace-nowrap">LET'S CONNECT</span>
@@ -146,7 +164,7 @@ const heroOutputRange = isStacked
                   - Chevron Container (<motion.span>): Uses Framer Motion variants 
                     to handle the initial fade-in/drop entrance layout reveal.
                   =========================================================== */}
-              <span className="max-[1132px]:text-base text-lg btn-hover-content">
+              <span className="text-base desk:text-lg btn-hover-content">
                 {/* Prevents internal frame collisions with your CSS */}
                 <span
                   id="mouseTextCTA"
@@ -167,10 +185,6 @@ const heroOutputRange = isStacked
           </div>
         </motion.div>
       </FadeSection>
-
-      <div className="max-[1132px]:relative absolute max-[1132px]:top-[-7rem] max-[1132px]:left-[-22rem] left-1/2 top-1/2  max-[1231px]:-translate-x-10 ">
-        <HeroCluster scrollYProgress={scrollYProgress} />
-      </div>
     </section>
   );
 }
