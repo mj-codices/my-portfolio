@@ -43,6 +43,16 @@ const itemVariants = {
   },
 };
 
+/**
+ * Below `desk` the drawer is a full-screen overlay, and its content sits in the
+ * same column as the Hero text (see Hero.tsx) so the menu links read as part of the
+ * page layout. Keep these in sync if the Hero column changes.
+ * `deskReset` hands positioning back to the original desktop side panel.
+ */
+const heroColumn =
+  "w-full px-8 sm:px-10 sm:pl-15 sm:max-w-lg sm:mx-auto md:-translate-x-5 lg:translate-x-0";
+const deskReset = "desk:w-auto desk:p-0 desk:mx-0 desk:max-w-none";
+
 type DrawerProps = {
   /** Flag driving visibility parameters of the drawer module container */
   open: boolean;
@@ -158,9 +168,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         onClick={onClose}
       />
 
-      {/* Main Panel Sliding Flyout Layer */}
+      {/* Main Panel Sliding Flyout Layer
+        Full-screen overlay on phones and tablets; a 33% side panel on desktop.
+      */}
       <motion.aside
-        className="fixed top-0 right-0 h-full nav-width expand-nav-lg expand-nav-md expand-nav-sm bg-transparent z-60 overflow-hidden"
+        className="fixed top-0 right-0 h-full w-full desk:w-[33%] bg-transparent z-60 overflow-hidden"
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{
@@ -171,10 +183,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         {/* Giant Decorative Circle Mask:
           Scales dynamically relative to structural menu opening sequences 
           to present an elegant curving aesthetic container envelope framework look.
+          Below `desk` it's centered and sized to ≥2× the viewport height so the
+          open (1.15×) curve fully covers tall tablet screens.
         */}
         <motion.div
-          className="absolute bg-[#0d0c0c] top-[-33rem] left-2 rounded-full"
-          style={{ width: 2000, height: 2000 }}
+          className="absolute bg-[#0d0c0c] size-[max(2000px,200vh)] top-1/2 -translate-y-1/2 desk:size-[2000px] desk:top-[-33rem] desk:translate-y-0 left-2 rounded-full"
           initial={{ scale: 1 }}
           animate={{ scale: open ? 1.15 : 1 }}
           transition={{
@@ -186,17 +199,19 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
 
         {/* Dynamic Mapping Stream Menu Container */}
         <motion.nav
-          className="relative z-10 p-6 text-white translate-x-[-1rem] top-1/3 left-1/3 nudge-menu-md "
+          className="relative z-10 flex h-full items-center text-white desk:block desk:h-auto desk:p-6 desk:translate-x-[-1rem] desk:top-1/3 desk:left-1/3"
           initial="hidden"
           animate={open ? "visible" : "hidden"}
           variants={listVariants}
         >
-          <ul className="space-y-7">
+          <ul
+            className={`${heroColumn} ${deskReset} space-y-7 [@media(max-height:500px)]:space-y-4`}
+          >
             {["Start", "Stack", "Work", "Contact"].map((label, i) => (
               <motion.li
                 key={label}
                 variants={itemVariants}
-                className="flex text-[#b4b4b4] text-4xl shrink-text cursor-pointer font-bold ease-in-out gap-5"
+                className="flex items-center text-[#b4b4b4] text-5xl sm:text-6xl [@media(max-height:500px)]:text-3xl desk:text-4xl cursor-pointer font-bold ease-in-out gap-5"
                 whileHover={{ x: -9, color: "#fff" }}
                 transition={{ type: "tween", duration: 0.2 }}
                 onHoverStart={() => setHoveredIndex(i)}
@@ -211,8 +226,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           </ul>
         </motion.nav>
 
-        {/* Global External Link Platforms Anchor Footer Panel */}
-        <div className="absolute bottom-8 right-10 flex gap-5 items-center">
+        {/* Global External Link Platforms Anchor Footer Panel
+          Phones: left edge aligned with the links (matches heroColumn's px-8).
+          Tablets + desktop: anchored to the bottom-right corner.
+        */}
+        <div className="absolute bottom-8 left-8 sm:left-auto sm:right-10 flex gap-5 items-center">
           <motion.div
             whileHover={{ scale: 1.25, opacity: 1 }}
             whileTap={{ scale: 0.98 }}

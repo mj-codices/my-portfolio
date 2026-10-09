@@ -18,11 +18,9 @@ export default function Menu({ open, onToggle }: MenuProps) {
         menu menu--1 cross
        cursor-pointer
         pointer-events-auto
-        max-[500px]:right-[-1.3rem]
-        right-0
+        right-[-1.3rem]
         sm:right-4
         -translate-y-3
-    
       "
         aria-label="Open menu"
       >
@@ -30,7 +28,7 @@ export default function Menu({ open, onToggle }: MenuProps) {
         <input type="checkbox" checked={open} onChange={onToggle} />
         {/* SVG Hamburger icon with gradient styling */}
         <svg
-          className="cursor-pointer pointer-events-none opacity-70 max-[500px]:w-27 max-[500px]:h-27 max-[1132px]:w-25 max-[1132px]:h-25 w-28 h-28"
+          className="cursor-pointer pointer-events-none opacity-70 w-30 h-30 desk:w-28 desk:h-28"
           viewBox="0 0 100 100"
        
           xmlns="http://www.w3.org/2000/svg"

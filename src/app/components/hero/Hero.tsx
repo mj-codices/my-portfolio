@@ -96,7 +96,7 @@ const heroOutputRange = isStacked
   return (
     // Mobile-first: tiles stack above the text in normal flow.
     // At `desk:` both blocks are pulled out of flow into the two-column layout.
-    <section className="relative w-full min-h-screen desk:h-screen flex flex-col desk:flex-row items-center justify-center desk:justify-start pt-25 pb-12 desk:p-0 overflow-hidden">
+    <section className="md:-translate-x-5 lg:-translate-x-0 relative w-full min-h-screen desk:h-screen flex flex-col desk:flex-row items-center justify-center desk:justify-start pt-25 pb-12 desk:p-0 overflow-hidden">
       {/* Tile cluster: a fixed-size box on tablets so the text below has a real
           footprint to stack against. The inner wrapper centers the cluster's
           visual mass (~400×430px, offset from its layout box by the absolute

@@ -88,8 +88,3 @@
 .menu--1.cross input:checked + svg .line--2 {
   --length: 0; /* middle line disappears */
 }
-
-/* Optional width utility for nav (if used elsewhere) */
-.nav-width {
-  width: 33%;
-}

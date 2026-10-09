@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Menu from "./NavIcon"; // Hamburger/menu icon component
 import { NavDrawer } from "./NavDrawer"; // Slide-out navigation drawer
+import NavScrim from "./NavScrim"; // Scroll-aware fade behind the menu icon (below desk)
 
 export default function NavShell({ children }: { children: React.ReactNode }) {
   // State to track whether the navigation drawer is open
@@ -10,6 +11,9 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      {/* Gradient backing for the menu icon once the page scrolls (mobile/tablet) */}
+      <NavScrim />
+
       {/* Hamburger/Menu icon with toggle callback */}
       <Menu open={menuOpen} onToggle={() => setMenuOpen((v) => !v)} />
 
