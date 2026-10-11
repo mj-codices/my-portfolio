@@ -4,6 +4,7 @@ import { FadeSection } from "../wrappers/FadeSection";
 import MissionStatement from "./missionStatement/MissionStatement";
 import AboutText from "./AboutText";
 import ProcessDiagram from "./processDiagram/ProcessDiagram";
+import { useIsDesk } from "@/hooks/useIsDesk";
 
 /**
  * Mission Section Master Orchestrator Component
@@ -17,6 +18,7 @@ export default function Mission() {
      ---------------------------------------------------------------- */
   const ref = useRef<HTMLDivElement | null>(null);
   const p1Ref = useRef<HTMLDivElement | null>(null);
+  const isDesk = useIsDesk();
 
   /* Entrance Timeline Tracker
      0.0 -> Container top crosses the lower viewport threshold (90%)
@@ -59,16 +61,35 @@ export default function Mission() {
   /* ----------------------------------------------------------------
      NARRATIVE & ACCENT SWEEP SYSTEMS (ENTRANCE)
      ---------------------------------------------------------------- */
-  const headingYRaw = useTransform(scrollYProgress, [0, 0.9], [90, 0]);
+  /* Desktop: My Story sits right under the statement, so it rides the section
+     entrance. Stacked (below `desk`): the statement is tall enough that the
+     section timeline finishes before My Story is on screen, so the sweep follows
+     the first paragraph's own viewport position (p1Progress) instead.
+  */
+  const storyProgress = isDesk ? scrollYProgress : p1Progress;
+
+  const headingYRaw = useTransform(
+    storyProgress,
+    isDesk ? [0, 0.9] : [0, 0.6],
+    [90, 0]
+  );
   const headingY = useSpring(headingYRaw, { stiffness: 90, damping: 22 });
 
-  const p1YRaw = useTransform(scrollYProgress, [0.2, 0.9], [115, 0]);
+  const p1YRaw = useTransform(
+    storyProgress,
+    isDesk ? [0.2, 0.9] : [0.05, 0.7],
+    [115, 0]
+  );
   const p1Y = useSpring(p1YRaw, { stiffness: 90, damping: 22 });
 
   const p1OpacityRaw = useTransform(p1Progress, [0.02, 0.4], [0, 1]);
   const p1Opacity = useSpring(p1OpacityRaw, { stiffness: 90, damping: 22 });
 
-  const p2YRaw = useTransform(scrollYProgress, [0.3, 0.9], [170, 0]);
+  const p2YRaw = useTransform(
+    storyProgress,
+    isDesk ? [0.3, 0.9] : [0.1, 0.8],
+    [170, 0]
+  );
   const p2Y = useSpring(p2YRaw, { stiffness: 80, damping: 28, mass: 0.85 });
 
   /* ----------------------------------------------------------------
@@ -102,10 +123,17 @@ export default function Mission() {
   });
 
   /* Linear Section Alpha Dissolve
-     Fades visual components from solid opaque (1.0) down to a deep background 
+     Fades visual components from solid opaque (1.0) down to a deep background
      presence (0.2) uniformly as the exit track progresses to preserve GPU resources.
+     Stacked layouts (below `desk`) make the section much taller, so the fade is
+     held until the back half of the exit — otherwise the Process timeline would
+     already be dimmed while it's being read.
   */
-  const exitOpacityRaw = useTransform(exitProgress, [0.0, 1.0], [1, 0.2]);
+  const exitOpacityRaw = useTransform(
+    exitProgress,
+    isDesk ? [0.0, 1.0] : [0.0, 0.6, 1.0],
+    isDesk ? [1, 0.2] : [1, 1, 0.2]
+  );
   const exitOpacity = useSpring(exitOpacityRaw, {
     stiffness: 180,
     damping: 22,
@@ -114,7 +142,7 @@ export default function Mission() {
   return (
     <section
       ref={ref}
-      className="flex w-[100vw] bg-black-90 px-50 text-5xl mb-60"
+      className="flex w-full desk:w-[100vw] bg-black-90 px-8 sm:px-12 desk:px-50 text-3xl sm:text-4xl desk:text-5xl mb-30 desk:mb-60"
     >
       {/* SECTION EXIT FIELD DECAY CONTAINER */}
       <motion.div style={{ opacity: exitOpacity }} className="w-full">
@@ -127,8 +155,12 @@ export default function Mission() {
 
           {/* LOWER TIER: Narrative Row & Process Diagram Data Stack
               Employs independent exitLaunchY parameters to bypass parent transform scaling.
+              Stacked (story above process) below `desk`; side by side at `desk`.
           */}
-          <motion.div className="flex row w-full" style={{ y: exitLaunchY }}>
+          <motion.div
+            className="flex flex-col desk:flex-row w-full"
+            style={{ y: exitLaunchY }}
+          >
             {/* LEFT COLUMN: Narrative Data Layer */}
             <AboutText
               p1Y={p1Y}

@@ -49,8 +49,7 @@ const itemVariants = {
  * page layout. Keep these in sync if the Hero column changes.
  * `deskReset` hands positioning back to the original desktop side panel.
  */
-const heroColumn =
-  "w-full px-8 sm:px-10 sm:pl-15 sm:max-w-lg sm:mx-auto md:-translate-x-5 lg:translate-x-0";
+const heroColumn = "w-full px-8 sm:px-12";
 const deskReset = "desk:w-auto desk:p-0 desk:mx-0 desk:max-w-none";
 
 type DrawerProps = {

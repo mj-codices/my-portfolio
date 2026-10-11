@@ -26,18 +26,18 @@ export default function AboutMe({
 }: AboutTextProps) {
   return (
     <div className="mt-5 flex relative">
-      <div className="ml-15 relative z-10 pt-10">
+      <div className="relative z-10 pt-10 desk:ml-15">
         {/* ===========================================================
             1. TYPOGRAPHIC ANCHOR & ACCENT
             - Driven by headingY spatial interpolation stream.
             - Asterisk uses a hardware-accelerated CSS composite layer rotation matrix (.spin-slow).
             =========================================================== */}
         <motion.div
-          className="relative flex -translate-x-15"
+          className="relative flex desk:-translate-x-15"
           style={{ y: headingY }}
         >
           <img
-            className="spin-slow w-12 h-auto mr-9 -translate-y-5"
+            className="spin-slow w-9 desk:w-12 h-auto mr-5 desk:mr-9 -translate-y-3 desk:-translate-y-5"
             src={"/decorations/aster.svg"}
             alt="decorative asterisk"
           />
@@ -52,7 +52,7 @@ export default function AboutMe({
             - Hosts the DOM reference node (p1Ref) to stream layout metrics to the global scroll engine.
             =========================================================== */}
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
-          <p className="text-lg w-120 leading-9 ml-7 mb-3 tracking-wide">
+          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 leading-8 desk:leading-9 desk:ml-7 mb-3 tracking-wide">
             I’m a full-stack software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
@@ -66,7 +66,7 @@ export default function AboutMe({
             - Inherits root layout alpha channels to enforce uniform visual exit thresholds.
             =========================================================== */}
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
-          <p className="text-lg w-120 leading-9 ml-7 tracking-wide">
+          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 leading-8 desk:leading-9 desk:ml-7 tracking-wide">
             When I’m not pushing pixels, you can find me jamming to Aphex Twin,
             cheering for my hometown Lakers, or camping along the Pacific Coast
             with my wife and our dog.

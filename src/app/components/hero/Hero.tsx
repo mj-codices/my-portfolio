@@ -96,14 +96,16 @@ const heroOutputRange = isStacked
   return (
     // Mobile-first: tiles stack above the text in normal flow.
     // At `desk:` both blocks are pulled out of flow into the two-column layout.
-    <section className="md:-translate-x-5 lg:-translate-x-0 relative w-full min-h-screen desk:h-screen flex flex-col desk:flex-row items-center justify-center desk:justify-start pt-25 pb-12 desk:p-0 overflow-hidden">
+    <section className="relative w-full min-h-screen desk:h-screen flex flex-col desk:flex-row items-center justify-center desk:justify-start pt-25 pb-12 desk:p-0 overflow-hidden">
       {/* Tile cluster: a fixed-size box on tablets so the text below has a real
           footprint to stack against. The inner wrapper centers the cluster's
           visual mass (~400×430px, offset from its layout box by the absolute
           tiles). Hidden on phones and short (landscape) viewports so the
           headline leads. */}
-      <div className="relative w-full max-sm:hidden [@media(max-height:500px)]:hidden h-[24rem] desk:absolute desk:left-1/2 desk:top-1/2 desk:w-auto desk:h-auto desk:max-[1231px]:-translate-x-10">
-        <div className="absolute left-1/2 top-1/2 -translate-x-[165px] -translate-y-[30px] origin-[165px_30px] scale-90 desk:static desk:translate-none desk:scale-100">
+      {/* Tablets: the box spans the hero text column (48px gutter → 32rem paragraph
+          measure), so the tiles center over the text block rather than the screen. */}
+      <div className="relative w-full max-sm:hidden [@media(max-height:500px)]:hidden h-[24rem] sm:self-start sm:ml-12 sm:w-lg desk:self-auto desk:ml-0 desk:absolute desk:left-1/2 desk:top-1/2 desk:w-auto desk:h-auto desk:max-[1231px]:-translate-x-10">
+        <div className="absolute left-1/2 top-1/2 -translate-x-[210px] -translate-y-[30px] origin-[165px_30px] scale-90 desk:static desk:translate-none desk:scale-100">
           <HeroCluster scrollYProgress={scrollYProgress} />
         </div>
       </div>
@@ -115,7 +117,9 @@ const heroOutputRange = isStacked
       >
         <motion.div
           style={{ y: launchY }}
-          className="relative flex flex-col items-start text-left px-8 sm:px-10 sm:pl-15 sm:max-w-lg sm:mx-auto desk:block desk:absolute desk:right-1/2 desk:top-1/4 desk:max-[1231px]:translate-x-8 desk:mx-15 desk:mt-[-1rem] desk:max-w-none z-5"
+          // Shares the page's left gutter below `desk` (px-8 phones / px-12 tablets,
+          // same as Mission) so the hero flows into the content that follows.
+          className="relative flex flex-col items-start text-left px-8 sm:px-12 desk:px-10 desk:pl-15 desk:block desk:absolute desk:right-1/2 desk:top-1/4 desk:max-[1231px]:translate-x-8 desk:mx-15 desk:mt-[-1rem] desk:max-w-none z-5"
         >
           {/* Main Presentational Header
               Below `desk`, size tracks viewport width so "FULL-STACK" (nowrap)

@@ -28,10 +28,11 @@ export default function MissionStatement({
       
       {/* ---------------------------------------------
           MISSION TYPOGRAPHY BLOCK
-          - Centers the layout narrative with custom tracking line heights.
+          - Left-aligned below `desk` (matches the Hero), centered at `desk`.
+          - Font size is inherited from the Mission section's responsive scale.
           - Ends with an inline red emphasis dot to anchors visual focus.
           --------------------------------------------- */}
-      <motion.p className="text-center leading-[58px] opacity-80">
+      <motion.p className="text-left desk:text-center leading-[1.25] desk:leading-[58px] opacity-80">
         My mission is to craft pixel-perfect web experiences where clarity in
         design and strength in architecture unite to create lasting, meaningful
         digital products

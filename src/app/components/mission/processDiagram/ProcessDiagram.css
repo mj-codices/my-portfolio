@@ -12,11 +12,6 @@
   );
 }
 
-/* --- PROCESS PANEL TYPOGRAPHY DESCRIPTIONS --- */
-.panel-para {
-  font-size: 15px;
-}
-
 /* ----------------------------------------------------------------
    CHEVRON CONVEYOR ANIMATION
    Drives an infinite horizontal carousel effect across structural indicators.
@@ -179,11 +174,6 @@
     rgba(42, 123, 155, 0) 83%,
     rgba(255, 181, 97, 0.12) 100%
   );
-}
-
-/* --- PROCESS PANEL TYPOGRAPHY DESCRIPTIONS --- */
-.panel-para {
-  font-size: 15px;
 }
 
 /* ----------------------------------------------------------------
