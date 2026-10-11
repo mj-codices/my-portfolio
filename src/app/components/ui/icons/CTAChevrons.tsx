@@ -5,7 +5,7 @@ interface CTAChevronsProps {
 }
 
 export default function CTAChevrons({
-  className = "mt-[-.15rem] sm:mt-0 max-[1132px]:w-22 w-24 max-[1132px]:mr-4 mr-1",
+  className = "mt-[-.15rem] sm:mt-0 w-22 desk:w-24 mr-4 desk:mr-1",
 }: CTAChevronsProps) {
   return (
     <motion.span

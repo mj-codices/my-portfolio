@@ -29,10 +29,25 @@ export default function ClosingCTA() {
   });
 
   /*
+    End-of-page guarantee:
+    This section is the last thing on the page, so on tall viewports (tablets,
+    tall monitors) the page runs out of scroll before the CTA climbs to the
+    ~68% mark where the reveal completes — leaving the email semi-faded.
+    Over the final 5% of the page's scroll, `reveal` is pushed toward 1 so it
+    always finishes at the very bottom. Taking the max means viewports that
+    already complete on their own keep their original timing.
+  */
+  const { scrollYProgress: pageProgress } = useScroll();
+  const reveal = useTransform(
+    [scrollYProgress, pageProgress],
+    ([local, page]: number[]) => Math.max(local, (page - 0.95) / 0.05)
+  );
+
+  /*
     Raw transforms map scroll progress directly to values.
     Springs are layered on top to avoid rigid 1:1 scroll motion.
   */
-  const opacityRaw = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
+  const opacityRaw = useTransform(reveal, [0.3, 0.6], [0, 1]);
 
   const opacity = useSpring(opacityRaw, {
     stiffness: 90,
@@ -43,7 +58,7 @@ export default function ClosingCTA() {
     Slight vertical offset gives the CTA a softer upward reveal
     instead of fading/scaling in place.
   */
-  const yRaw = useTransform(scrollYProgress, [0.15, 0.7], [28, 0]);
+  const yRaw = useTransform(reveal, [0.15, 0.7], [28, 0]);
 
   const y = useSpring(yRaw, {
     stiffness: 80,
@@ -54,7 +69,7 @@ export default function ClosingCTA() {
     Footer motion is intentionally slower/later than the main CTA
     to create subtle separation between the content layers.
   */
-  const footerYRaw = useTransform(scrollYProgress, [0.45, 0.65], [40, 0]);
+  const footerYRaw = useTransform(reveal, [0.45, 0.65], [40, 0]);
 
   const footerY = useSpring(footerYRaw, {
     stiffness: 70,
@@ -64,8 +79,10 @@ export default function ClosingCTA() {
   return (
     <div>
       {/* Main CTA Interactive Layer */}
-      <div className="flex flex-col items-center justify-center">
-        <p className="mb-20 text-3xl">Interested in working together?</p>
+      <div className="flex flex-col items-center justify-center px-8 sm:px-12 desk:px-0">
+        <p className="mb-10 sm:mb-14 desk:mb-20 text-2xl sm:text-3xl text-center">
+          Interested in working together?
+        </p>
 
         {/* Scroll-tracked container holding the primary contact interaction */}
         <motion.div
@@ -79,9 +96,11 @@ export default function ClosingCTA() {
             className="relative z-20"
             initial="rest"
           >
-            {/* Giant text link utilizing hover color transitions */}
+            {/* Giant text link utilizing hover color transitions.
+                Size tracks viewport width below desktop so the full address
+                always fits on one line, capping at the original 48px. */}
             <motion.p
-              className="cursor-pointer text-5xl font-bold"
+              className="cursor-pointer text-[clamp(1.25rem,6.5vw,3rem)] leading-none font-bold whitespace-nowrap"
               variants={{
                 rest: { color: "#d1d5db" },
                 hover: { color: "#ffffff" },
@@ -93,7 +112,7 @@ export default function ClosingCTA() {
 
             {/* Hover Tooltip: Slides down and fades in on anchor focus */}
             <motion.div
-              className="flex gap-2 pointer-events-none absolute left-45 top-full mt-5 px-5 py-3
+              className="flex gap-2 pointer-events-none absolute left-1/2 -translate-x-1/2 desk:left-45 desk:translate-x-0 top-full mt-5 px-5 py-3 whitespace-nowrap
                          rounded-full bg-white/5 backdrop-blur-md text-white
                          text-2xl font-medium shadow-2xl"
               variants={{
@@ -132,18 +151,21 @@ export default function ClosingCTA() {
         </motion.div>
       </div>
 
-      {/* Global Status & Metadata Utility Footer */}
+      {/* Global Status & Metadata Utility Footer
+          Below `desk`: a centered stack in normal flow — social links first
+          (the tappable part), then location/time, then the credit.
+          At `desk`: the original single row pinned to the bottom of the page. */}
       <motion.div
         style={{ y: footerY }}
-        className="absolute bottom-8 left-0 w-full px-10 flex items-end justify-between"
+        className="relative mt-20 pb-10 px-8 flex flex-col items-center gap-6 desk:absolute desk:bottom-8 desk:left-0 desk:w-full desk:mt-0 desk:pb-0 desk:px-10 desk:flex-row desk:items-end desk:justify-between desk:gap-0"
       >
         {/* 1. LEFT SIDE: Local Telemetry (Globe Asset, Geographic Region, Live Clock) */}
-        <div className="flex space-x-2 items-center translate-y-2 ml-[-1rem]">
+        <div className="flex space-x-2 items-center desk:translate-y-2 desk:ml-[-1rem]">
           <img
             src="icons/globe.gif"
             width={50}
             height={50}
-            className="opacity-40 mt-[-3px]"
+            className="w-10 h-10 sm:w-[50px] sm:h-[50px] opacity-40 mt-[-3px]"
             alt="Globe"
           />
           <LocationDisplay />
@@ -151,7 +173,7 @@ export default function ClosingCTA() {
         </div>
 
         {/* 2. CENTER: Minimalist Capsule Social Anchors mapped dynamically from config */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex gap-5">
+        <div className="order-first desk:order-none flex gap-5 desk:absolute desk:left-1/2 desk:-translate-x-1/2">
           {CONTACT_DATA.socials.map((social) => (
             <motion.a
               key={social.id}
@@ -181,8 +203,8 @@ export default function ClosingCTA() {
         </div>
 
         {/* 3. RIGHT SIDE: Author Credits */}
-        <div className="text-lg">
-          <p className="opacity-60 text-lg tracking-tight">
+        <div className="text-base desk:text-lg">
+          <p className="opacity-60 text-base desk:text-lg tracking-tight">
             Design by{" "}
             <span className="opacity-60 font-medium">Michael J. White</span>
           </p>

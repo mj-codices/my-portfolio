@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   type MotionValue,
   useTransform,
@@ -13,6 +13,7 @@ import CTAChevrons from "../ui/icons/CTAChevrons";
 import { FadeSection } from "../wrappers/FadeSection";
 import "../../styles/components/button.css";
 import "./Hero.css";
+import { useIsDesk } from "@/hooks/useIsDesk";
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;
@@ -21,21 +22,9 @@ interface HeroProps {
 
 export default function Hero({ scrollYProgress, setIsHoveringCTA }: HeroProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isStacked, setIsStacked] = useState(false);
+  // Stacked (mobile/tablet) layout = below the `desk` breakpoint
+  const isStacked = !useIsDesk();
 
-  // Dynamic Viewport Listener
-  useEffect(() => {
-    const handleResize = () => {
-      setIsStacked(window.innerWidth <= 1132);
-    };
-
-    // Run on mount to check initial size
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  
 const heroInputRange = isStacked
   ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
   : [0, 0.35, 0.5, 0.7]; // Desktop scroll tracking
@@ -157,7 +146,7 @@ const heroOutputRange = isStacked
  button button--calypso block z-10"
             >
               {/* Layout Layer 1: Baseline Idle Presentation Text */}
-              <span className="whitespace-nowrap">LET'S CONNECT</span>
+              <span className="whitespace-nowrap">LET&apos;S CONNECT</span>
 
               {/* ===========================================================
                   LAYOUT LAYER 2: HYBRID HOVER OVERLAY STREAM

@@ -3,7 +3,6 @@
 }
 
 .title-fill {
-  line-height: 1.5;
   color: rgba(207, 207, 207, 0.8);
   background-image: linear-gradient(to right, white, white);
   background-repeat: no-repeat;
@@ -15,6 +14,14 @@
   /* 1. THE RETURN SPEED: This controls the "unfill" (Hover Out) */
   /* We make it 0.8s or 1s for a more "drifty" exit */
   transition: background-size 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Desktop line-height only. Below `desk` the wrapped title uses Tailwind's
+   leading-[1.15] — this plain (unlayered) rule would otherwise beat it. */
+@media (min-width: 70.8125rem) {
+  .title-fill {
+    line-height: 1.5;
+  }
 }
 
 .group:hover .title-fill {

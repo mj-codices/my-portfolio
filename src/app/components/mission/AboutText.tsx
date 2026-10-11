@@ -25,8 +25,12 @@ export default function AboutMe({
   p1Opacity,
 }: AboutTextProps) {
   return (
-    <div className="mt-5 flex relative">
-      <div className="relative z-10 pt-10 desk:ml-15">
+    // Desktop: takes the row's remaining width (min-w-0 lets it shrink below its
+    // content) and reserves 96px (mr-24) before the Process diagram — its first
+    // step is nudged 44px left of its box, so this leaves ~52px of real gap,
+    // and at 1440px it works out to exactly the original 480px paragraphs.
+    <div className="mt-5 flex relative desk:flex-1 desk:min-w-0 desk:mr-24">
+      <div className="relative z-10 pt-10 desk:ml-15 desk:min-w-0">
         {/* ===========================================================
             1. TYPOGRAPHIC ANCHOR & ACCENT
             - Driven by headingY spatial interpolation stream.
@@ -52,7 +56,7 @@ export default function AboutMe({
             - Hosts the DOM reference node (p1Ref) to stream layout metrics to the global scroll engine.
             =========================================================== */}
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
-          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 leading-8 desk:leading-9 desk:ml-7 mb-3 tracking-wide">
+          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 desk:max-w-[calc(100%-1.75rem)] leading-8 desk:leading-9 desk:ml-7 mb-3 tracking-wide">
             I’m a full-stack software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
@@ -66,7 +70,7 @@ export default function AboutMe({
             - Inherits root layout alpha channels to enforce uniform visual exit thresholds.
             =========================================================== */}
         <motion.div style={{ y: p2Y, opacity: p1Opacity }} className="relative">
-          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 leading-8 desk:leading-9 desk:ml-7 tracking-wide">
+          <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 desk:max-w-[calc(100%-1.75rem)] leading-8 desk:leading-9 desk:ml-7 tracking-wide">
             When I’m not pushing pixels, you can find me jamming to Aphex Twin,
             cheering for my hometown Lakers, or camping along the Pacific Coast
             with my wife and our dog.

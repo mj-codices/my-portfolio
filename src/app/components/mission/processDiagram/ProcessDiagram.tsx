@@ -151,7 +151,7 @@ export default function ProcessDiagram({
     */
     <motion.div
       ref={diagramRef}
-      className="relative w-full mt-16 pb-6 sm:mt-20 sm:max-w-xl desk:w-[520px] desk:max-w-none desk:mt-0 desk:pb-0 desk:right-[-6rem] desk:top-40"
+      className="relative w-full mt-16 pb-6 sm:mt-20 sm:max-w-xl desk:w-[520px] desk:max-w-none desk:mt-0 desk:pb-0 desk:top-40"
     >
       {/* ===========================================================
           BACKGROUND GRAPHICS MATRIX (LOWEST Z-INDEX)

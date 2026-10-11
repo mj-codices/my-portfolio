@@ -22,7 +22,9 @@ import MongoDBIcon from "../assets/icons/MongoDBIcon.svg";
 // - icon: path to imported SVG
 // - label: text to display
 // - size: Tailwind width/height
-// - offset (optional): for fine-grained positioning tweaks
+// - offset (optional): for fine-grained positioning tweaks — tuned for the
+//   desktop 3-column grid, so prefix them with `desk:` (the 2-column grid
+//   below desktop sizes its columns to content and needs no nudging)
 
 type Skill = {
   id: string;
@@ -57,14 +59,14 @@ export const skillStack: SkillStack = {
       icon: CssIcon.src,
       label: "CSS",
       size: "w-10 h-10",
-      offset: "-translate-x-12",
+      offset: "desk:-translate-x-12",
     },
     {
       id: "js",
       icon: JsIcon.src,
       label: "JavaScript",
       size: "w-10 h-10",
-      offset: "-translate-x-27",
+      offset: "desk:-translate-x-27",
     },
     { id: "ts", icon: TsIcon.src, label: "TypeScript", size: "w-10 h-10" },
     { id: "react", icon: ReactIcon.src, label: "React", size: "w-10 h-10" },
@@ -73,7 +75,7 @@ export const skillStack: SkillStack = {
       icon: NextIcon.src,
       label: "Next.Js",
       size: "w-12 h-12",
-      offset: "-translate-x-12",
+      offset: "desk:-translate-x-12",
     },
     {
       id: "framer",
@@ -87,14 +89,14 @@ export const skillStack: SkillStack = {
       icon: TailwindIcon.src,
       label: "Tailwind",
       size: "w-10 h-10",
-      offset: "translate-x-10",
+      offset: "desk:translate-x-10",
     },
     {
       id: "boot",
       icon: BootstrapIcon.src,
       label: "Bootstrap",
       size: "w-11 h-8",
-      offset: "translate-x-4",
+      offset: "desk:translate-x-4",
     },
   ],
   backend: [
@@ -109,7 +111,7 @@ export const skillStack: SkillStack = {
       icon: ExpressIcon.src,
       label: "Express.Js",
       size: "w-10 h-10",
-      offset: "-translate-x-4",
+      offset: "desk:-translate-x-4",
     },
   ],
   database: [
@@ -132,7 +134,7 @@ export const skillStack: SkillStack = {
       icon: VercelIcon.src,
       label: "Vercel",
       size: "w-10 h-10",
-      offset: "-translate-x-18",
+      offset: "desk:-translate-x-18",
     },
   ],
 };

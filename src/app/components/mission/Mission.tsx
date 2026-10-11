@@ -142,7 +142,9 @@ export default function Mission() {
   return (
     <section
       ref={ref}
-      className="flex w-full desk:w-[100vw] bg-black-90 px-8 sm:px-12 desk:px-50 text-3xl sm:text-4xl desk:text-5xl mb-30 desk:mb-60"
+      // Desktop side padding: 200px from 1440px up (the original px-50), easing
+      // down to 64px toward the `desk` boundary so the row below has room.
+      className="flex w-full desk:w-[100vw] bg-black-90 px-8 sm:px-12 desk:[--mission-pad:clamp(4rem,calc((100vw-1040px)/2),12.5rem)] desk:px-(--mission-pad) text-3xl sm:text-4xl desk:text-5xl mb-30 desk:mb-60"
     >
       {/* SECTION EXIT FIELD DECAY CONTAINER */}
       <motion.div style={{ opacity: exitOpacity }} className="w-full">
@@ -156,9 +158,13 @@ export default function Mission() {
           {/* LOWER TIER: Narrative Row & Process Diagram Data Stack
               Employs independent exitLaunchY parameters to bypass parent transform scaling.
               Stacked (story above process) below `desk`; side by side at `desk`.
+              Desktop: the row runs past the content box to 56px from the viewport's
+              right edge (the diagram's overhang into the right padding at 1440px),
+              capped at its 1440px width (74rem) so wider screens are unchanged.
+              My Story flexes into whatever is left; the diagram keeps its size.
           */}
           <motion.div
-            className="flex flex-col desk:flex-row w-full"
+            className="flex flex-col desk:flex-row w-full desk:w-auto desk:max-w-[74rem] desk:mr-[calc(56px-var(--mission-pad))]"
             style={{ y: exitLaunchY }}
           >
             {/* LEFT COLUMN: Narrative Data Layer */}

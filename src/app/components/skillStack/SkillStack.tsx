@@ -1,9 +1,16 @@
 "use client";
 
-import { motion, useTransform, useScroll, useSpring } from "framer-motion";
+import {
+  motion,
+  useTransform,
+  useScroll,
+  useSpring,
+  type MotionValue,
+} from "framer-motion";
 import { useRef } from "react";
 import SkillTile from "./SkillTile";
 import { skillStack } from "../../data/skillStack";
+import { useIsDesk } from "@/hooks/useIsDesk";
 
 /**
  * SkillStack Component
@@ -12,10 +19,14 @@ import { skillStack } from "../../data/skillStack";
  * * Instead of triggering simple intersection entry states, it actively calculates
  * the cumulative density of items across array boundaries to maintain a continuous,
  * un-broken stagger animation sequence across the entire section.
+ * * Below `desk` the tiles wrap two-per-row only where a pair fits, so row
+ * membership depends on label widths — each title/tile there reveals off its
+ * own viewport position instead of the section-wide stagger (see ScrollReveal).
  */
 export default function SkillStack() {
   // Primary container target for capturing macro scroll progression coordinates
   const ref = useRef<HTMLDivElement | null>(null);
+  const isDesk = useIsDesk();
 
   // Global fine-tuning modifier to delay the absolute start of the sequence
   const globalDelay = 0.02;
@@ -39,11 +50,12 @@ export default function SkillStack() {
   const staggerStep = 0.045; // The scroll-interval offset between consecutive card reveals
 
   // Structured iteration manifest containing data layers and alignment offsets
+  // (offsets are tuned for the desktop 3-column grid, so they're `desk:`-only)
   const sections = [
-    { title: "front-end", data: skillStack.frontend, offset: "pl-0" },
-    { title: "back-end", data: skillStack.backend, offset: "pl-7" },
-    { title: "database", data: skillStack.database, offset: "pl-7" },
-    { title: "tools", data: skillStack.tools, offset: "pl-28" },
+    { title: "front-end", data: skillStack.frontend, offset: "desk:pl-0" },
+    { title: "back-end", data: skillStack.backend, offset: "desk:pl-7" },
+    { title: "database", data: skillStack.database, offset: "desk:pl-7" },
+    { title: "tools", data: skillStack.tools, offset: "desk:pl-28" },
   ];
 
   /**
@@ -78,11 +90,20 @@ export default function SkillStack() {
         y: launchY,
       }}
     >
-      <section ref={ref} id="stack" className="w-[150vw] px-50">
-        {/* Section Heading Banner Block */}
+      {/* Desktop horizontal spacing (side padding, title indent, title→grid gap)
+          scales linearly from its original values at 1440px+ (200 / 84 / 120px)
+          down to 48 / 24 / 80px at the `desk` boundary (1133px), so the fixed
+          3-column grid — whose gaps and per-tile nudges are tuned together —
+          always fits on screen. 307px = 1440 − 1133. */}
+      <section
+        ref={ref}
+        id="stack"
+        className="w-full px-8 sm:px-12 desk:w-[150vw] desk:px-[clamp(3rem,calc(3rem+(100vw-1133px)*152/307),12.5rem)]"
+      >
+        {/* Section Heading Banner Block (matches the My Story heading treatment) */}
         <motion.div className="relative flex">
           <img
-            className="spin-slow w-12 h-auto mr-9 -translate-y-5"
+            className="spin-slow w-9 desk:w-12 h-auto mr-5 desk:mr-9 -translate-y-3 desk:-translate-y-5"
             src="/decorations/aster.svg"
             alt="decorative asterisk"
           />
@@ -92,7 +113,7 @@ export default function SkillStack() {
         </motion.div>
 
         {/* Global Structural Sections Stack */}
-        <div className="flex flex-col gap-25">
+        <div className="flex flex-col gap-16 sm:gap-20 desk:gap-25">
           {sections.map((section, sectionIndex) => {
             // Buffer spacing coefficient to create visual breathing room between sections
             const sectionGap = 0.02;
@@ -118,42 +139,47 @@ export default function SkillStack() {
             const titleStart = sectionStart + titleDelay;
             const titleEnd = titleStart + 0.1;
 
-            const titleRaw = useTransform(
-              scrollYProgress,
-              [titleStart, titleEnd],
-              [0, 1]
-            );
-
-            /**
-             * Quintic Ease-Out Transform Function:
-             * Mathematically interpolates raw linear numbers into an exponential curve:
-             * f(v) = 1 - (1 - v)^5. This produces a premium, decelerating entrance speed
-             * directly calculated from the scroll velocity.
-             */
-            const titleEased = useTransform(
-              titleRaw,
-              (v) => 1 - Math.pow(1 - v, 5)
-            );
-
-            const titleY = useTransform(titleEased, [0, 1], [30, 0]);
+            const tileDelay = 0.02; // Static buffer offset injected immediately post-title reveal
 
             return (
-              <div key={section.title} className="flex">
-                {/* Categorical Section Title Presenter */}
-                <motion.div style={{ opacity: titleEased, y: titleY }}>
-                  <h3 className="ml-21 uppercase text-5xl font-bold tracking-[-.15rem]">
+              // Phones/smaller tablets: title stacked above the tiles.
+              // `lg` (1024px+, e.g. iPad Pro 12.9"): title beside the tiles in a
+              // fixed-width column (fits the widest title, "FRONT-END" at 265px)
+              // so every section's tiles start at the same x — echoing desktop.
+              // At `desk`: title beside a 3-column grid (original layout).
+              <div
+                key={section.title}
+                className="flex flex-col lg:flex-row"
+              >
+                {/* Categorical Section Title Presenter
+                    Quintic ease-out (power 5) for a premium, decelerating entrance. */}
+                <ScrollReveal
+                  isDesk={isDesk}
+                  sectionProgress={scrollYProgress}
+                  deskRange={[titleStart, titleEnd]}
+                  easePower={5}
+                  className="lg:w-[19.5rem] lg:shrink-0 desk:w-auto desk:shrink"
+                >
+                  {/* lg:mt centers the 48px title on the 70px first tile row */}
+                  <h3 className="mb-6 sm:mb-8 lg:mb-0 lg:mt-[0.6875rem] desk:mt-0 desk:ml-[clamp(1.5rem,calc(1.5rem+(100vw-1133px)*60/307),5.25rem)] uppercase text-4xl sm:text-5xl font-bold tracking-[-.15rem]">
                     {section.title}
                   </h3>
-                </motion.div>
+                </ScrollReveal>
 
                 {/* Grid Wrapper Grid Layout Block */}
-                <div className="pl-30 -translate-y-1">
+                <div className="desk:pl-[clamp(5rem,calc(5rem+(100vw-1133px)*40/307),7.5rem)] desk:-translate-y-1">
+                  {/* Phones: a wrapping row. Each tile is half the row (minus half
+                      the gap) but never narrower than its own content, so two tiles
+                      share a row only when both fit — otherwise the next one wraps
+                      and a lone tile fills its row. Three can never fit.
+                      Tablets (sm→desk): a tight 2-column grid — a fixed 15rem first
+                      column (fits the widest tile, "Framer Motion") so the second
+                      column lines up across every section, then auto width.
+                      At `desk`: the original fixed 3-column grid. */}
                   <div
-                    className={`${section.offset ?? ""} grid grid-cols-3 gap-x-38 gap-y-10`}
+                    className={`${section.offset ?? ""} flex flex-wrap gap-x-4 gap-y-6 sm:grid sm:grid-cols-[15rem_auto] sm:gap-x-8 sm:gap-y-8 desk:grid-cols-3 desk:gap-x-38 desk:gap-y-10`}
                   >
                     {section.data.map((skill, index) => {
-                      const tileDelay = 0.02; // Static buffer offset injected immediately post-title reveal
-
                       // Targets the unique scroll progress window allocated for this exact tile
                       const start =
                         sectionStart +
@@ -162,37 +188,19 @@ export default function SkillStack() {
                         index * staggerStep;
                       const end = start + tileDuration;
 
-                      const raw = useTransform(
-                        scrollYProgress,
-                        [start, end],
-                        [0, 1]
-                      );
-
-                      /**
-                       * Cubic Ease-Out Curve:
-                       * f(v) = 1 - (1 - v)^3. Softens the arrival deceleration curve
-                       * of individual child nodes to make their snap feel slightly crisper
-                       * than the macro section header text.
-                       */
-                      const eased = useTransform(
-                        raw,
-                        (v) => 1 - Math.pow(1 - v, 3)
-                      );
-
-                      const tileY = useTransform(eased, [0, 1], [30, 0]);
-
                       return (
-                        <motion.div
+                        // Cubic ease-out (power 3): a slightly crisper snap than the titles.
+                        <ScrollReveal
                           key={skill.id}
-                          className={skill.offset ?? ""}
-                          style={{
-                            opacity: eased,
-                            y: tileY,
-                          }}
+                          isDesk={isDesk}
+                          sectionProgress={scrollYProgress}
+                          deskRange={[start, end]}
+                          easePower={3}
+                          className={`grow shrink-0 basis-[calc(50%-0.5rem)] ${skill.offset ?? ""}`}
                         >
                           {/* Atomic Presentational Component */}
                           <SkillTile {...skill} />
-                        </motion.div>
+                        </ScrollReveal>
                       );
                     })}
                   </div>
@@ -202,6 +210,58 @@ export default function SkillStack() {
           })}
         </div>
       </section>
+    </motion.div>
+  );
+}
+
+type ScrollRevealProps = {
+  isDesk: boolean;
+  /** Section-wide scroll progress driving the desktop stagger */
+  sectionProgress: MotionValue<number>;
+  /** This element's slice of `sectionProgress` on desktop */
+  deskRange: [number, number];
+  /** Ease-out exponent: f(v) = 1 - (1 - v)^power */
+  easePower: number;
+  className?: string;
+  children: React.ReactNode;
+};
+
+/**
+ * ScrollReveal
+ * Fades and lifts (30px → 0) a title or tile into place.
+ * - Desktop: its own slice of the section-wide progress (the original stagger).
+ * - Below `desk`: its own viewport position — from its top crossing 95% of the
+ *   viewport to 72% — so reveals track rows regardless of how tiles wrap.
+ */
+function ScrollReveal({
+  isDesk,
+  sectionProgress,
+  deskRange,
+  easePower,
+  className,
+  children,
+}: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress: ownProgress } = useScroll({
+    target: ref,
+    offset: ["start 95%", "start 72%"],
+  });
+
+  const raw = useTransform(
+    isDesk ? sectionProgress : ownProgress,
+    isDesk ? deskRange : [0, 1],
+    [0, 1]
+  );
+  const eased = useTransform(raw, (v) => 1 - Math.pow(1 - v, easePower));
+  const y = useTransform(eased, [0, 1], [30, 0]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={{ opacity: eased, y }}
+    >
+      {children}
     </motion.div>
   );
 }

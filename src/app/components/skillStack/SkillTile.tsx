@@ -24,10 +24,15 @@ export default function SkillTile({
   size,
 }: SkillTileProps): JSX.Element {
   return (
-    <div className="relative w-[70px] h-[70px]">
+    /* Below `desk`: icon box + label sit side by side in normal flow, so each grid
+       column is exactly as wide as its content (phones use a smaller 48px box).
+       At `desk`: the original fixed 70px box with the label floated out to the right.
+    */
+    <div className="flex items-center gap-3 sm:gap-4 desk:block relative desk:w-[70px] desk:h-[70px]">
+      <div className="relative shrink-0 w-12 h-12 sm:w-[70px] sm:h-[70px] desk:absolute desk:inset-0 desk:w-auto desk:h-auto">
       {/* Structural Backplate Overlay:
-        Utilizes a scaled 210x210 coordinate map overlaid onto a tight 70x70px 
-        DOM node wrapper (3:1 scaling matrix). This maintains razor-sharp vector paths 
+        Utilizes a scaled 210x210 coordinate map overlaid onto a tight 70x70px
+        DOM node wrapper (3:1 scaling matrix). This maintains razor-sharp vector paths
         for border thresholds and light opacity fill levels regardless of screen density.
       */}
       <svg
@@ -51,19 +56,23 @@ export default function SkillTile({
         Centers the incoming corporate logo vector. Defaults to bounded square parameters 
         unless explicitly passed a custom size layout modifier override variable.
       */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      {/* Icons are sized for the 70px box; scaled down to fit the 48px phone box. */}
+      <div className="absolute inset-0 flex items-center justify-center scale-[.7] sm:scale-100">
         <img
           src={icon}
           alt={`${label} technology identifier`}
           className={size ?? "w-12 h-12 opacity-85"}
         />
       </div>
+      </div>
 
-      {/* Absolute Content Labels:
-        Shifted laterally out past the physical border footprint to float text cleanly.
-        Uses structural markdown rules to preserve consistent typographical hierarchy across grids.
+      {/* Content Labels:
+        In flow beside the icon box below `desk`. At `desk`, shifted laterally out past
+        the physical border footprint to float text cleanly.
       */}
-      <div className="absolute left-22 top-5 text-2xl">
+      {/* Labels never wrap: their full width sets the tile's minimum width, which
+          is what decides whether two tiles can share a row below `desk`. */}
+      <div className="text-xl sm:text-2xl desk:absolute desk:left-22 desk:top-5">
         <p className="font-medium tracking-[-.08rem] whitespace-nowrap text-white">
           {label}
         </p>

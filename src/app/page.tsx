@@ -65,7 +65,7 @@ export default function Home() {
   Fades out once Mission section enters viewport.
 */}
         <div
-          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 max-[1132px]:hidden ${
+          className={`absolute bottom-30 left-1/2 transform -translate-x-1/2 transition-opacity duration-800 hidden desk:block ${
             showIndicator && !isHoveringCTA ? "opacity-15" : "opacity-0"
           }`}
         >
@@ -89,7 +89,9 @@ export default function Home() {
       </div>
       {/* Divider for Selected Work Section */}
       <div className="w-auto h-[140px]"></div>
-      <section className="w-auto h-[400px]">
+      {/* min-h (not h): below desktop the footer stacks in normal flow and needs
+          to grow the section; on desktop the content still fits in 400px. */}
+      <section className="w-auto min-h-[400px]">
         <ClosingCTA />
       </section>
     </div>

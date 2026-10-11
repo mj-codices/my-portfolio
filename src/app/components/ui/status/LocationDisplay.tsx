@@ -39,7 +39,11 @@ export default function LocationDisplay() {
 
   return (
     <div className="flex items-center opacity-35">
-      <span className="uppercase tracking-[0.05em] text-lg">{location}</span>
+      {/* Stepped down below desktop so "CITY, REGION" stays on one line beside
+          the globe and clock in the stacked phone/tablet footer. */}
+      <span className="uppercase tracking-[0.05em] whitespace-nowrap text-sm sm:text-base desk:text-lg">
+        {location}
+      </span>
     </div>
   );
 }

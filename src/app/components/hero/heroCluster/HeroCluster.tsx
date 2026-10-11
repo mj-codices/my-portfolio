@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import {
   useTime,
   motion,
@@ -10,6 +9,7 @@ import {
 import "./HeroCluster.css";
 import { FadeSection } from "../../wrappers/FadeSection";
 import React from "react";
+import { useIsDesk } from "@/hooks/useIsDesk";
 
 interface HeroClusterProps {
   /** Global scroll tracking sequence reference used to drive kinetic exit and entry animations */
@@ -24,7 +24,8 @@ interface HeroClusterProps {
  * wrappers to slide interactive elements out of frame while maintaining background depth isolation.
  */
 export default function HeroCluster({ scrollYProgress }: HeroClusterProps) {
-    const [isStacked, setIsStacked] = useState(false);
+    // Stacked (mobile/tablet) layout = below the `desk` breakpoint
+    const isStacked = !useIsDesk();
 
     const heroInputRange = isStacked
   ? [0, 0.4, 0.7, 0.9]   // Stacked mobile tracking
@@ -34,18 +35,6 @@ const heroOutputRange = isStacked
   ? [1, 1, .8, 0.2]     
   : [1, 1, 1, 0.2];    
 
-  // Dynamic Viewport Listener
-  useEffect(() => {
-    const handleResize = () => {
-      setIsStacked(window.innerWidth <= 1132);
-    };
-
-    // Run on mount to check initial size
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   /* ----------------------------------------------------------------
      PARALLAX / SCROLL MOTION
      Dislodges targeted vector nodes relative to initial scroll bounds 
