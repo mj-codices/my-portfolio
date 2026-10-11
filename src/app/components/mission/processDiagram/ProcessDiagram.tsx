@@ -4,236 +4,307 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  MotionValue,
+  type MotionValue,
 } from "framer-motion";
-
-import { FadeSection } from "../../wrappers/FadeSection";
 import "./ProcessDiagram.css";
+import { useIsDesk } from "@/hooks/useIsDesk";
 
-type ProcessDiagramProps = {
-  circleY1: MotionValue<number>;
-  circleY2: MotionValue<number>;
-};
+interface ProcessDiagramProps {
+  /** Global root scroll tracking context used to coordinate macro viewport interactions */
+  scrollYProgress: MotionValue<number>;
+}
 
+/**
+ * ProcessDiagram Component
+ * * A viewport-isolated progress sequence illustrating project delivery pipelines.
+ * Creates an intersection-observer proxy using local element offsets to decouple
+ * stagger effects, panel sweeps, and asymmetrical background parallax circles from the root page timeline.
+ */
 export default function ProcessDiagram({
-  circleY1,
-  circleY2,
+  scrollYProgress,
 }: ProcessDiagramProps) {
   const diagramRef = useRef<HTMLDivElement | null>(null);
 
-  // Local scroll progress scoped to the diagram
-  // Enables independent timing separate from the main section scroll
+  /* ----------------------------------------------------------------
+     VIEWPORT ELEMENT SCROLL INTERSECTION
+     Calculates intersection boundaries natively scoped to this element wrapper.
+     ["start end", "end start"] -> Triggers when the top of the container hits the bottom of screen,
+     completing when the bottom of the container fully exits the top of screen.
+  ---------------------------------------------------------------- */
   const { scrollYProgress: diagramProgress } = useScroll({
     target: diagramRef,
-    offset: ["start end", "end start"], // diagram enters viewport → fully passed
+    offset: ["start end", "end start"],
   });
 
-  const dHeadOpacity = useTransform(
-    diagramProgress,
-    [0, 0.15, 0.5, 0.75],
-    [0, 1, 1, 0.2]
+  /* --- HEADER TRANSLATION TIMELINE ---
+     Desktop: the diagram sits beside My Story, so the heading rides the Mission
+     section's entrance. Stacked (below `desk`): the diagram is far below the
+     section top, so it follows its own viewport position and lands just ahead
+     of the steps (which settle at 0.35).
+  */
+  const isDesk = useIsDesk();
+  const headingPYRaw = useTransform(
+    isDesk ? scrollYProgress : diagramProgress,
+    isDesk ? [0.15, 1] : [0, 0.25],
+    [60, 0]
   );
+  const headingPY = useSpring(headingPYRaw, {
+    stiffness: 90,
+    damping: 42,
+  });
 
-  const dParaOpacity = useTransform(
-    diagramProgress,
-    [0.08, 0.19, 0.5, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const dParaYRaw = useTransform(diagramProgress, [0.08, 0.19], [-25, 0]);
-  // Smooths raw scroll-based motion to avoid rigid, linear movement
-  const dParaY = useSpring(dParaYRaw, { stiffness: 90, damping: 22 });
+/* --- PROCESS DIAGRAM: KINETIC GAP-CLOSING ENGINE --- */
+  
+  // Cluster: Enters later, travels a shorter distance, and locks in tightly
+  const clusterYRaw = useTransform(diagramProgress, [0, 0.35], [60, 0]);
+  const clusterY = useSpring(clusterYRaw, {
+    stiffness: 100, // Crisper snap to grid
+    damping: 24,
+  });
 
-  const devHeadOpacity = useTransform(
-    diagramProgress,
-    [0.15, 0.3, 0.6, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const devParaOpacity = useTransform(
-    diagramProgress,
-    [0.18, 0.3, 0.6, 0.75],
-    [0, 1, 1, 0.2]
-  );
-  const devParaYRaw = useTransform(diagramProgress, [0.18, 0.3], [-25, 0]);
-  const devParaY = useSpring(devParaYRaw, { stiffness: 90, damping: 22 });
+  // Paragraph: Enters slightly earlier, but shares the exact same 0.3 finish line.
+  // Traveling 90px over this window forces it to move faster than the cluster,
+  // creating the visual "catch-up" illusion that collapses the structural gap.
+  const paraYRaw = useTransform(diagramProgress, [0, 0.35], [85, 0]);
+  const paraY = useSpring(paraYRaw, {
+    stiffness: 75,   // Slightly softer stiffness allows the trailing absorption look
+    damping: 25,   // Prevents harsh oscillating bounces
+    mass: 0.8,
+  });
 
-  const depHeadOpacity = useTransform(
+  /* ----------------------------------------------------------------
+     ASYMMETRICAL BACKGROUND DEPTH TRACKING
+     ---------------------------------------------------------------- */
+
+  /* Circle 1 Y-Motion Tracking
+     - Entrance: 0.00 -> 0.05 (Interpolates upward from 100px offset to resting 0 position)
+     - Plateau:  0.05 -> 0.45 (Locks securely at 0 position while typography sits center-viewport)
+     - Exit:     0.45 -> 1.00 (Exits downward from 0px to 160px deep travel)
+  */
+  const circle1YRaw = useTransform(
     diagramProgress,
-    [0.25, 0.37, 0.6, 0.9],
-    [0, 1, 1, 0.2]
+    [0, 0.05, 0.45, 1],
+    [100, 0, 0, 160]
   );
-  const depParaOpacity = useTransform(
+  const circle1Y = useSpring(circle1YRaw, {
+    stiffness: 90,
+    damping: 42,
+  });
+
+  /* Circle 2 Y-Motion Tracking
+     - Staggers directly in line with Circle 1's timeline framework, but maps 
+       a lower exit path (100px) to establish a trailing depth separation.
+  */
+  const circle2YRaw = useTransform(
     diagramProgress,
-    [0.3, 0.34, 0.6, 0.9],
-    [0, 1, 1, 0.2]
+    [0, 0.05, 0.45, 1],
+    [100, 0, 0, 100]
   );
-  const depParaYRaw = useTransform(diagramProgress, [0.3, 0.34], [-25, 0]);
-  const depParaY = useSpring(depParaYRaw, { stiffness: 90, damping: 22 });
+  const circle2Y = useSpring(circle2YRaw, {
+    stiffness: 90,
+    damping: 42,
+  });
+
+  /* Panel Element Opacity Mapping
+     - Tracks smoothly across the initial entry cluster range (0.03 -> 0.3)
+  */
+  const clusterOpacityRaw = useTransform(diagramProgress, [0, 0.35], [0, 1]);
+  const clusterOpacity = useSpring(clusterOpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
+  /* Circle 1 Opacity Ramp
+     - Entry: Fades from 0 to 0.3 quickly (0.05 -> 0.20)
+     - Core Peak: Increases to maximum visibility of 0.6 mid-read (0.20 -> 0.75)
+     - Exit Fade: Relaxes down to 0.2 background presence as section clears (0.75 -> 0.95)
+  */
+  const circle1OpacityRaw = useTransform(
+    diagramProgress,
+    [0.05, 0.2, 0.75, 0.95],
+    [0, 0.3, 0.6, 0.2]
+  );
+  const circle1Opacity = useSpring(circle1OpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
+  /* Circle 2 Opacity Ramp
+     - Intentionally offset by +3% scroll runtime frames behind Circle 1 to mask active transitions
+  */
+  const circle2OpacityRaw = useTransform(
+    diagramProgress,
+    [0.08, 0.25, 0.72, 0.92],
+    [0, 0.3, 0.6, 0.2]
+  );
+  const circle2Opacity = useSpring(circle2OpacityRaw, {
+    stiffness: 90,
+    damping: 22,
+  });
+
   return (
+    /* LAYOUT MODES
+       - Phones + tablets (base, sm:): vertical timeline in the page's left gutter —
+         icon + title rows joined by a dashed rail. Tablets scale up type and spacing
+         and cap the width to the My Story paragraph measure (max-w-xl).
+       - Desktop (desk:): the original zig-zag diagram pinned beside My Story.
+    */
     <motion.div
       ref={diagramRef}
-      className="relative w-[520px] right-[3rem] top-55"
+      className="relative w-full mt-16 pb-6 sm:mt-20 sm:max-w-xl desk:w-[520px] desk:max-w-none desk:mt-0 desk:pb-0 desk:top-40"
     >
-      {/* ==========================
-          BACKGROUND CIRCLES
-      ========================== */}
-
+      {/* ===========================================================
+          BACKGROUND GRAPHICS MATRIX (LOWEST Z-INDEX)
+          Timeline layouts: tucked behind the timeline's right and left edges.
+          =========================================================== */}
       <motion.div
         id="mission-circle-1"
-        className="absolute top-10 right-8 w-[145px] h-[145px] rounded-full bg-[#ff5757] opacity-60 z-0"
-        style={{ y: circleY1 }}
+        className="absolute top-25 -right-10 sm:-right-16 desk:right-26 w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] desk:w-[145px] desk:h-[145px] rounded-full bg-[#ff6f61] z-0 blur-md"
+        style={{ opacity: circle1Opacity, y: circle1Y }}
       />
 
       <motion.div
         id="mission-circle-2"
-        className="absolute top-[-2rem] right-15 -translate-x-115 w-[130px] h-[123px] rounded-full 
-                   bg-gradient-to-br from-[#ff5757] to-[#9e005d] opacity-60 z-0"
-        style={{ y: circleY2 }}
+        className="absolute -left-14 sm:-left-20 top-72 sm:top-80 desk:top-auto desk:left-auto desk:right-5 desk:mt-26 desk:-translate-x-115 w-[100px] h-[95px] sm:w-[115px] sm:h-[110px] desk:w-[130px] desk:h-[123px] rounded-full 
+                   bg-gradient-to-br from-[#ff5757] to-[#9e005d] opacity-60 z-0 blur-sm"
+        style={{ opacity: circle2Opacity, y: circle2Y }}
       />
 
-      <motion.div
-        id="mission-circle-3"
-        className="absolute top-95 right-70 w-[60px] h-[60px] rounded-full 
-                   bg-gradient-to-br from-[#000000] to-[#545454] z-15"
-      />
+      {/* ===========================================================
+          FOREGROUND LAYOUT GRID CONTAINMENT
+          In normal flow below `desk` so the stacked section gets a real height;
+          an absolute overlay at `desk` (the original side-column layout).
+          =========================================================== */}
+      <div className="relative desk:absolute desk:inset-0 z-15">
+        {/* HEADER SECTION TIER */}
+        <motion.div
+          className="relative flex items-center desk:items-stretch desk:-translate-x-15 desk:mt-[-4rem]"
+          style={{ y: headingPY }}
+        >
+          <h2 className="desk:pt-8 desk:ml-13 mr-4 desk:mr-8 uppercase text-3xl font-bold tracking-[.25rem] opacity-80 text-[#ffff]">
+            <span className="text-[#a3a2a2]">my</span> process
+          </h2>
+          <span className="desk:top-[1.1rem] inline-flex overflow-hidden w-16 desk:w-40 relative">
+            <img
+              className="w-6 opacity-80 chev chev-1"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+            <img
+              className="w-6 opacity-80 chev chev-2"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+            <img
+              className="w-6 opacity-80 chev chev-3"
+              src="/decorations/chevron.svg"
+              alt=""
+            />
+          </span>
+        </motion.div>
 
-      {/* ==========================
-          HEADING AND CHEVRONS
-      ========================== */}
-      <div className="absolute inset-0 z-15">
-        <FadeSection>
-          <div className="relative flex -translate-x-15">
-            <h2 className="pt-8 ml-4 mr-8 uppercase text-3xl font-bold tracking-[.25rem]">
-              <span className="text-[#858383]">my</span> process
-            </h2>
-            <span className="top-[1.1rem] inline-flex overflow-hidden w-40 relative">
-              <img
-                className="w-6 opacity-80 chev chev-1"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-              <img
-                className="w-6 opacity-80 chev chev-2"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-              <img
-                className="w-6 opacity-80 chev chev-3"
-                src="/decorations/chevron.svg"
-                alt=""
-              />
-            </span>
-          </div>
-        </FadeSection>
-        {/* ==========================
-              PROCESS PANELS
-          ========================== */}
+        {/* CONTENT LAYOUT WRAPPER */}
         <div>
-          <img
-            className="absolute w-43 translate-x-47 translate-y-23"
-            src="/decorations/dotted.svg"
-            alt=""
-          />
-          {/* Discovery Panel */}
-          <div className="-translate-x-11 translate-y-3 mt-3">
-            <motion.div style={{ opacity: dHeadOpacity }}>
+          {/* Decorative Dotted Connector Graphic Track (desktop zig-zag only) */}
+          <motion.div style={{ y: paraY, opacity: clusterOpacity }}>
+            <img
+              className="hidden desk:block absolute w-48 translate-x-17 translate-y-44"
+              src="/decorations/dotted.svg"
+              alt=""
+            />
+          </motion.div>
+
+          {/* PROCESS STEP: Discovery */}
+          <div className="relative pb-10 sm:pb-12 desk:pb-0 mt-10 sm:mt-12 desk:mt-6 desk:-translate-x-11 desk:translate-y-7">
+            <TimelineRail opacity={clusterOpacity} />
+            <motion.div
+              style={{ y: clusterY, opacity: clusterOpacity }}
+              className="flex items-center gap-4 desk:block"
+            >
               <img
-                className="w-7 ml-[-.2rem] opacity-80"
+                className="w-8 shrink-0 desk:ml-[-.2rem] opacity-80"
                 src="/icons/discovery.svg"
                 alt=""
               />
-              <h3 className="text-lg text-white">Discovery</h3>
+              <h3 className={`${stepTitle} desk:mt-1`}>Discovery</h3>
             </motion.div>
             <motion.p
-              style={{ opacity: dParaOpacity, y: dParaY }}
-              className="w-50 pt-2 panel-para leading-4"
+              style={{ y: paraY, opacity: clusterOpacity }}
+              className={`${stepBody} desk:w-50`}
             >
               Defining project goals, user personas, and technical requirements.
             </motion.p>
           </div>
-          {/* Development Panel */}
-          <div className="translate-x-50 -translate-y-14 mt-3">
-            <motion.div style={{ opacity: devHeadOpacity }}>
+
+          {/* PROCESS STEP: Development */}
+          <div className="relative pb-10 sm:pb-12 desk:pb-0 desk:mt-3 desk:translate-x-35 desk:-translate-y-3">
+            <TimelineRail opacity={clusterOpacity} />
+            <motion.div
+              style={{ y: clusterY, opacity: clusterOpacity }}
+              className="flex items-center gap-4 desk:block"
+            >
               <img
-                className="w-8 translate-x-45"
+                className="w-8 desk:w-9 shrink-0 desk:translate-x-44"
                 src="/icons/panel-code.svg"
                 alt=""
               />
-              <h3 className="text-lg text-white text-center -translate-x-27">
+              <h3 className={`${stepTitle} desk:text-center desk:-translate-x-27`}>
                 Development
               </h3>
             </motion.div>
             <motion.p
-              style={{ opacity: devParaOpacity, y: devParaY }}
-              className="w-38 pt-1 panel-para leading-4 text-end translate-x-14"
+              style={{ y: paraY, opacity: clusterOpacity }}
+              className={`${stepBody} desk:w-45 desk:text-end desk:translate-x-8`}
             >
               Writing clean, scalable code and architectural implementation.
             </motion.p>
           </div>
-          {/* Deployment Panel */}
-          <div className="translate-x-44 -translate-y-12 mt-3">
-            <motion.div style={{ opacity: depHeadOpacity }}>
+
+          {/* PROCESS STEP: Deployment */}
+          <div className="relative desk:translate-x-[-.5rem] desk:-translate-y-15">
+            <motion.div
+              style={{ y: clusterY, opacity: clusterOpacity }}
+              className="flex items-center gap-4 desk:block"
+            >
               <img
-                className="w-7 ml-[-.2rem] pb-2 opacity-80"
+                className="w-7 mx-0.5 desk:mr-0 shrink-0 desk:ml-[-.2rem] desk:pb-2 opacity-80"
                 src="/icons/bolt.svg"
                 alt=""
               />
-              <h3 className="text-lg text-white">Deployment</h3>
+              <h3 className={stepTitle}>Deployment</h3>
             </motion.div>
             <motion.p
-              style={{ opacity: depParaOpacity, y: depParaY }}
-              className="w-50 pt-2 panel-para leading-4"
+              style={{ y: paraY, opacity: clusterOpacity }}
+              className={`${stepBody} desk:w-50`}
             >
               Cloud delivery, server monitoring, and continuous maintenance.
             </motion.p>
           </div>
         </div>
       </div>
-
-      {/* ==========================
-          GLASS PANEL SVG
-      ========================== */}
-      <svg
-        viewBox="0 0 601 469"
-        className="w-full h-auto relative z-10 right-20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          {/* Clip path for backdrop blur */}
-          <clipPath id="glass-clip">
-            <path
-              d="M283.586 468.811 C266.007 468.805 251.762 453.478 251.769 434.579 
-                     L251.775 352.067 L253.048 276.962 C253.516 267.654 250.393 265.542 240.162 266.063 
-                     L38.5677 265.989 C23.4662 265.983 -0.00831798 246.885 2.21112e-06 223.977 
-                     L0.0676558 41.4664 C0.076025 18.5579 17.3565 -0.00756045 38.6648 2.30973e-06 
-                     L561.459 0.190996 C582.767 0.199024 600.035 18.7771 600.027 41.6856 
-                     L599.959 224.196 C599.958 226.681 599.752 229.115 599.362 231.479 
-                     C599.749 233.615 599.955 235.822 599.954 238.08 L599.882 434.706 
-                     C599.875 453.606 585.618 468.922 568.039 468.915 L283.586 468.811 Z"
-            />
-          </clipPath>
-        </defs>
-
-        <g clipPath="url(#glass-clip)">
-          <foreignObject x="0" y="0" width="601" height="469">
-            <div className="w-full h-full backdrop-blur-lg" />
-          </foreignObject>
-        </g>
-
-        {/* Stroke & subtle fill */}
-        <path
-          d="M283.586 468.811 C266.007 468.805 251.762 453.478 251.769 434.579 
-             L251.775 352.067 L253.048 276.962 C253.516 267.654 250.393 265.542 240.162 266.063 
-             L38.5677 265.989 C23.4662 265.983 -0.00831798 246.885 2.21112e-06 223.977 
-             L0.0676558 41.4664 C0.076025 18.5579 17.3565 -0.00756045 38.6648 2.30973e-06 
-             L561.459 0.190996 C582.767 0.199024 600.035 18.7771 600.027 41.6856 
-             L599.959 224.196 C599.958 226.681 599.752 229.115 599.362 231.479 
-             C599.749 233.615 599.955 235.822 599.954 238.08 L599.882 434.706 
-             C599.875 453.606 585.618 468.922 568.039 468.915 L283.586 468.811 Z"
-          fill="rgba(0, 0, 0, 0.03)"
-          stroke="rgba(255,255,255,0.1)"
-          strokeWidth="1"
-        />
-      </svg>
     </motion.div>
+  );
+}
+
+/* Shared step typography. Titles and descriptions step up on tablets to match
+   the My Story paragraphs (sm:text-lg); desktop keeps the original 18px / 15px.
+   Descriptions are indented past the 32px icon column (pl-12) to sit under the title. */
+const stepTitle = "text-lg sm:text-xl desk:text-lg text-[#b4b4b4] font-bold";
+const stepBody =
+  "pl-12 desk:pl-0 pt-1 sm:pt-2 desk:pt-3 text-[15px] sm:text-[17px] desk:text-[15px] leading-6 sm:leading-7 desk:leading-6 opacity-85";
+
+/**
+ * TimelineRail (phones + tablets)
+ * Dashed segment running from beneath a step's icon down to the next step's
+ * icon — the vertical stand-in for the zig-zag's dotted connector. Centered on
+ * the 32px (w-8) icon column. Shares the steps' fade so the rail draws in with them.
+ */
+function TimelineRail({ opacity }: { opacity: MotionValue<number> }) {
+  return (
+    <motion.span
+      aria-hidden
+      style={{ opacity }}
+      className="desk:hidden absolute left-4 top-11 bottom-3 border-l border-dashed border-[#b4b4b4]/35"
+    />
   );
 }

@@ -5,35 +5,49 @@ interface FadeSectionProps {
   children:
     | React.ReactNode
     | ((scrollYProgress: MotionValue<number>) => React.ReactNode);
+  mode?: "in-out" | "in-only";
+  className?: string; // 1. Define the prop in the interface
+  disabled?: boolean;
+  inputRange?: number[];
+  outputRange?: number[];
 }
 
 /**
  * FadeSection
- * A wrapper component that fades in/out its content based on scroll position.
- * Can accept children directly, or a render function that receives scroll progress.
+ * accepts className
  */
-export function FadeSection({ children }: FadeSectionProps) {
+export function FadeSection({
+  children,
+  disabled = false,
+  mode = "in-out",
+  className = "",
+  inputRange,
+  outputRange,
+}: FadeSectionProps) {
   const ref = useRef(null);
 
-  // Track scroll progress of this section
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"], // Start fading when section enters viewport
+    offset: ["start end", "end start"],
   });
 
-  // Map scroll progress to opacity values
+  const defaultInput = mode === "in-only" ? [0, 0.2, 1] : [0, 0.18, 0.55, 0.75];
+  const defaultOutput = mode === "in-only" ? [0, 1, 1] : [0, 1, 1, 0.3];
+
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.55, 0.75], // scroll positions
-    [0, 1, 1, 0.4], // opacity at each scroll point
+    inputRange ?? defaultInput,
+    outputRange ?? defaultOutput
   );
 
   return (
-    <motion.section ref={ref} className="fade-wrapper">
-      <motion.div style={{ opacity }}>
-        {typeof children === "function"
-          ? children(scrollYProgress) // Pass scroll value if using render prop
-          : children}
+    <motion.section
+      ref={ref}
+      /* 3. Pass the className to the motion element */
+      className={className}
+    >
+      <motion.div style={{ opacity: disabled ? 1 : opacity }}>
+        {typeof children === "function" ? children(scrollYProgress) : children}
       </motion.div>
     </motion.section>
   );

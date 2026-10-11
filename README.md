@@ -18,17 +18,17 @@ Additional utilities include **clsx** for dynamic class handling and **Lenis** f
 
 ## Features
 
-This portfolio features a **dynamic hero section** with an animated skill cluster, **animated content reveal** for smooth scrolling through About, Mission, and Process sections, and **scroll enhancements** powered by Lenis combined with **Framer Motion** for refined motion throughout. Floating circles, chevron conveyors, and decorative elements bring the **process visualization** to life, while **micro-interactions** on buttons and links provide subtle tactile feedback. The site is fully **responsive**, ensuring an engaging experience across devices, and is built with **performance** and **accessibility** in mind, delivering a polished and lively digital portfolio.
+This portfolio features a **dynamic hero section** with an animated skill cluster, **animated content reveal** for smooth scrolling through About, Mission, and Process sections, and **scroll enhancements** powered by Lenis combined with **Framer Motion** for refined motion throughout. Glass tiles, drifting background elements, **parallax display**, and a myriad of decorative elements bring the site to life, while **micro-interactions** on buttons and links provide subtle tactile feedback. The site is fully **responsive**, ensuring an engaging experience across devices, and is built with **performance** and **accessibility** in mind, delivering a polished and lively digital portfolio.
 
 ## Design Philosophy
 
 The goal of this site is to appeal to both **recruiters** and **small business clients**—an audience that values **professionalism, clarity, and a strong sense of identity**. With that in mind, the design balances distinct **visual style** with **broad usability**, ensuring the site feels **memorable without limiting its appeal**.
 
-The visual direction is built around **soft gradients**, **layered glass panels**, **subtle depth**, and **intentional motion**. These elements work together to create a modern, refined interface that emphasizes **clarity, hierarchy, and user flow**.
-
 Rather than relying on excessive animation or visual noise, the experience is guided by **restraint**—using motion and styling purposefully to **support content, not distract from it**.
 
-The interface is designed to feel **cohesive** as users move through the site. Elements introduced early—such as the glass-based icon clusters in the hero section—**reappear and evolve** in later sections, including the skill stack. This creates a sense of **continuity and progression**, where visual motifs are not isolated, but part of a **larger system**.
+The interface is designed to feel **cohesive** as users move through the site. Elements introduced early—such as the glass-based icon clusters in the hero section—**reappear and evolve** in the skill stack. This creates a sense of **continuity and progression**, where visual motifs are not isolated, but part of a **larger system**.
+
+This portolio incorporates **soft gradients**, **subtle depth**, **parallax display**, and **intentional motion**. These elements work together to create a modern, refined interface that emphasizes **clarity, hierarchy, and user flow**.
 
 Rather than treating each section as independent, the experience is structured to **build on itself**, using **repetition and variation** to guide the user and reinforce a **unified design language**.
 
@@ -70,7 +70,7 @@ The portfolio is optimized for **fast load times** and **smooth interactions**. 
 
 ## Future Improvements
 
-Planned improvements include responsive display; enhanced accessibility for keyboard navigation, screen readers, and the visually impaired; day/night mode.
+Planned improvements include responsive display, GSAP entrance, enhanced accessibility for keyboard navigation, screen readers, and the visually impaired; day/night mode.
 
 ### Getting Started
 
