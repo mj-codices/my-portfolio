@@ -68,8 +68,8 @@ const heroOutputRange = isStacked
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.75,
-        delay: 0.36, // The anchor point for your synchronization delay
+        duration: 0.70,
+        delay: 0.25, // The anchor point for your synchronization delay
         ease: "easeInOut" as const,
       },
     },
@@ -78,7 +78,10 @@ const heroOutputRange = isStacked
   const handleRelease = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
-      behavior: "smooth",
+      // Jump instead of animating when the OS "Reduce motion" setting is on
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
     });
   };
 
@@ -171,7 +174,7 @@ const heroOutputRange = isStacked
                   variants={chevronVariants}
                   className="inline-block translate-x-13"
                 >
-                  <CTAChevrons />
+                  <CTAChevrons className="w-21" />
                 </motion.span>
               </span>
             </motion.button>

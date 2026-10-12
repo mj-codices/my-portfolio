@@ -4,6 +4,7 @@ import NavShell from "./components/ui/nav/NavShell";
 import ProgBar from "./components/ui/status/ProgBar";
 import AppShell from "./components/layout/AppShell";
 import LenisProvider from "../providers/LenisProvider";
+import MotionProvider from "../providers/MotionProvider";
 
 // Global font configuration — applied via CSS variable on <html>
 const inter = Inter({
@@ -21,6 +22,8 @@ export default function RootLayout({
     // Root HTML wrapper — attaches global font variable
     <html lang="en" className={inter.variable}>
       <body>
+        {/* Framer Motion config — honors the OS reduced-motion setting */}
+        <MotionProvider>
         {/* Smooth scrolling context (Lenis) — affects all scroll-based animations */}
         <LenisProvider>
           {/* App-level layout wrapper (shared structure/styling) */}
@@ -33,6 +36,7 @@ export default function RootLayout({
             </div>
           </AppShell>
         </LenisProvider>
+        </MotionProvider>
       </body>
     </html>
   );

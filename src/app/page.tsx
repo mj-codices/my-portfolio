@@ -8,6 +8,7 @@ import Mission from "./components/mission/Mission";
 import SkillStack from "./components/skillStack/SkillStack";
 import ClosingCTA from "./components/cta/ClosingCTA";
 import SelectedWork from "./components/work/SelectedWork";
+import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 
 // Home page orchestrates scroll-driven storytelling between sections.
 // Controls:
@@ -28,6 +29,10 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
 
   const [isHoveringCTA, setIsHoveringCTA] = useState(false);
+
+  // Pause each section's decorative CSS loops while it's scrolled out of view
+  // (sections opt in with `data-pause-offscreen`)
+  usePauseOffscreen();
 
   // 2️⃣ Observer setup
   useEffect(() => {
@@ -54,7 +59,7 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Hero section (scroll-driven via global scrollYProgress) */}
-      <div className="hero relative">
+      <div className="hero relative" data-pause-offscreen>
         <Hero
           scrollYProgress={scrollYProgress}
           setIsHoveringCTA={setIsHoveringCTA}
@@ -73,25 +78,25 @@ export default function Home() {
         </div>
       </div>
       {/* Mission section (used as trigger point for scroll indicator visibility) */}
-      <div ref={missionRef}>
+      <div ref={missionRef} data-pause-offscreen>
         {/* Spacer to control vertical rhythm between Hero and Mission */}
         <div className="pt-50"></div>
         <Mission />
       </div>
       {/* SkillStack section (independent scroll animation system) */}
-      <div>
+      <div data-pause-offscreen>
         <SkillStack />
       </div>
       {/* Divider for SkillStack Section */}
       <div className="w-auto h-[300px]"></div>
-      <div>
+      <div data-pause-offscreen>
         <SelectedWork />
       </div>
       {/* Divider for Selected Work Section */}
       <div className="w-auto h-[140px]"></div>
       {/* min-h (not h): below desktop the footer stacks in normal flow and needs
           to grow the section; on desktop the content still fits in 400px. */}
-      <section className="w-auto min-h-[400px]">
+      <section className="w-auto min-h-[400px]" data-pause-offscreen>
         <ClosingCTA />
       </section>
     </div>

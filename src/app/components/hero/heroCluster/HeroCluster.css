@@ -1,59 +1,26 @@
 /* =========================================================
-   ANIMATION SYSTEM (CSS Houdini Custom Properties)
+   ANIMATION SYSTEM (Individual Transform Properties)
 
-   CSS custom properties are registered through Houdini so
-   transform values can interpolate smoothly during keyframe
-   animation instead of snapping between states.
+   Motion is driven by the individual `translate`, `rotate`
+   and `scale` properties rather than `transform`, so each
+   axis can run on its own timeline. `animation-composition:
+   add` stacks the tracks (e.g. Y float + X drift) instead of
+   letting the last one win — the same technique the
+   ProcessDiagram circles use.
 
-   Separate variable groups exist for:
-   - background motion layers (--x, --y, --s, --r)
-   - foreground / interactive layers (--px, --py, --ps, --pr)
+   PERFORMANCE NOTE: these properties animate on the
+   compositor (GPU thread). The previous version animated
+   registered custom properties (--x, --y, …), which forced
+   a style recalculation on the main thread every frame.
 
-   This separation prevents animation systems from competing
-   with each other and allows independent motion tuning.
+   Tailwind's `rotate-*` utilities also set `rotate`, so the
+   sway tracks add on top of each tile's resting tilt, and any
+   static 3D tilt lives in `transform`, which is applied last.
+
+   Separate keyframe groups exist for:
+   - background motion layers (float*, squareFloat*)
+   - foreground / interactive layers (fg*)
 ========================================================= */
-
-@property --x {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --y {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --s {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 1;
-}
-@property --r {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@property --px {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --py {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --ps {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 1;
-}
-@property --pr {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
 
 /* =========================================================
    BACKGROUND ELEMENTS
@@ -64,73 +31,37 @@
    Motion combines:
    - vertical drift
    - horizontal drift
-   - subtle scale breathing
 
    Independent durations and negative delays intentionally
    prevent elements from synchronizing, which creates a more
    natural and less mechanical composition.
 ========================================================= */
 
-/* --- Circle 1 --- */
-#circle-1 {
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
-
-  animation:
-    floatY 10s ease-in-out infinite,
-    floatX 17s ease-in-out infinite,
-    breathe 8s ease-in-out infinite;
-
-  will-change: transform;
-}
-
+/* --- Circles 1 & 2 --- */
+#circle-1,
 #circle-2 {
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
-
   animation:
     floatY 10s ease-in-out infinite,
-    floatX 17s ease-in-out infinite,
-    breathe 8s ease-in-out infinite;
-
-  will-change: transform;
+    floatX 17s ease-in-out infinite;
+  animation-composition: add;
+  will-change: translate;
 }
 
-/* --- Circle 2 (offset timing for variation) --- */
-#circle-3 {
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
-
-  animation:
-    floatY-soft 11s ease-in-out infinite,
-    floatX-wide 17s ease-in-out infinite,
-    breathe-soft 9s ease-in-out infinite;
-
-  /* Negative delays intentionally desynchronize motion cycles
-    so elements never appear mirrored or procedurally identical.
-  */
-  animation-delay:
-    -6s,
-    -13s,
-    -4s;
-
-  will-change: transform;
-}
-
+/* --- Circles 3 & 4 (offset timing for variation) --- */
+#circle-3,
 #circle-4 {
-  transform: translateX(var(--x)) translateY(var(--y)) scale(var(--s));
-
   animation:
     floatY-soft 11s ease-in-out infinite,
-    floatX-wide 17s ease-in-out infinite,
-    breathe-soft 9s ease-in-out infinite;
+    floatX-wide 17s ease-in-out infinite;
 
   /* Negative delays intentionally desynchronize motion cycles
     so elements never appear mirrored or procedurally identical.
   */
   animation-delay:
     -6s,
-    -13s,
-    -4s;
-
-  will-change: transform;
+    -13s;
+  animation-composition: add;
+  will-change: translate;
 }
 
 /* =========================================================
@@ -138,46 +69,12 @@
 
    Transitional depth layer between background ambience
    and foreground UI motion.
-
-   Rotation sway adds dimensionality so shapes feel less flat
-   against the overall scene composition.
 ========================================================= */
 
 #square-1 {
-  transform: translateX(var(--x)) translateY(var(--y)) rotate(var(--r))
-    scale(var(--s));
-
   animation: squareFloatY 16s ease-in-out infinite;
-
-  /* NOTE ON TRACK DELAYS: 
-    Only the first delay (-6s) is active because this element is configured
-    with a single animation track (squareFloatY). The extra parameters are 
-    reserved for future horizontal, rotation, or scale additions.
-  */
-  animation-delay:
-    -6s,
-    -11s,
-    -4s,
-    -9s;
-
-  will-change: transform;
-}
-
-/* --- Interactive / foreground-adjacent square --- */
-#square-2 {
-  transform: translateX(var(--px)) translateY(var(--py)) rotate(var(--pr))
-    scale(var(--ps));
-
-  animation: squareFloatY-smooth 12s ease-in-out infinite;
-
-  /* Only the initial delay target is bound to the single active animation loop */
-  animation-delay:
-    -2s,
-    -4s,
-    -1s,
-    -3s;
-
-  will-change: transform;
+  animation-delay: -6s;
+  will-change: translate;
 }
 
 /* =========================================================
@@ -195,67 +92,53 @@
    rather than simple decorative movement.
 ========================================================= */
 
-/* --- Individual animation assignments --- */
+/* Shared foreground stack: float + drift + sway + breathe */
+#square-3,
+#square-4,
+#square-5 {
+  animation-name: fgFloatY, fgFloatX, fgSway, fgBreathe;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-composition: add;
+  will-change: translate, rotate, scale;
+}
+
+/* --- Individual timing assignments --- */
 
 #square-3 {
-  animation:
-    fgFloatY 9.5s ease-in-out infinite,
-    fgFloatX 14s ease-in-out infinite,
-    fgSway 12s ease-in-out infinite,
-    fgBreathe 7s ease-in-out infinite;
-
+  animation-duration: 9.5s, 14s, 12s, 7s;
   animation-delay:
     -2s,
     -6s,
     -3s,
     -1s;
 
-  /* PERFORMANCE NOTE: Self-contained perspective metrics are assigned 
-    locally to tilt this individual matrix coordinate frame in 3D.
-  */
-  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
-    rotateX(10deg) rotateY(-30deg);
+  /* Static 3D tilt — applied after the animated translate/rotate/scale */
+  transform: rotateX(10deg) rotateY(-30deg);
   transform-style: preserve-3d;
   perspective: 600px;
-  will-change: transform;
 }
 
 #square-4 {
-  animation:
-    fgFloatY 7.5s ease-in-out infinite,
-    fgFloatX 11s ease-in-out infinite,
-    fgSway 10s ease-in-out infinite,
-    fgBreathe 6s ease-in-out infinite;
-
+  animation-duration: 7.5s, 11s, 10s, 6s;
   animation-delay:
     -5s,
     -2s,
     -4s,
     -1s;
 
-  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps))
-    rotateX(20deg) rotateY(-8deg) rotateZ(5deg);
+  transform: rotateX(20deg) rotateY(-8deg) rotateZ(5deg);
   transform-style: preserve-3d;
   perspective: 600px;
-  will-change: transform;
 }
 
 #square-5 {
-  animation:
-    fgFloatY 8.5s ease-in-out infinite,
-    fgFloatX 13s ease-in-out infinite,
-    fgSway 11s ease-in-out infinite,
-    fgBreathe 6.5s ease-in-out infinite;
-
+  animation-duration: 8.5s, 13s, 11s, 6.5s;
   animation-delay:
     -3s,
     -7s,
     -2s,
     -4s;
-
-  /* CONSOLIDATED DECLARATION BLOCK */
-  transform: translate(var(--px), var(--py)) rotate(var(--pr)) scale(var(--ps));
-  will-change: transform;
 }
 
 /* Foreground motion values intentionally differ per element.
@@ -275,16 +158,20 @@
 
   Larger translation ranges made the cluster feel disconnected
   from the surrounding UI and visually too "floaty".
+
+  With `animation-composition: add`, each keyframe value is
+  added to the element's resting value, so 0% / 100% are
+  "no offset" rather than an absolute position.
 */
 
 /* Vertical float */
 @keyframes floatY {
   0%,
   100% {
-    --y: 0px;
+    translate: 0 0;
   }
   50% {
-    --y: -18px;
+    translate: 0 -18px;
   }
 }
 
@@ -292,10 +179,10 @@
 @keyframes floatX {
   0%,
   100% {
-    --x: 0px;
+    translate: 0 0;
   }
   50% {
-    --x: 10px;
+    translate: 10px 0;
   }
 }
 
@@ -303,20 +190,20 @@
 @keyframes floatY-soft {
   0%,
   100% {
-    --y: 0px;
+    translate: 0 0;
   }
   50% {
-    --y: -12px;
+    translate: 0 -12px;
   }
 }
 
 @keyframes floatX-wide {
   0%,
   100% {
-    --x: 0px;
+    translate: 0 0;
   }
   50% {
-    --x: -14px;
+    translate: -14px 0;
   }
 }
 
@@ -324,30 +211,10 @@
 @keyframes squareFloatY {
   0%,
   100% {
-    --y: 0;
+    translate: 0 0;
   }
   50% {
-    --y: -8px;
-  }
-}
-
-@keyframes squareFloatX {
-  0%,
-  100% {
-    --x: 0;
-  }
-  50% {
-    --x: 6px;
-  }
-}
-
-@keyframes squareFloatY-smooth {
-  0%,
-  100% {
-    --py: 0px;
-  }
-  50% {
-    --py: -20px;
+    translate: 0 -8px;
   }
 }
 
@@ -359,10 +226,10 @@
 @keyframes fgFloatY {
   0%,
   100% {
-    --py: 0px;
+    translate: 0 0;
   }
   50% {
-    --py: -12px;
+    translate: 0 -12px;
   }
 }
 
@@ -370,31 +237,31 @@
 @keyframes fgFloatX {
   0%,
   100% {
-    --px: 0px;
+    translate: 0 0;
   }
   50% {
-    --px: 6px;
+    translate: 6px 0;
   }
 }
 
-/* Gentle breathing */
+/* Gentle breathing — `add` multiplies scales, so 1 is "no change" */
 @keyframes fgBreathe {
   0%,
   100% {
-    --ps: 1;
+    scale: 1;
   }
   50% {
-    --ps: 1.025;
+    scale: 1.025;
   }
 }
 
-/* Subtle rotation sway */
+/* Subtle rotation sway (added to the tile's Tailwind tilt) */
 @keyframes fgSway {
   0%,
   100% {
-    --pr: -2deg;
+    rotate: -2deg;
   }
   50% {
-    --pr: 2deg;
+    rotate: 2deg;
   }
 }

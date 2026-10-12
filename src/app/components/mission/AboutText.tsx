@@ -1,4 +1,5 @@
 import { motion, type MotionValue } from "framer-motion";
+import Image from "next/image";
 
 type AboutTextProps = {
   /** Map-interpolated vertical offset stream driving the core section header translation */
@@ -40,10 +41,12 @@ export default function AboutMe({
           className="relative flex desk:-translate-x-15"
           style={{ y: headingY }}
         >
-          <img
+          <Image
             className="spin-slow w-9 desk:w-12 h-auto mr-5 desk:mr-9 -translate-y-3 desk:-translate-y-5"
-            src={"/decorations/aster.svg"}
-            alt="decorative asterisk"
+            src="/decorations/aster.svg"
+            width={30}
+            height={30}
+            alt=""
           />
           <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
             <span className="text-[#a3a2a2]">my</span> story

@@ -8,170 +8,6 @@
   background: linear-gradient(
     0deg,
     rgba(42, 123, 155, 0) 83%,
-    rgba(255, 181, 97, 0.12) 100-percent
-  );
-}
-
-/* ----------------------------------------------------------------
-   CHEVRON CONVEYOR ANIMATION
-   Drives an infinite horizontal carousel effect across structural indicators.
-   - Uses absolute centering matrices offset smoothly by keyframe translations.
-   - Staggered delays are configured inside component markup files.
----------------------------------------------------------------- */
-.chev {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0; /* Keeps components hidden outside active performance keyframe frames */
-}
-
-.chev-1 {
-  animation: chevron-conveyor 3s ease-in-out infinite;
-}
-.chev-2 {
-  animation: chevron-conveyor 3s ease-in-out infinite;
-  animation-delay: 1s;
-}
-.chev-3 {
-  animation: chevron-conveyor 3s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-@keyframes chevron-conveyor {
-  0% {
-    transform: translateX(-10px) translateY(-50%);
-    opacity: 0;
-  }
-  25% {
-    transform: translateX(0px) translateY(-50%);
-    opacity: 1;
-  }
-  60% {
-    transform: translateX(12px) translateY(-50%);
-    opacity: 1;
-  }
-  85% {
-    transform: translateX(24px) translateY(-50%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(24px) translateY(-50%);
-    opacity: 0;
-  }
-}
-
-/* ----------------------------------------------------------------
-   DYNAMIC COMPOUND MOTION ENGINE (BACKGROUNDParallax)
-   To prevent un-registered custom property layout freezing, transforms 
-   are applied directly to custom variables using runtime math calculations.
----------------------------------------------------------------- */
-
-@keyframes dynamicFloatY {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(calc(var(--y-dist) * -1));
-  } /* Scales motion using distance variables */
-}
-
-@keyframes dynamicFloatX {
-  0%,
-  100% {
-    transform: translateX(0px);
-  }
-  50% {
-    transform: translateX(var(--x-dist));
-  }
-}
-
-@keyframes dynamicBreathe {
-  0%,
-  100% {
-    transform: scale(var(--scale-min));
-  }
-  50% {
-    transform: scale(var(--scale-max));
-  }
-}
-
-/* ----------------------------------------------------------------
-   INDIVIDUAL BACKGROUND ELEMENTS
-   Utilizes animation composition configurations to isolate tracking paths 
-   and timing frames on separate composite threads.
----------------------------------------------------------------- */
-
-#mission-circle-1 {
-  /* --- MOVEMENT DISTANCE VARIABLES --- */
-  --x-dist: 45px;
-  --y-dist: 55px;
-  --scale-min: 0.85;
-  --scale-max: 1.15;
-
-  /* COMPOSITION ENGINE: 
-     Combines independent keyframes using CSS animation composition logic. 
-     Negative delay offsets stagger execution states to mask initial loading states.
-  */
-  animation:
-    dynamicFloatY 8s ease-in-out infinite,
-    dynamicFloatX 13s ease-in-out infinite,
-    dynamicBreathe 7s ease-in-out infinite;
-  animation-delay:
-    -4s,
-    -7s,
-    -2s;
-  animation-composition: add; /* Required to stack sequential transform operations accurately */
-  will-change: transform;
-}
-
-#mission-circle-2 {
-  /* --- AMPLIFIED DEPTH PARALLAX VARIABLES --- */
-  --x-dist: 60px;
-  --y-dist: 70px;
-  --scale-min: 0.8;
-  --scale-max: 1.2;
-
-  animation:
-    dynamicFloatY 7.5s ease-in-out infinite,
-    dynamicFloatX 11s ease-in-out infinite,
-    dynamicBreathe 6.5s ease-in-out infinite;
-  animation-delay:
-    -2s,
-    -6s,
-    -4s;
-  animation-composition: add;
-  will-change: transform;
-}
-
-#mission-circle-3 {
-  /* --- SUBTLE COMPACT TRANSITION VARIANT --- */
-  --x-dist: 35px;
-  --y-dist: 45px;
-  --scale-min: 0.9;
-  --scale-max: 1.1;
-
-  animation:
-    dynamicFloatY 9s ease-in-out infinite,
-    dynamicFloatX 14s ease-in-out infinite,
-    dynamicBreathe 8.5s ease-in-out infinite;
-  animation-delay:
-    -8s,
-    -3s,
-    -5s;
-  animation-composition: add;
-  will-change: transform;
-}
-/* ----------------------------------------------------------------
-   TOP MASK GRADIENT
-   Establishes a subtle vertical lighting/fade boundary overlay.
-   - Transparent toward top (0deg) to preserve layout backgrounds.
-   - Note: Hex color mix handles subtle amber warmth glow at bounding footers.
----------------------------------------------------------------- */
-.top-mask {
-  background: linear-gradient(
-    0deg,
-    rgba(42, 123, 155, 0) 83%,
     rgba(255, 181, 97, 0.12) 100%
   );
 }
@@ -301,4 +137,22 @@
   animation-delay: -10s, -5s, -7s;
   animation-composition: add;
   will-change: transform;
+}
+/* ----------------------------------------------------------------
+   REDUCED MOTION
+   The conveyor's resting state is hidden (opacity 0) and its loop
+   ends faded out, so with the OS "Reduce motion" setting on, show
+   the three chevrons as a static, evenly spaced row instead.
+---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .chev {
+    animation: none !important;
+    opacity: 0.8;
+  }
+  .chev-2 {
+    transform: translateX(12px) translateY(-50%);
+  }
+  .chev-3 {
+    transform: translateX(24px) translateY(-50%);
+  }
 }

@@ -1,4 +1,13 @@
 import { useState, useEffect } from "react";
+import { CONTACT_DATA } from "@/app/data/contact";
+
+// Formats the clock in my local time zone so every visitor sees my time
+const clockFormat = new Intl.DateTimeFormat("en-US", {
+  timeZone: CONTACT_DATA.location.timeZone,
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+});
 
 export default function LiveTime() {
   const [time, setTime] = useState(new Date());
@@ -8,11 +17,10 @@ export default function LiveTime() {
     return () => clearInterval(timer);
   }, []);
 
-// Get the 24-hour value, convert 0 to 12, and ensure it wraps at 12
-  const rawHours = time.getHours();
-  const hours = (rawHours % 12 || 12).toString().padStart(2);
-  
-  const minutes = time.getMinutes().toString().padStart(2, "0");
+  // Read hours/minutes in my time zone (not the visitor's), as a 12-hour clock
+  const parts = clockFormat.formatToParts(time);
+  const hours = (parts.find((p) => p.type === "hour")?.value ?? "").padStart(2);
+  const minutes = parts.find((p) => p.type === "minute")?.value ?? "00";
 
   return (
     <div className="flex opacity-60 items-center space-x-2 font-mono text-[17px] text-white">

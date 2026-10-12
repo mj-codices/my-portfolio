@@ -6,6 +6,7 @@ import {
   useSpring,
   type MotionValue,
 } from "framer-motion";
+import Image from "next/image";
 import "./ProcessDiagram.css";
 import { useIsDesk } from "@/hooks/useIsDesk";
 
@@ -53,8 +54,8 @@ export default function ProcessDiagram({
     damping: 42,
   });
 
-/* --- PROCESS DIAGRAM: KINETIC GAP-CLOSING ENGINE --- */
-  
+  /* --- PROCESS DIAGRAM: KINETIC GAP-CLOSING ENGINE --- */
+
   // Cluster: Enters later, travels a shorter distance, and locks in tightly
   const clusterYRaw = useTransform(diagramProgress, [0, 0.35], [60, 0]);
   const clusterY = useSpring(clusterYRaw, {
@@ -67,8 +68,8 @@ export default function ProcessDiagram({
   // creating the visual "catch-up" illusion that collapses the structural gap.
   const paraYRaw = useTransform(diagramProgress, [0, 0.35], [85, 0]);
   const paraY = useSpring(paraYRaw, {
-    stiffness: 75,   // Slightly softer stiffness allows the trailing absorption look
-    damping: 25,   // Prevents harsh oscillating bounces
+    stiffness: 75, // Slightly softer stiffness allows the trailing absorption look
+    damping: 25, // Prevents harsh oscillating bounces
     mass: 0.8,
   });
 
@@ -185,19 +186,25 @@ export default function ProcessDiagram({
             <span className="text-[#a3a2a2]">my</span> process
           </h2>
           <span className="desk:top-[1.1rem] inline-flex overflow-hidden w-16 desk:w-40 relative">
-            <img
-              className="w-6 opacity-80 chev chev-1"
+            <Image
+              className="w-6 opacity-80 chev chev-1 h-auto"
               src="/decorations/chevron.svg"
+              width={45}
+              height={45}
               alt=""
             />
-            <img
-              className="w-6 opacity-80 chev chev-2"
+            <Image
+              className="w-6 opacity-80 chev chev-2 h-auto"
               src="/decorations/chevron.svg"
+              width={45}
+              height={45}
               alt=""
             />
-            <img
-              className="w-6 opacity-80 chev chev-3"
+            <Image
+              className="w-6 opacity-80 chev chev-3 h-auto"
               src="/decorations/chevron.svg"
+              width={45}
+              height={45}
               alt=""
             />
           </span>
@@ -207,9 +214,11 @@ export default function ProcessDiagram({
         <div>
           {/* Decorative Dotted Connector Graphic Track (desktop zig-zag only) */}
           <motion.div style={{ y: paraY, opacity: clusterOpacity }}>
-            <img
-              className="hidden desk:block absolute w-48 translate-x-17 translate-y-44"
+            <Image
+              className="hidden desk:block absolute w-48 translate-x-17 translate-y-44 h-auto"
               src="/decorations/dotted.svg"
+              width={45}
+              height={45}
               alt=""
             />
           </motion.div>
@@ -221,9 +230,11 @@ export default function ProcessDiagram({
               style={{ y: clusterY, opacity: clusterOpacity }}
               className="flex items-center gap-4 desk:block"
             >
-              <img
-                className="w-8 shrink-0 desk:ml-[-.2rem] opacity-80"
+              <Image
+                className="w-8 shrink-0 desk:ml-[-.2rem] opacity-80 h-auto"
                 src="/icons/discovery.svg"
+                width={45}
+                height={45}
                 alt=""
               />
               <h3 className={`${stepTitle} desk:mt-1`}>Discovery</h3>
@@ -243,12 +254,16 @@ export default function ProcessDiagram({
               style={{ y: clusterY, opacity: clusterOpacity }}
               className="flex items-center gap-4 desk:block"
             >
-              <img
-                className="w-8 desk:w-9 shrink-0 desk:translate-x-44"
+              <Image
+                className="w-8 desk:w-9 shrink-0 desk:translate-x-44 h-auto"
                 src="/icons/panel-code.svg"
+                width={45}
+                height={45}
                 alt=""
               />
-              <h3 className={`${stepTitle} desk:text-center desk:-translate-x-27`}>
+              <h3
+                className={`${stepTitle} desk:text-center desk:-translate-x-27`}
+              >
                 Development
               </h3>
             </motion.div>
@@ -266,9 +281,11 @@ export default function ProcessDiagram({
               style={{ y: clusterY, opacity: clusterOpacity }}
               className="flex items-center gap-4 desk:block"
             >
-              <img
-                className="w-7 mx-0.5 desk:mr-0 shrink-0 desk:ml-[-.2rem] desk:pb-2 opacity-80"
+              <Image
+                className="w-7 mx-0.5 desk:mr-0 shrink-0 desk:ml-[-.2rem] desk:pb-2 opacity-80 h-auto"
                 src="/icons/bolt.svg"
+                width={45}
+                height={45}
                 alt=""
               />
               <h3 className={stepTitle}>Deployment</h3>

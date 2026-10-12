@@ -171,3 +171,36 @@ body {
     translate: 0 4rem;
   }
 }
+/* ==========================================================================
+   PERFORMANCE: PAUSE LOOPS OFF-SCREEN
+   `usePauseOffscreen` (src/hooks) sets [data-offscreen] on sections that have
+   scrolled out of view, so their infinite decorative loops stop costing
+   frames. They resume from the same point when the section returns.
+   ========================================================================== */
+[data-offscreen],
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: REDUCED MOTION
+   Honors the OS "Reduce motion" setting. Loops finish instantly and rest on
+   their final keyframe (every float/spin/orbit ends where it started), and
+   hover transitions resolve immediately. Framer Motion is handled by
+   MotionConfig (src/providers/MotionProvider) and Lenis is skipped entirely
+   (src/providers/LenisProvider).
+   Component-specific fallbacks live with their styles (e.g. ProcessDiagram.css).
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}

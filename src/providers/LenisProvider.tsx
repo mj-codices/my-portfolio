@@ -20,23 +20,33 @@ declare global {
 // - duration / easing for different scroll feel
 // Be careful:
 // - removing RAF loop will break smooth scrolling entirely
+//
+// Reduced motion: when the OS "Reduce motion" setting is on, Lenis is skipped
+// and the browser's native scrolling is used. Callers already fall back to
+// native scrolling when `window.lenis` is undefined (see NavDrawer).
 export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     // Initialize Lenis with custom scroll physics
     const lenis = new Lenis();
     window.lenis = lenis;
 
     // RAF loop drives Lenis updates every frame
     // Without this, Lenis will not animate scroll properly
+    let rafId = 0;
     function rafLoop(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(rafLoop);
+      rafId = requestAnimationFrame(rafLoop);
     }
 
-    requestAnimationFrame(rafLoop);
-    // Cleanup on unmount to prevent memory leaks
+    rafId = requestAnimationFrame(rafLoop);
+    // Cleanup on unmount: stop the loop (otherwise it keeps running, and React's
+    // dev double-mount leaves two loops) and tear Lenis down
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
+      if (window.lenis === lenis) window.lenis = undefined;
     };
   }, []);
 

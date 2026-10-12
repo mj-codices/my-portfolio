@@ -11,6 +11,7 @@ import { useRef } from "react";
 import SkillTile from "./SkillTile";
 import { skillStack } from "../../data/skillStack";
 import { useIsDesk } from "@/hooks/useIsDesk";
+import Image from "next/image";
 
 /**
  * SkillStack Component
@@ -102,10 +103,12 @@ export default function SkillStack() {
       >
         {/* Section Heading Banner Block (matches the My Story heading treatment) */}
         <motion.div className="relative flex">
-          <img
+          <Image
             className="spin-slow w-9 desk:w-12 h-auto mr-5 desk:mr-9 -translate-y-3 desk:-translate-y-5"
             src="/decorations/aster.svg"
-            alt="decorative asterisk"
+            width={30}
+            height={30}
+            alt=""
           />
           <h2 className="mb-10 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
             <span className="text-[#a3a2a2] opacity-100">my</span> stack

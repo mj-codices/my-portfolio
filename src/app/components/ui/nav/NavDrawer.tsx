@@ -138,17 +138,22 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         });
       }
     } else {
-      // 4. Native Browser Engine Fallbacks (Used if Lenis instances are unmounted/loading)
+      // 4. Native Browser Engine Fallbacks (Lenis unmounted/loading, or skipped
+      //    for reduced motion — in which case jump instead of animating)
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches
+        ? "auto"
+        : "smooth";
       if (lowerLabel === "start") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior });
       } else if (lowerLabel === "contact") {
         window.scrollTo({
           top: document.body.scrollHeight,
-          behavior: "smooth",
+          behavior,
         });
       } else {
         const targetElement = document.querySelector(`#${lowerLabel}`);
-        targetElement?.scrollIntoView({ behavior: "smooth" });
+        targetElement?.scrollIntoView({ behavior });
       }
     }
   };
@@ -218,7 +223,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
                 onClick={() => handleNavLinkClick(label)}
               >
                 {/* Clean Abstracted Indicator Subcomponent Block */}
-                <NavIndicator index={i} isActive={hoveredIndex === i} />
+                <NavIndicator
+                  index={i}
+                  isActive={hoveredIndex === i}
+                  floating={open}
+                />
                 {label}
               </motion.li>
             ))}

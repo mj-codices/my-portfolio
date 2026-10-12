@@ -21,7 +21,7 @@ export default function ProgBar() {
   // (currently a static gradient, but could be dynamic)
   const gradientBg = useTransform(
     smoothProgress,
-    (v) =>
+    () =>
       `linear-gradient(
         to bottom,
         #FF6F61

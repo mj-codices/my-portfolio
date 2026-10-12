@@ -4,6 +4,7 @@ import LiveTime from "../ui/status/LiveTime";
 import LocationDisplay from "../ui/status/LocationDisplay";
 import ExternalLinkIcon from "../ui/icons/ExternalLinkIcon";
 import { CONTACT_DATA } from "@/app/data/contact";
+import Image from "next/image";
 
 /**
  * ClosingCTA Component
@@ -161,10 +162,11 @@ export default function ClosingCTA() {
       >
         {/* 1. LEFT SIDE: Local Telemetry (Globe Asset, Geographic Region, Live Clock) */}
         <div className="flex space-x-2 items-center desk:translate-y-2 desk:ml-[-1rem]">
-          <img
-            src="icons/globe.gif"
+          <Image
+            src="/icons/globe.gif"
             width={50}
             height={50}
+            unoptimized // Animated GIF — serve as-is
             className="w-10 h-10 sm:w-[50px] sm:h-[50px] opacity-40 mt-[-3px]"
             alt="Globe"
           />

@@ -1,4 +1,5 @@
 import { type JSX } from "react";
+import Image from "next/image";
 
 /**
  * Type blueprint matching structural ingestion limits for atomic tech tags.
@@ -58,9 +59,11 @@ export default function SkillTile({
       */}
       {/* Icons are sized for the 70px box; scaled down to fit the 48px phone box. */}
       <div className="absolute inset-0 flex items-center justify-center scale-[.7] sm:scale-100">
-        <img
+        <Image
           src={icon}
-          alt={`${label} technology identifier`}
+          width={48}
+          height={48}
+          alt="" // The visible label names the tile
           className={size ?? "w-12 h-12 opacity-85"}
         />
       </div>

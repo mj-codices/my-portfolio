@@ -2,6 +2,7 @@ import "./ProjectCard.css";
 import ExternalLinkIcon from "../ui/icons/ExternalLinkIcon";
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 /**
  * Interface representing the strict structure of a Project item.
@@ -148,12 +149,13 @@ export default function ProjectCard({ project }: { project: Project }) {
             The floating stack needs side room and hover, so phones get one
             full-width, full-brightness shot of the home page instead —
             cropped to 4:3 from the top so it shows the site's hero. */}
-          <img
+          <Image
             src={project.images[0]}
             alt=""
+            width={800}
+            height={935}
+            sizes="(min-width: 640px) 512px, 100vw"
             className="md:hidden w-full sm:max-w-lg aspect-[4/3] object-cover object-top border-4 border-gray-600 rounded-lg mt-4 mb-5"
-            decoding="async"
-            loading="lazy"
           />
 
           {/* Formatted Copy Summary Block */}

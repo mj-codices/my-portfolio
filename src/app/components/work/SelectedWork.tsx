@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import { projects } from "../../data/projects";
 import { useIsDesk } from "@/hooks/useIsDesk";
+import Image from "next/image";
 
 /**
  * SelectedWork Component
@@ -114,10 +115,12 @@ export default function SelectedWork() {
                     - Matches the My Story / My Stack heading treatment
          --------------------------------------------- */}
       <motion.div className="relative flex desk:-translate-x-15 mb-4">
-        <img
+        <Image
           className="spin-slow w-9 desk:w-12 h-auto mr-5 desk:mr-9 -translate-y-3 desk:-translate-y-4"
           src="/decorations/aster.svg"
-          alt="decorative asterisk"
+          width={30}
+          height={30}
+          alt=""
         />
         <h2 className="mb-6 text-3xl uppercase font-bold tracking-wider opacity-80 text-[#ffff]">
           <span className="text-[#a3a2a2] opacity-100">my</span> work
