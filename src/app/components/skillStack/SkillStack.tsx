@@ -95,11 +95,12 @@ export default function SkillStack() {
           scales linearly from its original values at 1440px+ (200 / 84 / 120px)
           down to 48 / 24 / 80px at the `desk` boundary (1133px), so the fixed
           3-column grid — whose gaps and per-tile nudges are tuned together —
-          always fits on screen. 307px = 1440 − 1133. */}
+          always fits on screen. 307px = 1440 − 1133. From 1440px (`wide`) the
+          padding keeps growing by half the extra width, centering the layout. */}
       <section
         ref={ref}
         id="stack"
-        className="w-full px-8 sm:px-12 desk:w-[150vw] desk:px-[clamp(3rem,calc(3rem+(100vw-1133px)*152/307),12.5rem)]"
+        className="w-full px-8 sm:px-12 desk:w-[150vw] desk:px-[clamp(3rem,calc(3rem+(100vw-1133px)*152/307),12.5rem)] wide:px-[calc(12.5rem+(100vw-1440px)/2)]"
       >
         {/* Section Heading Banner Block (matches the My Story heading treatment) */}
         <motion.div className="relative flex">

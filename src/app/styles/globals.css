@@ -32,9 +32,15 @@
    Mobile-first: unprefixed utilities target the stacked (mobile/tablet)
    layout, `desk:` restores the side-by-side desktop composition.
    1133px is where the two-column hero has enough room to breathe.
+   `wide:` (1440px+) freezes the composition at its 1440px layout: sections
+   keep their 1440px content width and the side padding grows by half of the
+   extra viewport width on each side, so content stays centered on large and
+   ultrawide displays. Fixed chrome (menu icon, drawer, progress bar, orbs)
+   stays anchored to the viewport edges.
    ========================================================================== */
 @theme {
   --breakpoint-desk: 70.8125rem; /* 1133px */
+  --breakpoint-wide: 90rem; /* 1440px */
 }
 
 /* ==========================================================================

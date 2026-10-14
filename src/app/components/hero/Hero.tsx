@@ -111,7 +111,12 @@ const heroOutputRange = isStacked
           style={{ y: launchY }}
           // Shares the page's left gutter below `desk` (px-8 phones / px-12 tablets,
           // same as Mission) so the hero flows into the content that follows.
-          className="relative flex flex-col items-start text-left px-8 sm:px-12 desk:px-10 desk:pl-15 desk:block desk:absolute desk:right-1/2 desk:top-1/4 desk:max-[1231px]:translate-x-8 desk:mx-15 desk:mt-[-1rem] desk:max-w-none z-5"
+          // At `desk` the left edge uses the Skill Stack section's padding formula
+          // (and its `wide` extension), so the headline lines up with the section
+          // headings below at every width. Vertically it's anchored to the screen
+          // center like the tile cluster (top-1/2), so the two stay aligned at any
+          // window height; −12rem centers the text block on the cluster.
+          className="relative flex flex-col items-start text-left px-8 sm:px-12 desk:px-0 desk:block desk:absolute desk:left-[clamp(3rem,calc(3rem+(100vw-1133px)*152/307),12.5rem)] wide:left-[calc(12.5rem+(100vw-1440px)/2)] desk:top-[calc(50%-12rem)] desk:mt-[-1rem] desk:max-w-none z-5"
         >
           {/* Main Presentational Header
               Below `desk`, size tracks viewport width so "FULL-STACK" (nowrap)

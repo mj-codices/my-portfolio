@@ -144,7 +144,7 @@ export default function Mission() {
       ref={ref}
       // Desktop side padding: 200px from 1440px up (the original px-50), easing
       // down to 64px toward the `desk` boundary so the row below has room.
-      className="flex w-full desk:w-[100vw] bg-black-90 px-8 sm:px-12 desk:[--mission-pad:clamp(4rem,calc((100vw-1040px)/2),12.5rem)] desk:px-(--mission-pad) text-3xl sm:text-4xl desk:text-5xl mb-30 desk:mb-60"
+      className="flex w-full desk:w-[100vw] bg-black-90 px-8 sm:px-12 desk:[--mission-pad:clamp(4rem,calc((100vw-1040px)/2),12.5rem)] wide:[--mission-pad:calc((100vw-1040px)/2)] desk:px-(--mission-pad) text-3xl sm:text-4xl desk:text-5xl mb-30 desk:mb-60"
     >
       {/* SECTION EXIT FIELD DECAY CONTAINER */}
       <motion.div style={{ opacity: exitOpacity }} className="w-full">
