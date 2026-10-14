@@ -29,7 +29,7 @@ export default function ProgBar() {
   );
 
   return (
-    <div>
+    <div className="hidden sm:block">
       <div className="fixed landscape-margin-prog right-8 bottom-1/3 -translate-y-20 w-[.5rem] h-28 rounded-lg backdrop-blur-md overflow-hidden z-10 overflow-hidden">
         {/* Scroll-progress indicator */}
         <motion.div

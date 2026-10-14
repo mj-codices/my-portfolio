@@ -173,10 +173,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
       />
 
       {/* Main Panel Sliding Flyout Layer
-        Full-screen overlay on phones and tablets; a 33% side panel on desktop.
+        Full-screen overlay on phones and tablets; a 33% side panel on desktop,
+        capped at 560px so it doesn't balloon on large/ultrawide displays.
       */}
       <motion.aside
-        className="fixed top-0 right-0 h-full w-full desk:w-[33%] bg-transparent z-60 overflow-hidden"
+        className="fixed top-0 right-0 h-full w-full desk:w-[33%] desk:max-w-[560px] bg-transparent z-60 overflow-hidden"
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{
@@ -189,9 +190,14 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           to present an elegant curving aesthetic container envelope framework look.
           Below `desk` it's centered and sized to ≥2× the viewport height so the
           open (1.15×) curve fully covers tall tablet screens.
+          At `desk` it's 2000px hanging 33rem above the top — tuned so the open
+          (1.15×) circle sweeps past both left corners of the panel up to ~982px
+          tall (MacBook Pro 14"). Taller screens get a proportionally enlarged copy
+          of that geometry (203.7vh = 2000/982, 53.77vh = 528/982), so the open
+          circle always fills the whole panel at any height.
         */}
         <motion.div
-          className="absolute bg-[#0d0c0c] size-[max(2000px,200vh)] top-1/2 -translate-y-1/2 desk:size-[2000px] desk:top-[-33rem] desk:translate-y-0 left-2 rounded-full"
+          className="absolute bg-[#0d0c0c] size-[max(2000px,200vh)] top-1/2 -translate-y-1/2 desk:size-[max(2000px,203.7vh)] desk:top-[min(-33rem,-53.77vh)] desk:translate-y-0 left-2 rounded-full"
           initial={{ scale: 1 }}
           animate={{ scale: open ? 1.15 : 1 }}
           transition={{

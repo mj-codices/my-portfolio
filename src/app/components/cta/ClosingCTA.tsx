@@ -155,10 +155,11 @@ export default function ClosingCTA() {
       {/* Global Status & Metadata Utility Footer
           Below `desk`: a centered stack in normal flow — social links first
           (the tappable part), then location/time, then the credit.
-          At `desk`: the original single row pinned to the bottom of the page. */}
+          At `desk`: the original single row pinned to the bottom of the page.
+          From 1440px (`wide`): the row keeps its 1440px span, centered. */}
       <motion.div
         style={{ y: footerY }}
-        className="relative mt-20 pb-10 px-8 flex flex-col items-center gap-6 desk:absolute desk:bottom-8 desk:left-0 desk:w-full desk:mt-0 desk:pb-0 desk:px-10 desk:flex-row desk:items-end desk:justify-between desk:gap-0"
+        className="relative mt-20 pb-10 px-8 flex flex-col items-center gap-6 desk:absolute desk:bottom-8 desk:left-0 desk:w-full desk:mt-0 desk:pb-0 desk:px-10 wide:px-[calc(2.5rem+(100vw-1440px)/2)] desk:flex-row desk:items-end desk:justify-between desk:gap-0"
       >
         {/* 1. LEFT SIDE: Local Telemetry (Globe Asset, Geographic Region, Live Clock) */}
         <div className="flex space-x-2 items-center desk:translate-y-2 desk:ml-[-1rem]">

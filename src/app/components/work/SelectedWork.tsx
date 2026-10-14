@@ -106,7 +106,8 @@ export default function SelectedWork() {
       ref={ref}
       // Desktop side padding: 260px (the original px-65) from 1440px up, shrinking
       // so the card row stays its 1440px width (920px) down to the `desk` boundary.
-      className="w-full px-8 sm:px-12 desk:px-[clamp(6.5rem,calc((100vw-920px)/2),16.25rem)] h-auto pb-24 desk:pb-40"
+      // From 1440px (`wide`) it keeps growing, so the 920px row stays centered.
+      className="w-full px-8 sm:px-12 desk:px-[clamp(6.5rem,calc((100vw-920px)/2),16.25rem)] wide:px-[calc((100vw-920px)/2)] h-auto pb-24 desk:pb-40"
     >
       {/* ---------------------------------------------
                     Section Heading
