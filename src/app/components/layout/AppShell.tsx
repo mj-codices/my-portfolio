@@ -20,7 +20,12 @@ export default function AppShell({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
+    // overflow-x-clip, not overflow-x-hidden: `hidden` silently turns
+    // overflow-y into `auto`, making this wrapper a nested scroll container
+    // (it could scroll ~37px on its own). On iOS, swipes would sometimes latch
+    // onto that inner scroller instead of the page and "tug". `clip` hides the
+    // sideways overflow without creating a scroll container.
+    <div className="relative min-h-screen overflow-x-clip">
       {/* Background layer: Animated visuals */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <AnimatedBackground />
