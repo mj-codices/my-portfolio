@@ -21,12 +21,21 @@ declare global {
 // Be careful:
 // - removing RAF loop will break smooth scrolling entirely
 //
-// Reduced motion: when the OS "Reduce motion" setting is on, Lenis is skipped
-// and the browser's native scrolling is used. Callers already fall back to
-// native scrolling when `window.lenis` is undefined (see NavDrawer).
+// Lenis is skipped (native scrolling is used) when:
+// - the OS "Reduce motion" setting is on
+// - the device is touch-first (phones/tablets). Lenis doesn't smooth touch
+//   scrolling anyway (syncTouch is off), but it attaches non-passive touch
+//   listeners to the window, which makes iOS wait on JavaScript before every
+//   swipe — while the page is busy loading, that reads as the page "fighting"
+//   the first swipes.
+// Callers already fall back to native scrolling when `window.lenis` is
+// undefined (see NavDrawer, Hero CTA).
 export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const skip = window.matchMedia(
+      "(prefers-reduced-motion: reduce), (hover: none) and (pointer: coarse)"
+    ).matches;
+    if (skip) return;
 
     // Initialize Lenis with custom scroll physics
     const lenis = new Lenis();

@@ -152,8 +152,15 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
           behavior,
         });
       } else {
+        // Same 100px breathing room as the Lenis path above
         const targetElement = document.querySelector(`#${lowerLabel}`);
-        targetElement?.scrollIntoView({ behavior });
+        if (targetElement) {
+          window.scrollTo({
+            top:
+              targetElement.getBoundingClientRect().top + window.scrollY - 100,
+            behavior,
+          });
+        }
       }
     }
   };
@@ -168,7 +175,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: open ? 0.65 : 0 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        style={{ pointerEvents: open ? "auto" : "none" }}
+        style={{
+          pointerEvents: open ? "auto" : "none",
+          // Touch scroll lock while open (Lenis isn't running on touch devices)
+          touchAction: open ? "none" : "auto",
+        }}
         onClick={onClose}
       />
 
@@ -178,6 +189,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
       */}
       <motion.aside
         className="fixed top-0 right-0 h-full w-full desk:w-[33%] desk:max-w-[560px] bg-transparent z-60 overflow-hidden"
+        // Swipes on the open panel shouldn't scroll the page behind it (taps
+        // still work); this is the touch-device scroll lock, since Lenis
+        // isn't running there.
+        style={{ touchAction: open ? "none" : "auto" }}
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{

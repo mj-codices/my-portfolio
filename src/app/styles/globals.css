@@ -22,9 +22,15 @@
 
   /* Master System Font Hook (Exposes: font-inter) */
   --font-inter: "Inter", sans-serif;
+}
 
-  /* Prevent kinetic bounce/overscroll physics on mobile viewports */
-  overscroll-behavior: none;
+/* Prevent overscroll bounce for mouse/trackpad users (desktop). Touch devices
+   keep the native bounce: on iOS, `overscroll-behavior: none` on the root can
+   make swipes stick at the top of the page. */
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    overscroll-behavior: none;
+  }
 }
 
 /* ==========================================================================
@@ -49,6 +55,11 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-secondary);
+  /* Nothing may make the page pan sideways — e.g. the closed nav drawer parked
+     just off-screen, or the menu icon's overhang. On iOS a sideways-pannable
+     page can lock a slightly diagonal swipe onto the wrong axis. `clip` (unlike
+     `hidden`) doesn't create a scroll container. */
+  overflow-x: clip;
 }
 
 /* Structural scroll track mitigation */
