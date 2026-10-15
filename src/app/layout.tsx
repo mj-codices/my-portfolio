@@ -7,6 +7,7 @@ import AppShell from "./components/layout/AppShell";
 import LenisProvider from "../providers/LenisProvider";
 import MotionProvider from "../providers/MotionProvider";
 import { INTRO_SEEN_KEY } from "./components/layout/brandIntroKey";
+import { SITE_URL } from "@/lib/site";
 
 // Global font configuration — applied via CSS variable on <html>
 const inter = Inter({
@@ -21,6 +22,8 @@ const description =
   "Portfolio of Michael J. White (Julian), a full-stack developer in Southern California building thoughtful, scalable, production-ready web apps with Next.js, React, and TypeScript.";
 
 export const metadata: Metadata = {
+  // Resolves relative URLs in metadata (e.g. a future link-preview image)
+  metadataBase: new URL(SITE_URL),
   title,
   description,
   openGraph: { title, description, type: "website" },
