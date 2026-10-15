@@ -189,6 +189,36 @@ body {
   }
 }
 /* ==========================================================================
+   BRAND INTRO OVERLAY (src/app/components/layout/BrandIntro.tsx)
+   - Repeat loads in the same tab: the inline script in layout.tsx sets
+     <html data-intro-seen> before first paint, so the overlay never shows.
+   - Failsafe: if JavaScript never takes over (`is-live`), the black card
+     clears itself after ~3s so the site can't get stuck behind it.
+   - Reduced motion: never shown.
+   ========================================================================== */
+html[data-intro-seen] .brand-intro {
+  display: none;
+}
+
+.brand-intro:not(.is-live) {
+  animation: brandIntroFailsafe 0.4s ease-out 3.2s forwards;
+}
+
+@keyframes brandIntroFailsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-intro {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
    PERFORMANCE: PAUSE LOOPS OFF-SCREEN
    `usePauseOffscreen` (src/hooks) sets [data-offscreen] on sections that have
    scrolled out of view, so their infinite decorative loops stop costing

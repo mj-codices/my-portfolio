@@ -11,8 +11,11 @@
 //   renders AnimatedBackground component
 // - Foreground content layer (z-10) renders children
 //   of the AppShell (pages, components, etc.)
+// - Brand intro overlay (z-200) — the opening name card, fixed over
+//   everything on the first load of a visit
 // ---------------------------
 import AnimatedBackground from "./AnimatedBackground"
+import BrandIntro from "./BrandIntro"
 
 export default function AppShell({
   children,
@@ -35,6 +38,9 @@ export default function AppShell({
       <div className="relative z-10">
         {children}
       </div>
+
+      {/* Opening name card — sits above the nav, drawer, and progress bar */}
+      <BrandIntro />
     </div>
   );
 }
