@@ -14,6 +14,7 @@ import { FadeSection } from "../wrappers/FadeSection";
 import "../../styles/components/button.css";
 import "./Hero.css";
 import { useIsDesk } from "@/hooks/useIsDesk";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 
 interface HeroProps {
   scrollYProgress: MotionValue<number>;
@@ -75,15 +76,8 @@ const heroOutputRange = isStacked
     },
   };
 
-  const handleRelease = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      // Jump instead of animating when the OS "Reduce motion" setting is on
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "auto"
-        : "smooth",
-    });
-  };
+  // Glide to the contact footer with the site-wide scroll cadence
+  const handleRelease = () => smoothScrollTo("bottom");
 
   return (
     // Mobile-first: tiles stack above the text in normal flow.

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import NavIndicator from "./NavIndicator";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 import "./NavIcon.css";
 
 /**
@@ -98,13 +99,12 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
   }, [open]);
 
   /**
-   * LENIS ANCHOR SCROLL CLICK HANDLER
-   * * Programmatically navigates the global scroll viewport layout stream.
-   * Integrates an exponential base-2 easing function curve `f(t) = 1 - 2^(-10t)`
-   * to mimic luxury, slow-decelerating cinematic transitions.
+   * NAV LINK SCROLL HANDLER
+   * Closes the drawer and glides to the section with the site-wide
+   * `smoothScrollTo` cadence (distance-scaled duration, ease-in-out).
    */
   const handleNavLinkClick = (label: string) => {
-    // 1. Instantly wake up the Lenis engine loop so it can accept scroll inputs immediately
+    // 1. Wake Lenis (stopped while the drawer was open) so it can take the scroll
     if (window.lenis) {
       window.lenis.start();
     }
@@ -112,50 +112,15 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
     // 2. Trigger state update to slide the drawer out of view
     onClose();
 
+    // 3. Glide to the target: page top, page bottom, or the section (#stack, #work)
     const lowerLabel = label.toLowerCase();
-
-    // 3. Orchestrate smooth transition paths
-    if (window.lenis) {
-      if (lowerLabel === "start") {
-        // Absolute top layout bounds jump
-        window.lenis.scrollTo(0, {
-          duration: 1.4,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        });
-      } else if (lowerLabel === "contact") {
-        // Absolute bottom layout bounds jump
-        window.lenis.scrollTo("bottom", {
-          duration: 1.5, // Extended travel time allocated for long page sweeps
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        });
-      } else {
-        // Target element string mapping fallback pointer selection matches (#stack, #work)
-        const targetId = `#${lowerLabel}`;
-        window.lenis.scrollTo(targetId, {
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          offset: -100, // Offset allowance preserving breathing room under fixed layouts
-        });
-      }
-    } else {
-      // 4. Native Browser Engine Fallbacks (Lenis unmounted/loading, or skipped
-      //    for reduced motion — in which case jump instead of animating)
-      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
-        .matches
-        ? "auto"
-        : "smooth";
-      if (lowerLabel === "start") {
-        window.scrollTo({ top: 0, behavior });
-      } else if (lowerLabel === "contact") {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior,
-        });
-      } else {
-        const targetElement = document.querySelector(`#${lowerLabel}`);
-        targetElement?.scrollIntoView({ behavior });
-      }
-    }
+    smoothScrollTo(
+      lowerLabel === "start"
+        ? "top"
+        : lowerLabel === "contact"
+          ? "bottom"
+          : `#${lowerLabel}`
+    );
   };
 
   return (
@@ -168,7 +133,11 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: open ? 0.65 : 0 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        style={{ pointerEvents: open ? "auto" : "none" }}
+        style={{
+          pointerEvents: open ? "auto" : "none",
+          // Touch scroll lock while open (Lenis isn't running on touch devices)
+          touchAction: open ? "none" : "auto",
+        }}
         onClick={onClose}
       />
 
@@ -178,6 +147,10 @@ export function NavDrawer({ open, onClose }: DrawerProps) {
       */}
       <motion.aside
         className="fixed top-0 right-0 h-full w-full desk:w-[33%] desk:max-w-[560px] bg-transparent z-60 overflow-hidden"
+        // Swipes on the open panel shouldn't scroll the page behind it (taps
+        // still work); this is the touch-device scroll lock, since Lenis
+        // isn't running there.
+        style={{ touchAction: open ? "none" : "auto" }}
         initial={{ x: "100%" }}
         animate={{ x: open ? "0%" : "100%" }}
         transition={{

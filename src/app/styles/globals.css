@@ -22,9 +22,15 @@
 
   /* Master System Font Hook (Exposes: font-inter) */
   --font-inter: "Inter", sans-serif;
+}
 
-  /* Prevent kinetic bounce/overscroll physics on mobile viewports */
-  overscroll-behavior: none;
+/* Prevent overscroll bounce for mouse/trackpad users (desktop). Touch devices
+   keep the native bounce: on iOS, `overscroll-behavior: none` on the root can
+   make swipes stick at the top of the page. */
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    overscroll-behavior: none;
+  }
 }
 
 /* ==========================================================================
@@ -49,6 +55,11 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-secondary);
+  /* Nothing may make the page pan sideways — e.g. the closed nav drawer parked
+     just off-screen, or the menu icon's overhang. On iOS a sideways-pannable
+     page can lock a slightly diagonal swipe onto the wrong axis. `clip` (unlike
+     `hidden`) doesn't create a scroll container. */
+  overflow-x: clip;
 }
 
 /* Structural scroll track mitigation */
@@ -177,6 +188,36 @@ body {
     translate: 0 4rem;
   }
 }
+/* ==========================================================================
+   BRAND INTRO OVERLAY (src/app/components/layout/BrandIntro.tsx)
+   - Repeat loads in the same tab: the inline script in layout.tsx sets
+     <html data-intro-seen> before first paint, so the overlay never shows.
+   - Failsafe: if JavaScript never takes over (`is-live`), the black card
+     clears itself after ~3s so the site can't get stuck behind it.
+   - Reduced motion: never shown.
+   ========================================================================== */
+html[data-intro-seen] .brand-intro {
+  display: none;
+}
+
+.brand-intro:not(.is-live) {
+  animation: brandIntroFailsafe 0.4s ease-out 3.2s forwards;
+}
+
+@keyframes brandIntroFailsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-intro {
+    display: none;
+  }
+}
+
+
 /* ==========================================================================
    PERFORMANCE: PAUSE LOOPS OFF-SCREEN
    `usePauseOffscreen` (src/hooks) sets [data-offscreen] on sections that have

@@ -14,7 +14,7 @@ Built with a strong emphasis on **motion design**, **component architecture**, a
 
 This portfolio is built with **Next.js** and **React** for a modern, component-driven frontend, enhanced with **Tailwind CSS** for responsive, utility-first styling and **Framer Motion** for smooth animations. Development is powered by **Typescript** for type safety, with ESLint and Prettier ensuring consistent code quality and formatting.
 
-Additional utilities include **clsx** for dynamic class handling and **Lenis** for smooth scrolling. The project leverages standard **Next.js** scripts for development, building, and production deployment.
+Additional utilities include **Lenis** for smooth scrolling. The project leverages standard **Next.js** scripts for development, building, and production deployment.
 
 ## Features
 
@@ -28,7 +28,7 @@ Rather than relying on excessive animation or visual noise, the experience is gu
 
 The interface is designed to feel **cohesive** as users move through the site. Elements introduced early—such as the glass-based icon clusters in the hero section—**reappear and evolve** in the skill stack. This creates a sense of **continuity and progression**, where visual motifs are not isolated, but part of a **larger system**.
 
-This portolio incorporates **soft gradients**, **subtle depth**, **parallax display**, and **intentional motion**. These elements work together to create a modern, refined interface that emphasizes **clarity, hierarchy, and user flow**.
+This portfolio incorporates **soft gradients**, **subtle depth**, **parallax display**, and **intentional motion**. These elements work together to create a modern, refined interface that emphasizes **clarity, hierarchy, and user flow**.
 
 Rather than treating each section as independent, the experience is structured to **build on itself**, using **repetition and variation** to guide the user and reinforce a **unified design language**.
 
@@ -70,7 +70,7 @@ The portfolio is optimized for **fast load times** and **smooth interactions**. 
 
 ## Future Improvements
 
-Planned improvements include responsive display, GSAP entrance, enhanced accessibility for keyboard navigation, screen readers, and the visually impaired; day/night mode.
+Planned improvements include enhanced accessibility for keyboard navigation, screen readers, and the visually impaired, and a day/night mode.
 
 ### Getting Started
 
