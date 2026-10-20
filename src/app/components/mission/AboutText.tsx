@@ -60,7 +60,7 @@ export default function AboutMe({
             =========================================================== */}
         <motion.div style={{ y: p1Y, opacity: p1Opacity }} ref={p1Ref}>
           <p className="text-base sm:text-lg sm:max-w-xl desk:w-120 desk:max-w-[calc(100%-1.75rem)] leading-8 desk:leading-9 desk:ml-7 mb-3 tracking-wide">
-            I’m a full-stack software developer based in Southern California. My
+            I’m a front-end software developer based in Southern California. My
             passion for programming stems from a love of polished, intuitive
             user experiences, and this is why I thrive at the intersection of
             design and engineering.

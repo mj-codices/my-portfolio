@@ -136,7 +136,7 @@ export default function BrandIntro() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.5 }}
             >
-              Full-stack developer
+              Front-end developer
             </motion.div>
           </motion.div>
         )}

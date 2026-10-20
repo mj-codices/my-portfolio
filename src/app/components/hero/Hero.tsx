@@ -117,7 +117,7 @@ const heroOutputRange = isStacked
               fills narrow phones without overflowing, capping at desktop's 7xl. */}
           <h1 className="text-[clamp(2.75rem,14vw,4.5rem)] desk:text-7xl font-bold desk:mt-15 uppercase desk:-translate-y-6 leading-[.87] desk:leading-[3.9rem] tracking-[-.2rem]">
             <span className="block hero-heading whitespace-nowrap">
-              Full-stack
+              Front-End
             </span>
             <span className="block pl-[.11em] desk:pl-2 brightness-130">Developer</span>
           </h1>
