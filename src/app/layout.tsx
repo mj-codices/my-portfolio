@@ -17,17 +17,17 @@ const inter = Inter({
 });
 
 // Browser tab, bookmarks, search results, and link previews
-const title = "Michael J. White — Full-Stack Developer";
+const title = "Michael J. White — Front-End Developer";
 const description =
-  "Portfolio of Michael J. White (Julian), a full-stack developer in Southern California building thoughtful, scalable, production-ready web apps with Next.js, React, and TypeScript.";
+  "Portfolio of Michael J. White (Julian), a front-end developer in Southern California building thoughtful, scalable, production-ready web apps with Next.js, React, and TypeScript.";
 
 export const metadata: Metadata = {
-  // Resolves relative URLs in metadata (e.g. a future link-preview image)
+  // Resolves relative URLs in metadata (e.g. the link-preview image)
   metadataBase: new URL(SITE_URL),
   title,
   description,
   openGraph: { title, description, type: "website" },
-  twitter: { card: "summary", title, description },
+  twitter: { card: "summary_large_image", title, description },
 };
 
 // Runs before first paint: on repeat loads in the same tab, mark the intro as
