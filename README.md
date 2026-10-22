@@ -1,4 +1,4 @@
-# Michael White | Full-Stack Developer
+# Michael J. White | Front-End Developer
 
 ## Overview
 
