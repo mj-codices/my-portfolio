@@ -1,28 +1,28 @@
-# Michael White | Full-Stack Developer
+# Michael J. White | Front-End Developer
+
+A modern, interactive portfolio and business website designed to showcase design sensibility, front-end engineering skill, and a focus on thoughtful user experience.
+
+**Live site:** [michaeljwhite.dev](https://www.michaeljwhite.dev/)
+
+![Homepage of Michael J. White's portfolio, showing the animated hero section](image.png)
 
 ## Overview
 
-A modern, interactive portfolio and business website designed to showcase **design sensibility**, **frontend engineering skill**, and a focus on **thoughtful user experience**.
-
-Built with a strong emphasis on **motion design**, **component architecture**, and **maintainable structure**, the project balances **visual polish** with **clean, scalable code**.
-
-## Live Demo
-
-<!-- Site URL goes here -->
+Built with a strong emphasis on **motion design**, **component architecture**, and **maintainable structure**, the project balances visual polish with clean, scalable code.
 
 ## Tech Stack
 
-This portfolio is built with **Next.js** and **React** for a modern, component-driven frontend, enhanced with **Tailwind CSS** for responsive, utility-first styling and **Framer Motion** for smooth animations. Development is powered by **Typescript** for type safety, with ESLint and Prettier ensuring consistent code quality and formatting.
+This portfolio is built with **Next.js** and **React** for a modern, component-driven frontend, enhanced with **Tailwind CSS** for responsive, utility-first styling and **Framer Motion** for smooth animations. Development is powered by **TypeScript** for type safety, with ESLint and Prettier ensuring consistent code quality and formatting.
 
 Additional utilities include **Lenis** for smooth scrolling. The project leverages standard **Next.js** scripts for development, building, and production deployment.
 
 ## Features
 
-This portfolio features a **dynamic hero section** with an animated skill cluster, **animated content reveal** for smooth scrolling through About, Mission, and Process sections, and **scroll enhancements** powered by Lenis combined with **Framer Motion** for refined motion throughout. Glass tiles, drifting background elements, **parallax display**, and a myriad of decorative elements bring the site to life, while **micro-interactions** on buttons and links provide subtle tactile feedback. The site is fully **responsive**, ensuring an engaging experience across devices, and is built with **performance** and **accessibility** in mind, delivering a polished and lively digital portfolio.
+This portfolio features a dynamic hero section with an animated skill cluster, animated content reveal and **smooth scrolling** through About, Mission, and Process sections, and **scroll enhancements** powered by Lenis combined with Framer Motion for **refined motion** throughout. Glass tiles, drifting background elements, **parallax animations**, and a myriad of decorative elements bring the site to life, while **micro-interactions** on buttons and links provide subtle tactile feedback. The site is fully **responsive**, ensuring an engaging experience across devices, and is built with performance and **accessibility** in mind, delivering a polished and lively digital portfolio.
 
 ## Design Philosophy
 
-The goal of this site is to appeal to both **recruiters** and **small business clients**—an audience that values **professionalism, clarity, and a strong sense of identity**. With that in mind, the design balances distinct **visual style** with **broad usability**, ensuring the site feels **memorable without limiting its appeal**.
+The goal of this site is to appeal to both recruiters and small business clients—an audience that values **professionalism, clarity, and a strong sense of identity**. With that in mind, the design balances distinct **visual style** with **broad usability**, ensuring the site feels memorable without limiting its appeal.
 
 Rather than relying on excessive animation or visual noise, the experience is guided by **restraint**—using motion and styling purposefully to **support content, not distract from it**.
 
@@ -34,7 +34,7 @@ Rather than treating each section as independent, the experience is structured t
 
 ## Architecture
 
-The project follows a **feature-driven, component-based architecture** built on top of the **Next.js** App Router. The codebase is organized to separate concerns between **UI, data, styling**, and **global behavior**, making the application **scalable** and **easy to maintain**.
+The project follows a feature-driven, component-based architecture built on top of the **Next.js** App Router. The codebase is organized to separate concerns between UI, data, styling, and global behavior, making the application scalable and easy to maintain.
 
 ## Architectural Decisions
 
@@ -46,6 +46,7 @@ The project follows a **feature-driven, component-based architecture** built on 
   data/ → static configuration (e.g. skill stack)
   styles/ → global and animation styling
   providers/ → app-wide behavior (Lenis scrolling)
+
 - **Animation abstraction**
   Reusable wrappers like FadeSection and FadeInDirectionalWrapper encapsulate scroll-based animations, keeping components clean and declarative.
 
@@ -58,7 +59,7 @@ The project follows a **feature-driven, component-based architecture** built on 
 
 ## Animations & Interactions
 
-This portfolio leverages **Framer Motion** to create **smooth, interactive animations** across components, including **scroll-based transitions**, **hover micro-interactions**, and **content fade-ins**. **Lenis** is used to implement **seamless, buttery scrolling** that enhances the user experience. In addition, subtle **CSS keyframe animations** provide gentle motion for **decorative elements** such as **floating circles**, **spinning icons**, and **chevron conveyors**, adding **dynamic depth** without compromising **performance**. Together, these techniques ensure the site feels **polished, responsive, and engaging** while keeping interactions **intuitive and lightweight**.
+This portfolio leverages **Framer Motion** to create smooth, interactive animations across components, including **scroll-based transitions**, **hover micro-interactions**, and **content fade-ins**. **Lenis** is used to implement seamless scrolling that enhances the user experience. In addition, subtle **CSS keyframe animations** provide gentle motion for decorative elements such as drifting circles, spinning icons, and chevron conveyors, adding **dynamic depth** without compromising performance. Together, these techniques ensure the site feels **polished, responsive, and engaging** while keeping interactions **intuitive and lightweight**.
 
 ## Challenges & Solutions
 
@@ -66,23 +67,19 @@ This portfolio leverages **Framer Motion** to create **smooth, interactive anima
 
 ## Performance Considerations
 
-The portfolio is optimized for **fast load times** and **smooth interactions**. **Images** and **SVGs** are locally hosted and sized for efficiency, while **Tailwind CSS** keeps styles lightweight. **Framer Motion** animations are carefully orchestrated to avoid **jank**, and **Lenis** smooth scrolling ensures consistent **frame rates**. **Code splitting** and **Next.js** built-in optimizations help maintain **minimal bundle** sizes, and **lazy loading** of non-critical assets improves **perceived performance** across devices. Overall, the site balances **rich visuals** and **interactivity** with **speed** and **responsiveness**.
+The portfolio is optimized for **fast load times** and **smooth interactions**. Images and SVGs are locally hosted and sized for efficiency, while **Tailwind CSS** keeps styles lightweight. **Framer Motion** animations are carefully orchestrated to avoid jank, and **Lenis** smooth scrolling ensures consistent frame rates. **Code splitting** and **Next.js** built-in optimizations help maintain **minimal bundle** sizes, and **lazy loading** of non-critical assets improves perceived performance across devices. Overall, the site balances rich visuals and interactivity with speed and responsiveness.
 
-## Future Improvements
+## Screenshots
 
-Planned improvements include enhanced accessibility for keyboard navigation, screen readers, and the visually impaired, and a day/night mode.
+<!-- I need to complete my gif -->
 
-### Getting Started
+## Getting Started
 
 Clone the repo and run `npm install` then `npm run dev` to start a local development server.
 
 ## Deployment
 
 This portfolio is deployed on **Vercel**, providing **instant global hosting, automatic CI/CD**, and seamless integration with **Next.js**. Updates are deployed automatically from the **main branch**, while local development is powered by npm run dev or yarn dev, allowing the site to be previewed at http://localhost:3000 before pushing changes. The deployment workflow ensures that the live site always reflects the **latest tested and stable code**.
-
-## Screenshots
-
-<!-- Add images or links later -->
 
 ## Contact
 
